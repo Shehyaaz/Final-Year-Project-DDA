@@ -4,7 +4,7 @@ This repository contains the implementation of Decentralised Domain Authenticati
 
 STEPS TO RUN-
 
-Install VS Code.
+Install VS Code./n
 Install Node js, npm, truffle.
 open folder containing package.json.
 _(INSIDE FOLDER)_ 
