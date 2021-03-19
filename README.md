@@ -2,7 +2,7 @@
 This repository contains the implementation of Decentralised Domain Authentication, done as part of the Final Year Project during 2020-21.
 
 
-**STEPS TO RUN-**
+**STEPS TO INSTALL-**
 -------------------------------------------------------
 Install VS Code.
 
