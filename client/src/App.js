@@ -78,13 +78,20 @@ export default App;
 import React, { Component } from "react";
 import "./App.css";
 // import user-defined components
-import HomePage from "./components/HomePage";
-
+// import HomePage from "./components/HomePage";
+// import CCPregistration from "./components/CCPRegistration";
+// import DRPregisteration from "./components/DRPRegisteration";
+import PurchaseDRP from "./components/PurchaseDRP";
 class App extends Component {
 
 	render() {
 		return (
-		  <HomePage />
+		  // <HomePage />
+      // <CCPregistration />
+      // <DRPregisteration />
+      <PurchaseDRP />
+
+
 		);
   }
 }
