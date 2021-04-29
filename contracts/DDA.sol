@@ -12,57 +12,85 @@ import "./DRPReactionInterface.sol" as Reaction;
 contract DDA {
     // Client Check Policy definition
     struct CCP {
-        // TODO : add members based on high level design
+        string clientName;
+        address clientAddress;
+        uint256 validFrom;
+        uint256 validTo;
+        uint16 version;
+        address checkContract;
     }
     
     // Domain Reaction Policy definition
     struct DRP {
-        // TODO : add members based on high level design
+        string domainName;
+        string issuerName;
+        address domainAddress;
+        uint256 validFrom;
+        uint256 validTo;
+        uint16 version;
+        address reactContract;
     }
     
     struct Client {
-        // TODO: this struct has a CCP member and a list of DRPs issued
+        CCP ccp;
+        DRP[] drpList;
     }
     
     struct Domain {
-        // TODO: this struct has a DRP member and the number of revoked certificates
+        DRP drp;
+        bytes32 domainSign;
+        uint16 numRevoked;
     }
     
     // an associative array of clients registered in the system
-    mapping(address => Client) clients; // key : client address; value: Client object
-    uint numClients public; // stores the count of the clients registered in the contract
+    mapping(address => Client) clients;
     
     // an associative array of domains registered in the system
-    mapping(string => Domain) domains; // key : domain name ; value : Domain object
-    uint numDomains public; // stores the count of the domains registered in the contract
+    mapping(string => Domain) domains;
     
-    function constructor() public {
-        numClients = 0;
-        numDomains = 0;
-    }
-    
-    event ClientRegistered(address indexed _clientAddress, uint indexed _numClient);
-    event DomainRegistered(address indexed _domainAddress, uint indexed _numDomain);
     event DRPpurchased(address indexed _from, address indexed _to, uint _amount);
     
-    function registerClient() public {
-        /* Parameters : fields in the CCP
-        *  TODO : Create a Client object and add it to clients mapping, emit ClientRegistered event
-        */
-        
+    function registerClient(
+        string _name,
+        uint256 _validFrom,
+        uint256 _validTo,
+        uint16 _version,
+        address _checkContract
+    ) public returns (bool){
+        if (clients[msg.sender].ccp.clientName != ""){
+             Client newClient;
+            newClient.ccp = CCP(_name, msg.sender, _validFrom, _validTo, _version, _checkContract);
+            clients[msg.sender] = newClient;
+            return true; 
+        }
+        return false;
     }
     
-    function registerDomain() public {
-        /* Parameters : fields in the DRP
-        *  TODO : Create a Domain object and add it to domians mapping, emit DomainRegistered event
-        */
-        
+    function registerDomain(
+        string _domainName,
+        string _issuerName,
+        uint256 _validFrom,
+        uint256 _validTo,
+        uint16 _version,
+        address _reactContract,
+        bytes32 _domainSign
+    ) public returns (bool){
+        if (domains[_domainName].drp.domainName != ""){
+            Domain newDomain;
+            newDomain.drp = Domain(_domainName, _issuerName, msg.sender, _validFrom, _validTo, _version, _reactContract);
+            newDomain.domainSign = _domainSign;
+            newDomain.numRevoked = 0;
+            domains[_domainName] = newDomain; 
+            return true;
+        }
+        return false;
     }
     
-    function purchaseDRP() public {
+    function purchaseDRP(string _domainName) public {
         /* Parameters : Client address and domain name
         *  TODO : Purchase DRP of domain; emit event DRPpurchased
         */
+        
     }
     
     function checkCertificate() public {
