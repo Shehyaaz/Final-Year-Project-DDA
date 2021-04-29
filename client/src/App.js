@@ -14,13 +14,14 @@ class App extends Component {
     this.state = {
       web3: null,
       contract: null,
+      account: "",
       setContext: this.setContext
     };
     this.setContext = this.setContext.bind(this);
   }
 
-  setContext = (web3, contract) => {
-    this.setState({web3, contract});
+  setContext = ({web3, contract, account}) => {
+    this.setState({web3, contract, account});
   }
 
 	render() {

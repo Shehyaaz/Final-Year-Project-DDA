@@ -10,18 +10,8 @@ import {
   Popover 	
 } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
-
-function FooterText() {
-  return (
-    <Typography variant="body2" color="textSecondary" align="center">
-      <Link color="inherit" href="">
-       Decentralised Domain Auth.
-      </Link>{' '}
-      {new Date().getFullYear()}
-      {'.'}
-    </Typography>
-  );
-}
+import FooterText from "../widgets/FooterText";
+import { siteKey } from "../utils/constants";
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -50,35 +40,36 @@ class DRPRegistration extends Component {
       agree: false
     };
     this.togglePopover=this.togglePopover.bind(this);
-    this.recaptchaLoaded=this.recaptchaLoaded.bind(this);
     this.verifyCallback=this.verifyCallback.bind(this);
     this.checkboxHandler=this.checkboxHandler.bind(this);
     this.registerDRP=this.registerDRP.bind(this);
   }
-  recaptchaLoaded(){
-    console.log('Captch is loaded.');
+
+  verifyCallback(response){
+    if(response){
+      this.setState({
+        isVerified: true
+      });
+    }
   }
-  
-   verifyCallback(response){
-      if(response){
-        this.setState({
-          isVerified: true
-        });
-      }
-   }
-   checkboxHandler(){
+
+  checkboxHandler(){
     this.setState(prevState=>({
-      agree: !prevState.agree      
-    }));
-   }
-   togglePopover(){
+        agree: !prevState.agree      
+      })
+    );
+  }
+
+  togglePopover(){
     this.setState(prevState=>({
-      openPopover:!prevState.openPopover    
-    }));
-   }
-   registerDRP(){
-     alert("Registration successful !")
-   }
+        openPopover:!prevState.openPopover    
+      })
+    );
+  }
+
+  registerDRP(){
+    alert("Registration successful !")
+  }
 
   render() {
   	const classes = this.props.classes;    
@@ -88,98 +79,96 @@ class DRPRegistration extends Component {
 	  		<Typography component="h1" variant="h5" align="center">
 	    		Domain Reaction Poilcy Registeration
 	  		</Typography>
-	  		<form className={classes.form} id="Domain_sign_in" noValidate>
-	    		    <TextField
-	      			variant="outlined" margin="normal" required fullWidth
-	      			id="domain_name" label="Domain Name"
-	      			name="domain_name" autoFocus />
-              <TextField
-	      			variant="outlined" margin="normal" required fullWidth
-	      			id="issuer" label="Issuer"
-	      			name="issuer" />
-                      <TextField
-	      			variant="outlined" margin="normal" required fullWidth
-	      			id="domain_pay" label="Domain Pay Adress"
-	      			name="domain_pay"  />
-              <TextField
-	      			variant="outlined" margin="normal" required fullWidth
-	      			id="version" label="Version"
-	      			name="version"  />
+	  		<form className={classes.form} id="domain_reg" noValidate>
+          <TextField
+            variant="outlined" margin="normal" required fullWidth
+            id="domain_name" label="Domain Name"
+            name="domain_name" autoFocus />
+          <TextField
+            variant="outlined" margin="normal" required fullWidth
+            id="issuer" label="Issuer"
+            name="issuer" />
+          <TextField
+            variant="outlined" margin="normal" required fullWidth
+            id="domain_pay" label="Domain Pay Adress"
+            name="domain_pay"  />
+          <TextField
+            variant="outlined" margin="normal" required fullWidth
+            id="version" label="Version"
+            name="version"  />
 
-              <Box component="span" p={1} padding={1}>
-              <TextField
-                  id="date"
-                  label="Valid From"
-                  color="secondary"
-                  type="date"
-                  defaultValue="2021-03-03"
-                
-                  className={classes.textField}
-                  InputLabelProps={{
-                    shrink: true,
-                  }}
-                />
-                </Box>
-                
-                <Box component="span" p={1} padding={1}>
-                <TextField
-                  id="date"
-                  label="Valid To"
-                  color="secondary"
-                  type="date"
-                  defaultValue="2021-03-03"
-                  className={classes.textField}
-                  InputLabelProps={{
-                    shrink: true,
-                  }}
-                />
-              </Box>
-              <TextField
-	      			variant="outlined" margin="normal" required fullWidth
-	      			id="domain_signature" label="Domain Certificate Signature"
-	      			multiline rows={3}
-               name="domain_signature"  />
+          <Box component="span" p={1} padding={1}>
             <TextField
-	      			variant="outlined" margin="normal" required fullWidth
-	      			id="contract_addr" label="Contract Adress"
-	      			name="contract_addr"  />
-             <input type="checkbox" id="agree"  onChange={this.checkboxHandler} />
-             <label > I agree to</label>
-        <Button  onClick={this.togglePopover}><b>terms and conditions.</b></Button>    
-        <Popover
-        
-          open={this.state.openPopover}
+                id="date"
+                label="Valid From"
+                color="secondary"
+                type="date"
+                defaultValue="2021-03-03"
+              
+                className={classes.textField}
+                InputLabelProps={{
+                  shrink: true,
+                }}
+              />
+            </Box>
+            
+            <Box component="span" p={1} padding={1}>
+              <TextField
+                id="date"
+                label="Valid To"
+                color="secondary"
+                type="date"
+                defaultValue="2021-03-03"
+                className={classes.textField}
+                InputLabelProps={{
+                  shrink: true,
+                }}
+              />
+          </Box>
+          <TextField
+            variant="outlined" margin="normal" required fullWidth
+            id="domain_signature" label="Domain Certificate Signature"
+            multiline rows={3}
+            name="domain_signature"  />
+          <TextField
+            variant="outlined" margin="normal" required fullWidth
+            id="contract_addr" label="Contract Adress"
+            name="contract_addr"  />
+          <input type="checkbox" id="agree"  onChange={this.checkboxHandler} />
+          <label > I agree to</label>
+          <Button  onClick={this.togglePopover}><b>terms and conditions.</b></Button>    
+          <Popover
           
-          anchorOrigin={{
-            vertical: 'bottom',
-            horizontal: 'center',
-          }}
-          transformOrigin={{
-            vertical: 'top',
-            horizontal: 'center',
-          }}
-        >
-          <Box p={3}><Typography className={classes.typography}><h3>TERMS AND CONDITIONS</h3><h5><p>There are benefits for your users, as well. Your <b>Terms and Conditions agreement</b> makes it clear to your users what you expect from them, what they are not allowed to do with your website/service, and how they must handle certain situations such as arbitration and canceling their own accounts.</p>
-          Without a <b>Terms and Conditions agreement</b>, your rules and requirements won't be made public and provided to your users. This means your users may take advantage of your "lawless" platform.
-          You may also get bombarded with questions from users asking about things that would otherwise be included in your Terms and Conditions agreement. For example, you may get a lot of questions asking how you handle user-generated content rights, or how a user can shut down an account..</h5></Typography>
-          <Button variant="contained" color="primary" onClick={this.togglePopover}>close</Button></Box>
-        </Popover>        
-            <Box m={2} display= "inline">  
-          <Recaptcha
-            sitekey="6Ldn85EaAAAAAHbh1dh0nD7FWQ8pt6BQvF_LbwIy"
-            render="explicit"
-            onloadCallback={this.recaptchaLoaded}
-            verifyCallback={this.verifyCallback}
-          /></Box>       
-           <Button disabled={!this.state.agree || !this.state.isVerified}
+            open={this.state.openPopover}
+            
+            anchorOrigin={{
+              vertical: 'bottom',
+              horizontal: 'center',
+            }}
+            transformOrigin={{
+              vertical: 'top',
+              horizontal: 'center',
+            }}
+          >
+            <Box p={3}><Typography className={classes.typography}><h3>TERMS AND CONDITIONS</h3><h5><p>There are benefits for your users, as well. Your <b>Terms and Conditions agreement</b> makes it clear to your users what you expect from them, what they are not allowed to do with your website/service, and how they must handle certain situations such as arbitration and canceling their own accounts.</p>
+            Without a <b>Terms and Conditions agreement</b>, your rules and requirements won't be made public and provided to your users. This means your users may take advantage of your "lawless" platform.
+            You may also get bombarded with questions from users asking about things that would otherwise be included in your Terms and Conditions agreement. For example, you may get a lot of questions asking how you handle user-generated content rights, or how a user can shut down an account..</h5></Typography>
+            <Button variant="contained" color="primary" onClick={this.togglePopover}>close</Button></Box>
+          </Popover>        
+          <Box m={2} display= "inline">  
+            <Recaptcha
+              sitekey={{siteKey}}
+              render="explicit"
+              verifyCallback={this.verifyCallback}
+            />
+          </Box>       
+          <Button disabled={!this.state.agree || !this.state.isVerified}
               type="submit" fullWidth variant="contained" color="primary"
               className={classes.submit} onClick={this.registerDRP}>
                   Register 
           </Button>
-          </form>
-               	  			
+        </form>               	  			
 				<Box mt={5}>  <FooterText />	</Box>
-
     	</div>
   );
  }
@@ -187,11 +176,8 @@ class DRPRegistration extends Component {
 
 export default () => {
     const classes = useStyles();
-
     return (
-     
         <DRPRegistration classes={classes} />
-       
     )
 }
 
