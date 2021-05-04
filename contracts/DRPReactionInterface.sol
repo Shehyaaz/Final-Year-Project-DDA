@@ -8,7 +8,7 @@ pragma solidity ^0.5.0;
 contract DRPReactionInterface {
     address owner;
     
-    function constructor() public {
+    constructor() public {
         owner = msg.sender;
     }
     
@@ -17,12 +17,7 @@ contract DRPReactionInterface {
         _;
     }
     
-    function trigger() public notOwner;
-    /* This function must be implemented by a child contract.
-    *  This function is called when the domain's certificate is found to be invalid
-    */
-    
-    function terminate() public notOwner;
+    function trigger() public;
     /* This function must be implemented by a child contract.
     *  This function is called when the domain's certificate is found to be invalid
     */

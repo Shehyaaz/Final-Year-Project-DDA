@@ -8,7 +8,7 @@ pragma solidity ^0.5.0;
 contract CheckInterface {
     address owner;
     
-    function constructor() public {
+    constructor() public {
         owner = msg.sender;
     }
     
@@ -22,7 +22,7 @@ contract CheckInterface {
         string memory ctLog, 
         string memory revLog, 
         string memory signature
-    ) public onlyOwner returns(bool, bool);
+    ) public returns(bool);
     /* This function must be implemented by a child contract.
     *  First return value indicates if the certificate is valid, second value indicates if the signature is valid
     */

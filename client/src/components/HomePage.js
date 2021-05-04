@@ -8,12 +8,12 @@ import {
 	Grid,
 	Typography
 } from "@material-ui/core";
-import { makeStyles } from "@material-ui/core/styles";
+import { withStyles } from "@material-ui/core/styles";
 import logo from "../assets/metamask.svg";
 import getWeb3 from "../utils/getWeb3";
 import AppContext from "../context/AppContext";
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = theme => ({
   root: {
 	height: "100vh",
 	backgroundImage: "url(/images/background.jpg)",
@@ -37,13 +37,12 @@ const useStyles = makeStyles((theme) => ({
 	zIndex: theme.zIndex.drawer + 1,
     color: '#fff',
   },
-}));
+});
 
 class HomePage extends Component {
 	constructor(props){
 		super(props);
-		this.state = { 
-			account: "",
+		this.state = {
 			isLoading: false,
 			isLoggedIn: false
 		};
@@ -73,9 +72,12 @@ class HomePage extends Component {
 			// );
 		
 			if( web3 != null && accounts != null && instance != null  ){
-				this.context.setContext(web3,instance); // update context
+				this.context.setContext({
+					web3: web3, 
+					contract: instance, 
+					account: accounts[0]
+				}); // update context
 				this.setState({
-					account: accounts[0],
 					isLoading: false,
 					isLoggedIn: true
 				});
@@ -97,7 +99,7 @@ class HomePage extends Component {
 			return (
 				<Redirect 
 					to = {{
-						pathname: "/dashboard",
+						pathname: "/dashboard/about",
 						state: {...rest}
 					}}
 				/>
@@ -107,7 +109,7 @@ class HomePage extends Component {
 			<div className={classes.root}>
 				<Backdrop className={classes.backdrop} open={this.state.isLoading}>
 					<CircularProgress color="inherit" />
-					</Backdrop>
+				</Backdrop>
 				<Grid 
 					container 
 					component="main" 
@@ -154,9 +156,4 @@ class HomePage extends Component {
 
 HomePage.contextType = AppContext;
 
-export default () => {
-    const classes = useStyles();
-    return (
-        <HomePage classes={classes} />
-    )
-}
+export default withStyles(useStyles, {withTheme: true})(HomePage);

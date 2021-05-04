@@ -4,6 +4,7 @@ import React from "react";
 const AppContext = React.createContext({
     web3: null,
     contract: null,
+    account: "",
     setContext: ()=>{}
   });
 
