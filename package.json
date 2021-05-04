@@ -7,7 +7,9 @@
     "test": "test"
   },
   "dependencies": {
-    "@material-ui/lab": "^4.0.0-alpha.58"
+    "@material-ui/lab": "^4.0.0-alpha.58",
+    "pkijs": "^2.1.95",
+    "request": "^2.88.2"
   },
   "devDependencies": {},
   "scripts": {

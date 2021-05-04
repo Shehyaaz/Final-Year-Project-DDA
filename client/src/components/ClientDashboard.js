@@ -54,6 +54,7 @@ class ClientDashboard extends Component {
     constructor(props){
 		super(props);
         this.state={
+            account: '',
             isLoading: false,
             isRegistered: false,
             openRegistrationForm: false,
@@ -61,17 +62,10 @@ class ClientDashboard extends Component {
             drpList: [],
             domains: []
         }
-        this.handleForm = this.handleForm.bind(this);
 		this.handleRegisterCCP = this.handleRegisterCCP.bind(this);
         this.handlePurchaseDRP = this.handlePurchaseDRP.bind(this);
         this.handleDRPCheck = this.handleDRPCheck.bind(this);
 	}
-
-    handleForm(formOpen, value){
-        this.setState({
-            [formOpen]: value
-        });
-    }
 
     handleDRPCheck(domainName){
         alert("Checked "+domainName);
@@ -93,21 +87,40 @@ class ClientDashboard extends Component {
     );
     
     handleRegisterCCP(clientDetails){
-        this.handleForm("openRegistrationForm", false);
+        this.setState({
+            //isLoading: true,
+            openRegistrationForm: false
+        });
         console.log(clientDetails);
+        // TODO: send details to Blockchain
         this.state.isRegistered
         ? console.log("Updated CCP")
         : console.log("Registered CCP");
     }
 
     handlePurchaseDRP(domainName){
-        this.handleForm("openPurchaseForm", false);
-        console.log("Purchased DRP");
-        console.log(domainName);
+        this.setState({
+            //isLoading: true,
+            openPurchaseForm: false
+        });
+        console.log("Purchased DRP: "+domainName);
+        // TODO: send details to Blockchain
     }
 
     componentDidMount(){
         // TODO: check if client is already registered, get drp list, domain list and update state
+        this.setState({
+            account: this.context.account
+        });        
+    }
+
+    componentDidUpdate(prevProps, prevState){
+        if(prevState.account !== this.context.account){
+            // TODO: get client data when ethereum account is changed
+            this.setState({
+                account: this.context.account
+            });
+        }
     }
 
     render() {
@@ -138,7 +151,7 @@ class ClientDashboard extends Component {
                                 <CardHeader
                                     avatar={
                                     <Avatar aria-label="register ccp" className={classes.avatar}>
-                                        R
+                                        <PersonAdd/>
                                     </Avatar>
                                     }
                                     title="Register"
@@ -152,7 +165,7 @@ class ClientDashboard extends Component {
                                 <CardActions disableSpacing>
                                     <Button color="primary"
                                         startIcon={<PersonAdd/>}
-                                        onClick={() => this.handleForm("openRegistrationForm",true)}
+                                        onClick={() => this.setState({openRegistrationForm: true})}
                                         disableElevation
                                         size="small"    
                                     >
@@ -168,7 +181,7 @@ class ClientDashboard extends Component {
                                 <CardHeader
                                     avatar={
                                     <Avatar aria-label="purchase-drp" className={classes.avatar}>
-                                        P
+                                        <MonetizationOn/>
                                     </Avatar>
                                     }
                                     title="Purchase"
@@ -182,10 +195,10 @@ class ClientDashboard extends Component {
                                 <CardActions disableSpacing>
                                     <Button color="primary"
                                         startIcon={<MonetizationOn/>}
-                                        onClick={() => this.handleForm("openPurchaseForm",true)}    
+                                        onClick={() => this.setState({openPurchaseForm:true})}    
                                         disableElevation
                                         size="small"
-                                        //disabled={!this.state.isRegistered}
+                                        disabled={!this.state.isRegistered}
                                     >
                                         Purchase DRP
                                     </Button>
@@ -225,14 +238,14 @@ class ClientDashboard extends Component {
                         
                 <CCPRegistration 
                     open={this.state.openRegistrationForm}
-                    onClose={() => this.handleForm("openRegistrationForm",false)}
+                    onClose={() => this.setState({openRegistrationForm: false})}
                     update={this.state.isRegistered}
                     onRegister={(clientDetails) => this.handleRegisterCCP(clientDetails)}
                 /> 
 
                 <PurchaseDRP 
                     open={this.state.openPurchaseForm} 
-                    onClose={() => this.handleForm("openPurchaseForm",false)}
+                    onClose={() => this.setState({openPurchaseForm: false})}
                     domains={this.state.domains}
                     onPurchase={(domainName) => this.handlePurchaseDRP(domainName)}
                 />

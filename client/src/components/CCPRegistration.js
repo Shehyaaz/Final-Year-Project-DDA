@@ -10,6 +10,9 @@ import {
   DialogActions,
   DialogTitle
 } from '@material-ui/core';
+import {
+  Alert
+} from "@material-ui/lab";
 import { siteKey } from "../utils/constants";
 import AppContext from '../context/AppContext';
 
@@ -19,18 +22,20 @@ class CCPRegistration extends Component {
     this.state={
       isVerified: false,
       agree: false,
+      error: false,
+      errorMessage: '',
       clientName: '',
-      version: '',
+      version: 0,
       validFrom: new Date().toISOString().split("T")[0],
       validTo: new Date().toISOString().split("T")[0],
       ccpAddress: ''
     };
     this.initialState = {...this.state};
-    this.updateFormState = this.updateFormState.bind(this);
     this.handleClose = this.handleClose.bind(this);
     this.handleRegister = this.handleRegister.bind(this);
     this.verifyCallback = this.verifyCallback.bind(this);
     this.checkboxHandler = this.checkboxHandler.bind(this);
+    this.validateFiels = this.validateFiels.bind(this);
   }
   
   handleClose(){
@@ -41,10 +46,34 @@ class CCPRegistration extends Component {
   }
 
   handleRegister(clientDetails){
-    this.setState({
-      ...this.initialState
-    });
-    this.props.onRegister(clientDetails);
+    if(this.validateFiels(clientDetails)){
+      this.setState({
+        ...this.initialState
+      });
+      clientDetails.version = parseInt(clientDetails.version);
+      this.props.onRegister(clientDetails);
+    }
+  }
+
+  validateFiels(clientDetails){
+    const addressRegEx = /^(0[xX])[A-Fa-f0-9]{40}$/;
+    let errorMessage = "";
+    if(isNaN(clientDetails.version) || parseFloat(clientDetails.version) % 1 !== 0 || parseFloat(clientDetails.version) <= 0)
+      errorMessage = "Version must be a positive number such as 1, 2, etc. !";
+    else if(new Date(clientDetails.validFrom).getTime() >= new Date(clientDetails.validTo).getTime())
+      errorMessage = "CCP Validity must be more than a day";
+    else if(!addressRegEx.test(clientDetails.ccpAddress))
+      errorMessage = "Invalid CCP address";
+    
+    if (errorMessage){
+      this.setState({
+        error: true,
+        errorMessage
+      });
+      return false;
+    }
+    
+    return true;
   }
 
   verifyCallback(response){
@@ -75,7 +104,7 @@ class CCPRegistration extends Component {
   }
 
   render() {
-    const {isVerified, agree, ...clientDetails} = {...this.state};
+    const {isVerified, agree, error, errorMessage, ...clientDetails} = {...this.state};
     const buttonDisabled = !(isVerified && agree && clientDetails.clientName
                             && clientDetails.version && clientDetails.ccpAddress);
     clientDetails.clientPay = this.context.account;
@@ -83,6 +112,9 @@ class CCPRegistration extends Component {
     <Dialog open={this.props.open} aria-labelledby="register-ccp">
       <DialogTitle id="register-ccp">Client Check Policy Registration</DialogTitle>
       <DialogContent>
+        {this.state.error && 
+            <Alert severity="error">{this.state.errorMessage}</Alert>
+        }
         <TextField
           variant="outlined" margin="normal" required fullWidth
           label="Client Name" name="clientName" autoFocus 
@@ -103,7 +135,7 @@ class CCPRegistration extends Component {
         <TextField
           variant="outlined" margin="normal" required fullWidth
           label="Version" name="version"  
-          value={clientDetails.version}
+          value={clientDetails.version ? clientDetails.version : ''}
           onChange={this.updateFormState} 
         />              
         <Box component="span" p={1} padding={1}>
@@ -111,7 +143,6 @@ class CCPRegistration extends Component {
             name="validFrom"
             label="Valid From"
             type="date"
-            color="secondary"
             value={clientDetails.validFrom}
             onChange={this.updateFormState}
             InputLabelProps={{
@@ -124,7 +155,6 @@ class CCPRegistration extends Component {
             name="validTo"
             label="Valid To"
             type="date"
-            color="secondary"
             value={clientDetails.validTo}
             onChange={this.updateFormState}
             InputLabelProps={{
