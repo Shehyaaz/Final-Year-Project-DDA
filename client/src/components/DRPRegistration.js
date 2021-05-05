@@ -15,7 +15,7 @@ import {
 } from "@material-ui/lab";
 import { siteKey } from "../utils/constants";
 import AppContext from '../context/AppContext';
-import getSCTList from '../utils/getSCTList';
+import getCertDetails from '../utils/getCertDetails';
 
 class DRPRegistration extends Component {
 	constructor(props){
@@ -48,26 +48,27 @@ class DRPRegistration extends Component {
     this.props.onClose();
   }
 
-  handleRegister = async(domainDetails) => {
+  handleRegister = async(domainDetails, certFile) => {
     if(this.validateFields(domainDetails)){
       this.setState({
         ...this.initialState
       });
-        const reader = new FileReader();
-        reader.onload = async(e) => {
-          try{
-            domainDetails.sctList =  getSCTList(e.target.result);
-            domainDetails.version = parseInt(domainDetails.version);
-            domainDetails.price = parseFloat(domainDetails.price);
-            this.props.onRegister(domainDetails);
-          } catch(err){
-            this.setState({
-              error: true,
-              errorMessage: err.message
-            });
-          }
+      const reader = new FileReader();
+      reader.onload = async(e) => {
+        try{
+          domainDetails.certDetails =  getCertDetails(e.target.result, domainDetails.domainName);
+          domainDetails.version = parseInt(domainDetails.version);
+          domainDetails.price = parseFloat(domainDetails.price);
+          this.props.onRegister(domainDetails);
+        } catch(err){
+          this.captcha.reset();
+          this.setState({
+            error: true,
+            errorMessage: err.message
+          });
         }
-        reader.readAsText(domainDetails.certFile);
+      }
+      reader.readAsText(certFile);
       }
   }
 
@@ -79,6 +80,8 @@ class DRPRegistration extends Component {
       errorMessage = "Domain name is invalid!";
     else if(!domainRegEx.test(domainDetails.issuer))
       errorMessage = "Issuer name is invalid!";
+    else if(domainDetails.issuer.search(domainDetails.domainName) === -1)
+      errorMessage = "Domain must be a sub-domain of DRP issuer!";
     else if(isNaN(domainDetails.version) || parseFloat(domainDetails.version) % 1 !== 0 || parseFloat(domainDetails.version) <= 0)
       errorMessage = "Version must be a positive number such as 1, 2, etc. !";
     else if(isNaN(domainDetails.price) || parseFloat(domainDetails.price) <= 0)
@@ -133,17 +136,17 @@ class DRPRegistration extends Component {
   }
 
   render() { 
-    const {isVerified, agree, error, errorMessage, ...domainDetails} = {...this.state};
+    const {isVerified, agree, error, errorMessage, certFile, ...domainDetails} = {...this.state};
     const buttonDisabled = !(isVerified && agree && domainDetails.domainName && domainDetails.issuer
                               && domainDetails.version && domainDetails.drpAddress
-                              && domainDetails.price && domainDetails.certFile);
+                              && domainDetails.price && certFile);
     domainDetails.domainPay = this.context.account;
   	return (
     	<Dialog open={this.props.open} aria-labelledby="register-drp">
         <DialogTitle id="register-drp">Domain Reaction Policy Registration</DialogTitle>
         <DialogContent>
-          {this.state.error && 
-            <Alert severity="error">{this.state.errorMessage}</Alert>
+          {error && 
+            <Alert severity="error">{errorMessage}</Alert>
           }
           <TextField
             variant="outlined" margin="normal" required fullWidth
@@ -156,7 +159,7 @@ class DRPRegistration extends Component {
           />
           <TextField
             variant="outlined" margin="normal" required fullWidth
-            label="Issuer" name="issuer" 
+            label="DRP Issuer" name="issuer" 
             value={domainDetails.issuer}
             onChange={this.updateFormState}
           />
@@ -222,18 +225,19 @@ class DRPRegistration extends Component {
               hidden
               accept=".pem,.crt,.cer"
               onChange={this.updateFileName}
+              onClick={e => e.target.value = ""}
             />
           </Button>
           <Box component="span" p={1} padding={1}>
             <TextField
               name="certFile"
               label="Certificate File"
-              value={domainDetails.certFile && domainDetails.certFile.name}
+              value={certFile && certFile.name}
               disabled
             />
           </Box>
           <div>
-            <input type="checkbox" name="agree" onChange={this.checkboxHandler} />
+            <input type="checkbox" name="agree" checked={agree} onChange={this.checkboxHandler} />
             <label > I agree to</label>
             <Tooltip title="Check out the About page" arrow>
               <Button><b>Terms and Conditions.</b></Button>
@@ -241,6 +245,7 @@ class DRPRegistration extends Component {
           </div>
           <Box m={2}  justifyContent="center">  
             <Recaptcha
+              ref={e => this.captcha = e}
               sitekey={siteKey}
               render="explicit"
               verifyCallback={this.verifyCallback}
@@ -253,7 +258,7 @@ class DRPRegistration extends Component {
           </Button>
           <Button disabled={buttonDisabled}
               color="primary"
-              onClick={() => this.handleRegister(domainDetails)}>
+              onClick={() => this.handleRegister(domainDetails, certFile)}>
             {this.props.update ? "Update":"Register"}
           </Button>
         </DialogActions>

@@ -60,7 +60,7 @@ class ClientDashboard extends Component {
             openRegistrationForm: false,
             openPurchaseForm: false,
             drpList: [],
-            domains: []
+            domains: [{name: "google.com", price: 1}, {name: "facebook.com", price: 2}]
         }
 		this.handleRegisterCCP = this.handleRegisterCCP.bind(this);
         this.handlePurchaseDRP = this.handlePurchaseDRP.bind(this);
@@ -198,7 +198,7 @@ class ClientDashboard extends Component {
                                         onClick={() => this.setState({openPurchaseForm:true})}    
                                         disableElevation
                                         size="small"
-                                        disabled={!this.state.isRegistered}
+                                        //disabled={!this.state.isRegistered}
                                     >
                                         Purchase DRP
                                     </Button>
