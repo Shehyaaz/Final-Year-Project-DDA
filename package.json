@@ -1,0 +1,28 @@
+{
+  "name": "dda-dapp",
+  "version": "1.0.0",
+  "description": "This repository contains the implementation of Decentralised Domain Authentication, done as part of the Final Year Project during 2020-21.",
+  "main": "truffle-config.js",
+  "directories": {
+    "test": "test"
+  },
+  "dependencies": {
+    "@material-ui/lab": "^4.0.0-alpha.58",
+    "pkijs": "^2.1.95",
+    "request": "^2.88.2"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Shehyaaz/Final-Year-Project-DDA.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Shehyaaz/Final-Year-Project-DDA/issues"
+  },
+  "homepage": "https://github.com/Shehyaaz/Final-Year-Project-DDA#readme"
+}
