@@ -33,10 +33,8 @@ const useStyles = theme => ({
     root: {
         display: "flex",
     },
-    modal: {
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
+    cardButton: {
+        marginLeft: "auto",
     },
     paper: {
         backgroundColor: theme.palette.background.paper,
@@ -167,7 +165,8 @@ class ClientDashboard extends Component {
                                         startIcon={<PersonAdd/>}
                                         onClick={() => this.setState({openRegistrationForm: true})}
                                         disableElevation
-                                        size="small"    
+                                        size="small" 
+                                        className={classes.cardButton}   
                                     >
                                         { this.state.isRegistered 
                                         ? "Update CCP"
@@ -198,7 +197,8 @@ class ClientDashboard extends Component {
                                         onClick={() => this.setState({openPurchaseForm:true})}    
                                         disableElevation
                                         size="small"
-                                        //disabled={!this.state.isRegistered}
+                                        disabled={!this.state.isRegistered}
+                                        className={classes.cardButton} 
                                     >
                                         Purchase DRP
                                     </Button>

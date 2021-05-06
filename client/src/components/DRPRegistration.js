@@ -4,6 +4,7 @@ import {
 	Button,
 	TextField,
 	Box,
+  Grid,
   Tooltip,
   Dialog,
   DialogContent,
@@ -13,9 +14,17 @@ import {
 import {
   Alert
 } from "@material-ui/lab";
+import { withStyles } from "@material-ui/core/styles";
 import { siteKey } from "../utils/constants";
 import AppContext from '../context/AppContext';
 import getCertDetails from '../utils/getCertDetails';
+
+const useStyles = theme => ({
+  uploadButton: {
+    marginTop: theme.spacing(2),
+    marginBottom: theme.spacing(2),
+  },
+});
 
 class DRPRegistration extends Component {
 	constructor(props){
@@ -136,6 +145,7 @@ class DRPRegistration extends Component {
   }
 
   render() { 
+    const classes = this.props.classes;
     const {isVerified, agree, error, errorMessage, certFile, ...domainDetails} = {...this.state};
     const buttonDisabled = !(isVerified && agree && domainDetails.domainName && domainDetails.issuer
                               && domainDetails.version && domainDetails.drpAddress
@@ -177,30 +187,30 @@ class DRPRegistration extends Component {
             value={domainDetails.version ? domainDetails.version : ''}
             onChange={this.updateFormState}  
           />
-          <Box component="span" p={1} padding={1}>
-            <TextField
-                name="validFrom"
-                label="Valid From"
+          <Grid container direction="row" spacing={2}>
+            <Grid item xs={12} sm={6}>
+              <TextField
+                  name="validFrom"
+                  label="Valid From"
+                  type="date"
+                  value={domainDetails.validFrom}
+                  onChange={this.updateFormState}
+                  fullWidth 
+                  required
+                />
+            </Grid>
+            <Grid item xs={12} sm={6}>
+              <TextField
+                name="validTo"
+                label="Valid To"
                 type="date"
-                value={domainDetails.validFrom}
+                value={domainDetails.validTo}
                 onChange={this.updateFormState}
-                InputLabelProps={{
-                  shrink: true,
-                }}
+                fullWidth
+                required
               />
-          </Box>  
-          <Box component="span" p={1} padding={1}>
-            <TextField
-              name="validTo"
-              label="Valid To"
-              type="date"
-              value={domainDetails.validTo}
-              onChange={this.updateFormState}
-              InputLabelProps={{
-                shrink: true,
-              }}
-            />
-          </Box>
+            </Grid>
+          </Grid>
           <TextField
             variant="outlined" margin="normal" required fullWidth
             label="Contract Adress" name="drpAddress"
@@ -213,29 +223,35 @@ class DRPRegistration extends Component {
             value={domainDetails.price ? domainDetails.price : ''}
             onChange={this.updateFormState}  
           />
-          <Button
-            variant="contained"
-            color="primary"
-            component="label"
-            size="medium"
-          >
-            Select Certificate File
-            <input
-              type="file"
-              hidden
-              accept=".pem,.crt,.cer"
-              onChange={this.updateFileName}
-              onClick={e => e.target.value = ""}
-            />
-          </Button>
-          <Box component="span" p={1} padding={1}>
-            <TextField
-              name="certFile"
-              label="Certificate File"
-              value={certFile && certFile.name}
-              disabled
-            />
-          </Box>
+          <Grid container direction="row" spacing={2}>
+            <Grid item xs={12} sm={9}>
+              <TextField
+                name="certFile"
+                label="Certificate File - Base64 encoded"
+                value={certFile && certFile.name}
+                disabled
+                fullWidth
+              />
+            </Grid>
+            <Grid item xs={12} sm={3}>
+              <Button
+                variant="contained"
+                color="primary"
+                component="label"
+                size="small"
+                className={classes.uploadButton}
+              >
+                Select File
+                <input
+                  type="file"
+                  hidden
+                  accept=".pem,.crt,.cer"
+                  onChange={this.updateFileName}
+                  onClick={e => e.target.value = ""}
+                />
+              </Button>
+            </Grid>
+          </Grid>
           <div>
             <input type="checkbox" name="agree" checked={agree} onChange={this.checkboxHandler} />
             <label > I agree to</label>
@@ -243,7 +259,7 @@ class DRPRegistration extends Component {
               <Button><b>Terms and Conditions.</b></Button>
             </Tooltip>
           </div>
-          <Box m={2}  justifyContent="center">  
+          <Box m={2}  display="flex" alignItems="center" justifyContent="center">  
             <Recaptcha
               ref={e => this.captcha = e}
               sitekey={siteKey}
@@ -268,6 +284,6 @@ class DRPRegistration extends Component {
 }
 
 DRPRegistration.contextType = AppContext;
-export default DRPRegistration;
+export default withStyles(useStyles,{ withTheme: true })(DRPRegistration);
 
 

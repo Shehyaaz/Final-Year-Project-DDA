@@ -44,7 +44,7 @@ class HomePage extends Component {
 		super(props);
 		this.state = {
 			isLoading: false,
-			isLoggedIn: false
+			isLoggedIn: (sessionStorage.getItem("isLoggedIn") === "true") || false
 		};
 		// binding this
 		this.handleLogin = this.handleLogin.bind(this);
@@ -72,11 +72,13 @@ class HomePage extends Component {
 			// );
 		
 			if( web3 != null && accounts != null && instance != null  ){
+				// update context
 				this.context.setContext({
 					web3: web3, 
 					contract: instance, 
-					account: accounts[0]
-				}); // update context
+					account: accounts[0],
+				});
+				sessionStorage.setItem("isLoggedIn", true);
 				this.setState({
 					isLoading: false,
 					isLoggedIn: true
@@ -95,12 +97,10 @@ class HomePage extends Component {
 	render() {
 		const classes = this.props.classes;
 		if(this.state.isLoggedIn){
-			const {isLoading, ...rest} = {...this.state};
 			return (
 				<Redirect 
 					to = {{
-						pathname: "/dashboard/about",
-						state: {...rest}
+						pathname: "/dashboard/about"
 					}}
 				/>
 			);

@@ -4,6 +4,7 @@ import {
 	Button,
 	TextField,
 	Box,
+  Grid,
   Tooltip,
   Dialog,
   DialogContent,
@@ -137,31 +138,31 @@ class CCPRegistration extends Component {
           label="Version" name="version"  
           value={clientDetails.version ? clientDetails.version : ''}
           onChange={this.updateFormState} 
-        />              
-        <Box component="span" p={1} padding={1}>
-          <TextField
-            name="validFrom"
-            label="Valid From"
-            type="date"
-            value={clientDetails.validFrom}
-            onChange={this.updateFormState}
-            InputLabelProps={{
-              shrink: true,
-            }}
-          />
-        </Box>
-        <Box component="span" p={1} padding={1}>
-          <TextField
-            name="validTo"
-            label="Valid To"
-            type="date"
-            value={clientDetails.validTo}
-            onChange={this.updateFormState}
-            InputLabelProps={{
-              shrink: true,
-            }}
-          />
-        </Box>
+        />
+        <Grid container direction="row" spacing={2}>
+          <Grid item xs={12} sm={6}>
+            <TextField
+                name="validFrom"
+                label="Valid From"
+                type="date"
+                value={clientDetails.validFrom}
+                onChange={this.updateFormState}
+                fullWidth 
+                required
+              />
+          </Grid>
+          <Grid item xs={12} sm={6}>
+            <TextField
+              name="validTo"
+              label="Valid To"
+              type="date"
+              value={clientDetails.validTo}
+              onChange={this.updateFormState}
+              fullWidth
+              required
+            />
+          </Grid>
+        </Grid>
         <TextField
           variant="outlined" margin="normal" required fullWidth
           label="Contract Adress" name="ccpAddress"
@@ -173,7 +174,7 @@ class CCPRegistration extends Component {
         <Tooltip title="Check out the About page" arrow>
           <Button><b>Terms and Conditions.</b></Button>
         </Tooltip>
-        <Box m={2}  justifyContent="center">  
+        <Box m={2}  display="flex" alignItems="center" justifyContent="center">  
           <Recaptcha
             sitekey={siteKey}
             render="explicit"

@@ -110,8 +110,8 @@ class Dashboard extends Component {
     constructor(props){
         super(props);
         this.state = {
-            isLoggedIn:  (props.location.state && props.location.state.isLoggedIn) || false,
-            drawerOpen: false
+            drawerOpen: false,
+            isLoggedIn: (sessionStorage.getItem("isLoggedIn") === "true") || false
         };
         this.handleDrawerOpen = this.handleDrawerOpen.bind(this);
         this.handleDrawerClose = this.handleDrawerClose.bind(this);
@@ -128,13 +128,14 @@ class Dashboard extends Component {
 
     componentWillUnmount(){
         window.ethereum.removeListener("accountsChanged",(accounts)=>{
-            this.context.setState({
+            this.context.setContext({
                 account: accounts[0]
             });
         });
     }
 
     handleLogout(){
+        sessionStorage.setItem("isLoggedIn", false);
         this.setState({
             isLoggedIn: false
         });
