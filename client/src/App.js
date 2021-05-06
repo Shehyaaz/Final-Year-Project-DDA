@@ -7,6 +7,7 @@ import {
 import AppContext from "./context/AppContext";
 import HomePage from "./components/HomePage";
 import Dashboard from "./components/Dashboard";
+import About from "./components/About"
 
 class App extends Component {
   constructor(props){
@@ -29,6 +30,7 @@ class App extends Component {
         <AppContext.Provider value={this.state} >
           <Switch>
             <Route exact path="/" component={HomePage} />
+            <Route exact path="/about" component={About} />
             <Route path="/dashboard" render={(props) => <Dashboard {...props}/>} />
           </Switch>
         </AppContext.Provider>
