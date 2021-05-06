@@ -10,6 +10,9 @@ import "./CheckInterface.sol" as Check;
 import "./DRPReactionInterface.sol" as Reaction;
 
 contract DDA {
+    // the log ID of the CT logs trusted by DDA are stored in ctLogsID array
+    bytes32[] public ctLogsID;
+
     // Client Check Policy definition
     struct CCP {
         string clientName;
@@ -49,44 +52,40 @@ contract DDA {
     mapping(string => Domain) domains;
     
     event DRPpurchased(address indexed _from, address indexed _to, uint _amount);
+
+    constructor(bytes32[] memory _ctLogsID) public {
+        for(uint16 i = 0; i < _ctLogsID.length; i++){
+            ctLogsID.push(_ctLogsID[i]);
+        }
+    }
     
     function registerClient(
-        string _name,
+        string memory _name,
         uint256 _validFrom,
         uint256 _validTo,
         uint16 _version,
         address _checkContract
     ) public returns (bool){
-        if (clients[msg.sender].ccp.clientName != ""){
-             Client newClient;
-            newClient.ccp = CCP(_name, msg.sender, _validFrom, _validTo, _version, _checkContract);
-            clients[msg.sender] = newClient;
-            return true; 
-        }
-        return false;
+        clients[msg.sender].ccp = CCP(_name, msg.sender, _validFrom, _validTo, _version, _checkContract);
+        return true; 
     }
     
     function registerDomain(
-        string _domainName,
-        string _issuerName,
+        string memory _domainName,
+        string memory _issuerName,
         uint256 _validFrom,
         uint256 _validTo,
         uint16 _version,
         address _reactContract,
         bytes32 _domainSign
     ) public returns (bool){
-        if (domains[_domainName].drp.domainName != ""){
-            Domain newDomain;
-            newDomain.drp = Domain(_domainName, _issuerName, msg.sender, _validFrom, _validTo, _version, _reactContract);
-            newDomain.domainSign = _domainSign;
-            newDomain.numRevoked = 0;
-            domains[_domainName] = newDomain; 
-            return true;
-        }
-        return false;
+        domains[_domainName].drp = DRP(_domainName, _issuerName, msg.sender, _validFrom, _validTo, _version, _reactContract);
+        domains[_domainName].domainSign = _domainSign;
+        domains[_domainName].numRevoked = 0;
+        return true;
     }
     
-    function purchaseDRP(string _domainName) public {
+    function purchaseDRP(string memory _domainName) public {
         /* Parameters : Client address and domain name
         *  TODO : Purchase DRP of domain; emit event DRPpurchased
         */

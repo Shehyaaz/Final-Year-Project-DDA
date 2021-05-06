@@ -6,7 +6,11 @@
   "directories": {
     "test": "test"
   },
-  "dependencies": {},
+  "dependencies": {
+    "@material-ui/lab": "^4.0.0-alpha.58",
+    "pkijs": "^2.1.95",
+    "request": "^2.88.2"
+  },
   "devDependencies": {},
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"

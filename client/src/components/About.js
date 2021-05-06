@@ -1,5 +1,4 @@
 import React, {Component,useState} from 'react';
-
 import { 
   Box,
   Link,
@@ -7,6 +6,7 @@ import {
 	Typography,
   Paper 	
 } from '@material-ui/core';
+
 import './app.css';
 
 function FooterText() {

@@ -8,5 +8,7 @@ pragma solidity ^0.5.0;
 import "./DRPReactionInterface.sol";
 
 contract DRPReaction is DRPReactionInterface {
-
+    function trigger() public notOwner{
+        // TODO : to be implemented
+    }
 }
