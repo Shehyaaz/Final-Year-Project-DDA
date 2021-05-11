@@ -9,11 +9,13 @@ import "./CheckInterface.sol";
 
 contract Check is CheckInterface {
     function check(
-        string memory cert, 
-        string memory ctLog, 
-        string memory revLog, 
-        string memory signature
-    ) public onlyOwner returns(bool){
+        bytes32[] calldata _ctLogIDs, 
+        bytes32[] calldata _sctLogID,
+        uint256[] calldata _sctTimestamp,
+        uint256 _maximum_merge_delay,
+        uint256 _certValidFrom,
+        uint256 _certValidTo
+    ) external onlyOwner returns(bool){
         // TODO: to be implemented
     } 
 }

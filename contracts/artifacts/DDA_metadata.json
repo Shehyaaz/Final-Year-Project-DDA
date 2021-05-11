@@ -1,0 +1,688 @@
+{
+	"compiler": {
+		"version": "0.5.17+commit.d19bba13"
+	},
+	"language": "Solidity",
+	"output": {
+		"abi": [
+			{
+				"inputs": [
+					{
+						"internalType": "bytes32[]",
+						"name": "_ctLogIDs",
+						"type": "bytes32[]"
+					}
+				],
+				"payable": false,
+				"stateMutability": "nonpayable",
+				"type": "constructor"
+			},
+			{
+				"anonymous": false,
+				"inputs": [
+					{
+						"indexed": false,
+						"internalType": "address",
+						"name": "_clientAddr",
+						"type": "address"
+					},
+					{
+						"indexed": false,
+						"internalType": "address",
+						"name": "_domainAddr",
+						"type": "address"
+					},
+					{
+						"indexed": false,
+						"internalType": "bool",
+						"name": "_check",
+						"type": "bool"
+					}
+				],
+				"name": "CertChecked",
+				"type": "event"
+			},
+			{
+				"anonymous": false,
+				"inputs": [
+					{
+						"indexed": false,
+						"internalType": "address",
+						"name": "_domainAddr",
+						"type": "address"
+					}
+				],
+				"name": "DRPAlreadyPurchased",
+				"type": "event"
+			},
+			{
+				"anonymous": false,
+				"inputs": [
+					{
+						"indexed": false,
+						"internalType": "address",
+						"name": "_domainAddr",
+						"type": "address"
+					}
+				],
+				"name": "DRPDeleted",
+				"type": "event"
+			},
+			{
+				"anonymous": false,
+				"inputs": [
+					{
+						"indexed": false,
+						"internalType": "address",
+						"name": "_domainAddr",
+						"type": "address"
+					}
+				],
+				"name": "DRPExpired",
+				"type": "event"
+			},
+			{
+				"anonymous": false,
+				"inputs": [
+					{
+						"indexed": false,
+						"internalType": "address",
+						"name": "_clientAddr",
+						"type": "address"
+					},
+					{
+						"indexed": false,
+						"internalType": "address",
+						"name": "_domainAddr",
+						"type": "address"
+					},
+					{
+						"indexed": false,
+						"internalType": "uint256",
+						"name": "_amount",
+						"type": "uint256"
+					}
+				],
+				"name": "DRPpurchased",
+				"type": "event"
+			},
+			{
+				"anonymous": false,
+				"inputs": [
+					{
+						"indexed": false,
+						"internalType": "address",
+						"name": "_contract",
+						"type": "address"
+					},
+					{
+						"indexed": false,
+						"internalType": "bool",
+						"name": "status",
+						"type": "bool"
+					}
+				],
+				"name": "InvalidContract",
+				"type": "event"
+			},
+			{
+				"anonymous": false,
+				"inputs": [
+					{
+						"indexed": false,
+						"internalType": "address",
+						"name": "_addr",
+						"type": "address"
+					},
+					{
+						"indexed": false,
+						"internalType": "bool",
+						"name": "_registered",
+						"type": "bool"
+					}
+				],
+				"name": "Registered",
+				"type": "event"
+			},
+			{
+				"anonymous": false,
+				"inputs": [
+					{
+						"indexed": false,
+						"internalType": "address",
+						"name": "_addr",
+						"type": "address"
+					},
+					{
+						"indexed": false,
+						"internalType": "bool",
+						"name": "_updated",
+						"type": "bool"
+					}
+				],
+				"name": "Updated",
+				"type": "event"
+			},
+			{
+				"anonymous": false,
+				"inputs": [
+					{
+						"indexed": false,
+						"internalType": "address",
+						"name": "_contract",
+						"type": "address"
+					},
+					{
+						"indexed": false,
+						"internalType": "bool",
+						"name": "isCCP",
+						"type": "bool"
+					}
+				],
+				"name": "ValidityError",
+				"type": "event"
+			},
+			{
+				"constant": false,
+				"inputs": [
+					{
+						"internalType": "uint256",
+						"name": "_drpIndex",
+						"type": "uint256"
+					},
+					{
+						"internalType": "bytes32[]",
+						"name": "sctLogID",
+						"type": "bytes32[]"
+					},
+					{
+						"internalType": "uint256[]",
+						"name": "sctTimestamp",
+						"type": "uint256[]"
+					},
+					{
+						"internalType": "uint256",
+						"name": "certValidFrom",
+						"type": "uint256"
+					},
+					{
+						"internalType": "uint256",
+						"name": "certValidTo",
+						"type": "uint256"
+					}
+				],
+				"name": "checkCertificate",
+				"outputs": [],
+				"payable": false,
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"constant": true,
+				"inputs": [],
+				"name": "client_registration_fee",
+				"outputs": [
+					{
+						"internalType": "uint256",
+						"name": "",
+						"type": "uint256"
+					}
+				],
+				"payable": false,
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"constant": true,
+				"inputs": [],
+				"name": "client_update_fee",
+				"outputs": [
+					{
+						"internalType": "uint256",
+						"name": "",
+						"type": "uint256"
+					}
+				],
+				"payable": false,
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"constant": false,
+				"inputs": [],
+				"name": "close",
+				"outputs": [],
+				"payable": false,
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"constant": true,
+				"inputs": [],
+				"name": "contractOwner",
+				"outputs": [
+					{
+						"internalType": "address payable",
+						"name": "",
+						"type": "address"
+					}
+				],
+				"payable": false,
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"constant": true,
+				"inputs": [
+					{
+						"internalType": "uint256",
+						"name": "",
+						"type": "uint256"
+					}
+				],
+				"name": "ctLogIDs",
+				"outputs": [
+					{
+						"internalType": "bytes32",
+						"name": "",
+						"type": "bytes32"
+					}
+				],
+				"payable": false,
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"constant": false,
+				"inputs": [
+					{
+						"internalType": "uint256",
+						"name": "_drpIndex",
+						"type": "uint256"
+					}
+				],
+				"name": "deleteDRP",
+				"outputs": [],
+				"payable": false,
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"constant": true,
+				"inputs": [],
+				"name": "domain_registration_fee",
+				"outputs": [
+					{
+						"internalType": "uint256",
+						"name": "",
+						"type": "uint256"
+					}
+				],
+				"payable": false,
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"constant": true,
+				"inputs": [],
+				"name": "domain_update_fee",
+				"outputs": [
+					{
+						"internalType": "uint256",
+						"name": "",
+						"type": "uint256"
+					}
+				],
+				"payable": false,
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"constant": false,
+				"inputs": [],
+				"name": "expire",
+				"outputs": [],
+				"payable": false,
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"constant": true,
+				"inputs": [
+					{
+						"internalType": "uint256",
+						"name": "_drpIndex",
+						"type": "uint256"
+					}
+				],
+				"name": "getClientDRPList",
+				"outputs": [
+					{
+						"internalType": "bytes32",
+						"name": "",
+						"type": "bytes32"
+					},
+					{
+						"internalType": "uint256",
+						"name": "",
+						"type": "uint256"
+					},
+					{
+						"internalType": "uint256",
+						"name": "",
+						"type": "uint256"
+					},
+					{
+						"internalType": "uint256",
+						"name": "",
+						"type": "uint256"
+					},
+					{
+						"internalType": "uint256",
+						"name": "",
+						"type": "uint256"
+					},
+					{
+						"internalType": "address",
+						"name": "",
+						"type": "address"
+					}
+				],
+				"payable": false,
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"constant": true,
+				"inputs": [
+					{
+						"internalType": "uint256",
+						"name": "_drpIndex",
+						"type": "uint256"
+					}
+				],
+				"name": "getDRPPurchaseDetails",
+				"outputs": [
+					{
+						"internalType": "bytes32",
+						"name": "",
+						"type": "bytes32"
+					},
+					{
+						"internalType": "uint256",
+						"name": "",
+						"type": "uint256"
+					},
+					{
+						"internalType": "address",
+						"name": "",
+						"type": "address"
+					},
+					{
+						"internalType": "uint8",
+						"name": "",
+						"type": "uint8"
+					}
+				],
+				"payable": false,
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"constant": true,
+				"inputs": [],
+				"name": "isClientRegistered",
+				"outputs": [
+					{
+						"internalType": "bool",
+						"name": "",
+						"type": "bool"
+					}
+				],
+				"payable": false,
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"constant": true,
+				"inputs": [],
+				"name": "maximum_merge_delay",
+				"outputs": [
+					{
+						"internalType": "uint24",
+						"name": "",
+						"type": "uint24"
+					}
+				],
+				"payable": false,
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"constant": false,
+				"inputs": [
+					{
+						"internalType": "address payable",
+						"name": "_domainAddr",
+						"type": "address"
+					}
+				],
+				"name": "purchaseDRP",
+				"outputs": [],
+				"payable": true,
+				"stateMutability": "payable",
+				"type": "function"
+			},
+			{
+				"constant": false,
+				"inputs": [
+					{
+						"internalType": "bytes32",
+						"name": "_name",
+						"type": "bytes32"
+					},
+					{
+						"internalType": "uint256",
+						"name": "_validFrom",
+						"type": "uint256"
+					},
+					{
+						"internalType": "uint256",
+						"name": "_validTo",
+						"type": "uint256"
+					},
+					{
+						"internalType": "address",
+						"name": "_checkContract",
+						"type": "address"
+					},
+					{
+						"internalType": "uint8",
+						"name": "_version",
+						"type": "uint8"
+					}
+				],
+				"name": "registerClient",
+				"outputs": [],
+				"payable": true,
+				"stateMutability": "payable",
+				"type": "function"
+			},
+			{
+				"constant": false,
+				"inputs": [
+					{
+						"internalType": "bytes32",
+						"name": "_domainName",
+						"type": "bytes32"
+					},
+					{
+						"internalType": "bytes32",
+						"name": "_issuerName",
+						"type": "bytes32"
+					},
+					{
+						"internalType": "uint256",
+						"name": "_validFrom",
+						"type": "uint256"
+					},
+					{
+						"internalType": "uint256",
+						"name": "_validTo",
+						"type": "uint256"
+					},
+					{
+						"internalType": "uint256",
+						"name": "_drpPrice",
+						"type": "uint256"
+					},
+					{
+						"internalType": "address",
+						"name": "_reactContract",
+						"type": "address"
+					},
+					{
+						"internalType": "uint8",
+						"name": "_version",
+						"type": "uint8"
+					}
+				],
+				"name": "registerDomain",
+				"outputs": [],
+				"payable": true,
+				"stateMutability": "payable",
+				"type": "function"
+			},
+			{
+				"constant": true,
+				"inputs": [
+					{
+						"internalType": "uint256",
+						"name": "",
+						"type": "uint256"
+					}
+				],
+				"name": "registeredDomains",
+				"outputs": [
+					{
+						"internalType": "address",
+						"name": "",
+						"type": "address"
+					}
+				],
+				"payable": false,
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"constant": false,
+				"inputs": [
+					{
+						"internalType": "uint256",
+						"name": "_validFrom",
+						"type": "uint256"
+					},
+					{
+						"internalType": "uint256",
+						"name": "_validTo",
+						"type": "uint256"
+					},
+					{
+						"internalType": "address",
+						"name": "_checkContract",
+						"type": "address"
+					}
+				],
+				"name": "updateClient",
+				"outputs": [],
+				"payable": true,
+				"stateMutability": "payable",
+				"type": "function"
+			},
+			{
+				"constant": false,
+				"inputs": [
+					{
+						"internalType": "bytes32",
+						"name": "_issuerName",
+						"type": "bytes32"
+					},
+					{
+						"internalType": "uint256",
+						"name": "_validFrom",
+						"type": "uint256"
+					},
+					{
+						"internalType": "uint256",
+						"name": "_validTo",
+						"type": "uint256"
+					},
+					{
+						"internalType": "uint256",
+						"name": "_drpPrice",
+						"type": "uint256"
+					},
+					{
+						"internalType": "address",
+						"name": "_reactContract",
+						"type": "address"
+					}
+				],
+				"name": "updateDomain",
+				"outputs": [],
+				"payable": true,
+				"stateMutability": "payable",
+				"type": "function"
+			}
+		],
+		"devdoc": {
+			"methods": {}
+		},
+		"userdoc": {
+			"methods": {}
+		}
+	},
+	"settings": {
+		"compilationTarget": {
+			"DDA.sol": "DDA"
+		},
+		"evmVersion": "istanbul",
+		"libraries": {},
+		"optimizer": {
+			"enabled": false,
+			"runs": 200
+		},
+		"remappings": []
+	},
+	"sources": {
+		"CheckInterface.sol": {
+			"keccak256": "0x52597daf0c3c58903c34ad3425c27e502bdb81658f24aed784fc588384e278f0",
+			"urls": [
+				"bzz-raw://576a7a5e4785444e8639b2af3757c01705046d73619523c0ad66ed1fe798573f",
+				"dweb:/ipfs/QmZzsQiufk7B7BKLtW8R7bepVuh13RPhVWWPn9VLdWUFGR"
+			]
+		},
+		"DDA.sol": {
+			"keccak256": "0x0850ffe9a25ecd729ddd0cfc889463a54adf33445270d514c88f771cd1af38ef",
+			"urls": [
+				"bzz-raw://58b9fea2737d962124db38563cbf83ec0b4794ce5d66c803382174a58914ae9b",
+				"dweb:/ipfs/QmPCjD3LgQGKphPjSaayMGkxrQL3JG3RRD7f94FS4wh6AS"
+			]
+		},
+		"DRPReactionInterface.sol": {
+			"keccak256": "0xf94b3e15701bd390e056047a8698dec62b4ccab6c169895e2cca06663edf402c",
+			"urls": [
+				"bzz-raw://26aa5e32f0a6d9619aa14919b18d134f38e07075a4db86280787d6d019cf249b",
+				"dweb:/ipfs/QmXtta7mfz7DoCmosnTV6q9soAeehpUBVh4NdNvXjgzFAy"
+			]
+		},
+		"SafeMath.sol": {
+			"keccak256": "0x52c4460562c8f74035a0e1f85becacf75157eb72c829143505422f92ee7254a2",
+			"urls": [
+				"bzz-raw://5fce72bc05522d0b12e0685dfc5abdcadf0dfeb1945247c0aec047a3a7650723",
+				"dweb:/ipfs/QmQhNBeRezXp7iG59xYX8bw8SZEqj4ETNWHodHyYBznnrC"
+			]
+		}
+	},
+	"version": 1
+}

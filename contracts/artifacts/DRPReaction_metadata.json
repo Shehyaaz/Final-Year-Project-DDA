@@ -1,0 +1,96 @@
+{
+	"compiler": {
+		"version": "0.5.17+commit.d19bba13"
+	},
+	"language": "Solidity",
+	"output": {
+		"abi": [
+			{
+				"constant": false,
+				"inputs": [
+					{
+						"internalType": "uint256",
+						"name": "_drpPrice",
+						"type": "uint256"
+					},
+					{
+						"internalType": "uint8",
+						"name": "internal_misbehaviour",
+						"type": "uint8"
+					},
+					{
+						"internalType": "uint8",
+						"name": "contract_fund_payment",
+						"type": "uint8"
+					},
+					{
+						"internalType": "uint8",
+						"name": "den",
+						"type": "uint8"
+					}
+				],
+				"name": "trigger",
+				"outputs": [],
+				"payable": false,
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"constant": true,
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "_addr",
+						"type": "address"
+					}
+				],
+				"name": "verifyAddress",
+				"outputs": [
+					{
+						"internalType": "bool",
+						"name": "",
+						"type": "bool"
+					}
+				],
+				"payable": false,
+				"stateMutability": "view",
+				"type": "function"
+			}
+		],
+		"devdoc": {
+			"methods": {}
+		},
+		"userdoc": {
+			"methods": {}
+		}
+	},
+	"settings": {
+		"compilationTarget": {
+			"DRPReaction.sol": "DRPReaction"
+		},
+		"evmVersion": "istanbul",
+		"libraries": {},
+		"optimizer": {
+			"enabled": false,
+			"runs": 200
+		},
+		"remappings": []
+	},
+	"sources": {
+		"DRPReaction.sol": {
+			"keccak256": "0x05f25ddb34f9cfefdead9c50cf11eb37671b72b6f7528ed6c8862763af33fa44",
+			"urls": [
+				"bzz-raw://c73d3405f828018e153d181e86e0f484e1edb567f5ea065dc2356a6ba2cad9da",
+				"dweb:/ipfs/QmdsPm1ZfwB4BkvgVpCdZSpnPnHTptWekQ8nyPsX5bJMjD"
+			]
+		},
+		"DRPReactionInterface.sol": {
+			"keccak256": "0xa4ed52e6f0e490c55ba66f3f8cbade491bea48eafe6bbb885373d58d18809901",
+			"urls": [
+				"bzz-raw://bfe31578ae31ca5db541345f1032c97d135490ee6d90d5909fdea705bcb0208c",
+				"dweb:/ipfs/QmURrasadryzs6DZXsitbvjRSwNnw8HGzayrhWuNZ4qdpG"
+			]
+		}
+	},
+	"version": 1
+}

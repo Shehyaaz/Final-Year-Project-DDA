@@ -1,137 +1,137 @@
 [
     {
         "description": "Google 'Argon2021' log",
-        "log_id": "9lyUL9F3MCIUVBgIMJRWjuNNExkzv98MLyALzE7xZOM=",
+        "log_id": "0xf65c942fd1773022145418083094568ee34d131933bfdf0c2f200bcc4ef164e3",
         "url": "https://ct.googleapis.com/logs/argon2021/"
     },
     {
         "description": "Google 'Argon2022' log",
-        "log_id": "KXm+8J45OSHwVnOfY6V35b5XfZxgCvj5TV0mXCVdx4Q=",
+        "log_id": "0x2979bef09e393921f056739f63a577e5be577d9c600af8f94d5d265c255dc784",
         "url": "https://ct.googleapis.com/logs/argon2022/"
     },
     {
         "description": "Google 'Argon2023' log",
-        "log_id": "6D7Q2j71BjUy51covIlryQPTy9ERa+zraeF3fW0GvW4=",
+        "log_id": "0xe83ed0da3ef5063532e75728bc896bc903d3cbd1116beceb69e1777d6d06bd6e",
         "url": "https://ct.googleapis.com/logs/argon2023/"
     },
     {
         "description": "Google 'Xenon2021' log",
-        "log_id": "fT7y+I//iFVoJMLAyp5SiXkrxQ54CX8uapdomX4i8Nc=",
+        "log_id": "0x7d3ef2f88fff88556824c2c0ca9e5289792bc50e78097f2e6a9768997e22f0d7",
         "url": "https://ct.googleapis.com/logs/xenon2021/"
     },
     {
         "description": "Google 'Xenon2022' log",
-        "log_id": "RqVV63X6kSAwtaKJafTzfREsQXS+/Um4havy/HD+bUc=",
+        "log_id": "0x46a555eb75fa912030b5a28969f4f37d112c4174befd49b885abf2fc70fe6d47",
         "url": "https://ct.googleapis.com/logs/xenon2022/"
     },
     {
         "description": "Google 'Xenon2023' log",
-        "log_id": "rfe++nz/EMiLnT2cHj4YarRnKV3PsQwkyoWGNOvcgoo=",
+        "log_id": "0xadf7befa7cff10c88b9d3d9c1e3e186ab467295dcfb10c24ca858634ebdc828a",
         "url": "https://ct.googleapis.com/logs/xenon2023/"
     },
     {
         "description": "Google 'Icarus' log",
-        "log_id": "KTxRllTIOWW6qlD8WAfUt2+/WHopctykwwz05UVH9Hg=",
+        "log_id": "0x293c519654c83965baaa50fc5807d4b76fbf587a2972dca4c30cf4e54547f478",
         "url": "https://ct.googleapis.com/icarus/"
     },
     {
         "description": "Google 'Pilot' log",
-        "log_id": "pLkJkLQYWBSHuxOizGdwCjw1mAT5G9+443fNDsgN3BA=",
+        "log_id": "0xa4b90990b418581487bb13a2cc67700a3c359804f91bdfb8e377cd0ec80ddc10",
         "url": "https://ct.googleapis.com/pilot/"
     },
     {
         "description": "Google 'Rocketeer' log",
-        "log_id": "7ku9t3XOYLrhQmkfq+GeZqMPfl+wctiDAMR7iXqo/cs=",
+        "log_id": "0xee4bbdb775ce60bae142691fabe19e66a30f7e5fb072d88300c47b897aa8fdcb",
         "url": "https://ct.googleapis.com/rocketeer/"
     },
     {
         "description": "Google 'Skydiver' log",
-        "log_id": "u9nfvB+KcbWTlCOXqpJ7RzhXlQqrUugakJZkNo4e0YU=",
+        "log_id": "0xbbd9dfbc1f8a71b593942397aa927b473857950aab52e81a909664368e1ed185",
         "url": "https://ct.googleapis.com/skydiver/"
     },
     {
         "description": "Cloudflare 'Nimbus2021' Log",
-        "log_id": "RJRlLrDuzq/EQAfYqP4owNrmgr7YyzG1P9MzlrW2gag=",
+        "log_id": "0x4494652eb0eeceafc44007d8a8fe28c0dae682bed8cb31b53fd33396b5b681a8",
         "url": "https://ct.cloudflare.com/logs/nimbus2021/"
     },
     {
         "description": "Cloudflare 'Nimbus2022' Log",
-        "log_id": "QcjKsd8iRkoQxqE6CUKHXk4xixsD6+tLx2jwkGKWBvY=",
+        "log_id": "0x41c8cab1df22464a10c6a13a0942875e4e318b1b03ebeb4bc768f090629606f6",
         "url": "https://ct.cloudflare.com/logs/nimbus2022/"
     },
     {
         "description": "Cloudflare 'Nimbus2023' Log",
-        "log_id": "ejKMVNi3LbYg6jjgUh7phBZwMhOFTTvSK8E6V6NS61I=",
+        "log_id": "0x7a328c54d8b72db620ea38e0521ee98416703213854d3bd22bc13a57a352eb52",
         "url": "https://ct.cloudflare.com/logs/nimbus2023/"
     },
     {
         "description": "DigiCert Log Server",
-        "log_id": "VhQGmi/XwuzT9eG9RLI+x0Z2ubyZEVzA75SYVdaJ0N0=",
+        "log_id": "0x5614069a2fd7c2ecd3f5e1bd44b23ec74676b9bc99115cc0ef949855d689d0dd",
         "url": "https://ct1.digicert-ct.com/log/"
     },
     {
         "description": "DigiCert Yeti2021 Log",
-        "log_id": "XNxDkv7mq0VEsV6a1FbmEDf71fpH3KFzlLJe5vbHDso=",
+        "log_id": "0x5cdc4392fee6ab4544b15e9ad456e61037fbd5fa47dca17394b25ee6f6c70eca",
         "url": "https://yeti2021.ct.digicert.com/log/"
     },
     {
         "description": "DigiCert Yeti2022 Log",
-        "log_id": "IkVFB1lVJFaWP6Ev8fdthuAjJmOtwEt/XcaDXG7iDwI=",
+        "log_id": "0x2245450759552456963fa12ff1f76d86e0232663adc04b7f5dc6835c6ee20f02",
         "url": "https://yeti2022.ct.digicert.com/log/"
     },
     {
         "description": "DigiCert Yeti2023 Log",
-        "log_id": "Nc8ZG7+xbFe/D61MbULLu7YnICZR6j/hKu+oA8M71kw=",
+        "log_id": "0x35cf191bbfb16c57bf0fad4c6d42cbbbb627202651ea3fe12aefa803c33bd64c",
         "url": "https://yeti2023.ct.digicert.com/log/"
     },
     {
         "description": "DigiCert Nessie2021 Log",
-        "log_id": "7sCV7o1yZA+S48O5G8cSo2lqCXtLahoUOOZHssvtxfk=",
+        "log_id": "0xeec095ee8d72640f92e3c3b91bc712a3696a097b4b6a1a1438e647b2cbedc5f9",
         "url": "https://nessie2021.ct.digicert.com/log/"
     },
     {
         "description": "DigiCert Nessie2022 Log",
-        "log_id": "UaOw9f0BeZxWbbg3eI8MpHrMGyfL956IQpoN/tSLBeU=",
+        "log_id": "0x51a3b0f5fd01799c566db837788f0ca47acc1b27cbf79e88429a0dfed48b05e5",
         "url": "https://nessie2022.ct.digicert.com/log/"
     },
     {
         "description": "DigiCert Nessie2023 Log",
-        "log_id": "s3N3B+GEUPhjhtYFqdwRCUp5LbFnDAuH3PADDnk2pZo=",
+        "log_id": "0xb3737707e18450f86386d605a9dc11094a792db1670c0b87dcf0030e7936a59a",
         "url": "https://nessie2023.ct.digicert.com/log/"
     },
     {
         "description": "Sectigo 'Sabre' CT log",
-        "log_id": "VYHUwhaQNgFK6gubVzxT8MDkOHhwJQgXL6OqHQcT0ww=",
+        "log_id": "0x5581d4c2169036014aea0b9b573c53f0c0e43878702508172fa3aa1d0713d30c",
         "url": "https://sabre.ct.comodo.com/"
     },
     {
         "description": "Sectigo 'Mammoth' CT log",
-        "log_id": "b1N2rDHwMRnYmQCkURX/dxUcEdkCwQApBo2yCJo32RM=",
+        "log_id": "0x6f5376ac31f03119d89900a45115ff77151c11d902c10029068db2089a37d913",
         "url": "https://mammoth.ct.comodo.com/"
     },
     {
         "description": "Let's Encrypt 'Oak2021' log",
-        "log_id": "lCC8Ho7VjWyIcx+CiyIsDdHaTV5sT5Q9YdtOL1hNosI=",
+        "log_id": "0x9420bc1e8ed58d6c88731f828b222c0dd1da4d5e6c4f943d61db4e2f584da2c2",
         "url": "https://oak.ct.letsencrypt.org/2021/"
     },
     {
         "description": "Let's Encrypt 'Oak2022' log",
-        "log_id": "36Veq2iCTx9sre64X04+WurNohKkal6OOxLAIERcKnM=",
+        "log_id": "0xdfa55eab68824f1f6cadeeb85f4e3e5aeacda212a46a5e8e3b12c020445c2a73",
         "url": "https://oak.ct.letsencrypt.org/2022/"
     },
     {
         "description": "Let's Encrypt 'Oak2023' log",
-        "log_id": "tz77JN+cTbp18jnFulj0bF38Qs96nzXEnh0JgSXttJk=",
+        "log_id": "0xb73efb24df9c4dba75f239c5ba58f46c5dfc42cf7a9f35c49e1d098125edb499",
         "url": "https://oak.ct.letsencrypt.org/2023/"
     },
     {
         "description": "Trust Asia Log2022",
-        "log_id": "w2X5s2VPMoPHnamOk9dBj1ure+MlLJjh0vBLuetCfSM=",
+        "log_id": "0xc365f9b3654f3283c79da98e93d7418f5bab7be3252c98e1d2f04bb9eb427d23",
         "url": "https://ct.trustasia.com/log2022/"
     },
     {
         "description": "Trust Asia Log2023",
-        "log_id": "6H6nZgvCbPYALvVyXT/g4zG5OTu5L79Y6zuQSdr1Q1o=",
+        "log_id": "0xe87ea7660bc26cf6002ef5725d3fe0e331b9393bb92fbf58eb3b9049daf5435a",
         "url": "https://ct.trustasia.com/log2023/"
     }
 ]

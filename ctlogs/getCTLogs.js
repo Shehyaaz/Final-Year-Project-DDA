@@ -1,6 +1,8 @@
 /*
- *	Run this file separately in the terminal. To run type: node getCTLogs.js 
- * /
+ *	Run this file separately in the terminal. To run, type: 
+ *  cd ctLogs
+ *  node getCTLogs.js 
+ */
 const request = require("request");
 const fs = require("fs");
 /* 
@@ -28,7 +30,10 @@ function getTrustedLogData(ctLogData){
 		for (const log of operator["logs"]){
 			if ( "usable" in log["state"] ){
 				const { description, log_id, url, ...rest } = { ...log };
-				trustedLogData.push({description, log_id, url});
+				trustedLogData.push({
+					description, 
+					"log_id": "0x"+Buffer.from(log_id,"base64").toString("hex"), 
+					url});
 			}
 		}
 	}

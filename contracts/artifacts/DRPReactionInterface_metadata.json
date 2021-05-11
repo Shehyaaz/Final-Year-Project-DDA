@@ -1,0 +1,104 @@
+{
+	"compiler": {
+		"version": "0.5.17+commit.d19bba13"
+	},
+	"language": "Solidity",
+	"output": {
+		"abi": [
+			{
+				"inputs": [],
+				"payable": false,
+				"stateMutability": "nonpayable",
+				"type": "constructor"
+			},
+			{
+				"constant": false,
+				"inputs": [],
+				"name": "terminate",
+				"outputs": [],
+				"payable": false,
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"constant": false,
+				"inputs": [
+					{
+						"internalType": "uint256",
+						"name": "_drpPrice",
+						"type": "uint256"
+					},
+					{
+						"internalType": "uint8",
+						"name": "internal_misbehaviour",
+						"type": "uint8"
+					},
+					{
+						"internalType": "uint8",
+						"name": "contract_fund_payment",
+						"type": "uint8"
+					},
+					{
+						"internalType": "uint8",
+						"name": "den",
+						"type": "uint8"
+					}
+				],
+				"name": "trigger",
+				"outputs": [],
+				"payable": false,
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"constant": true,
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "_addr",
+						"type": "address"
+					}
+				],
+				"name": "verifyAddress",
+				"outputs": [
+					{
+						"internalType": "bool",
+						"name": "",
+						"type": "bool"
+					}
+				],
+				"payable": false,
+				"stateMutability": "view",
+				"type": "function"
+			}
+		],
+		"devdoc": {
+			"methods": {}
+		},
+		"userdoc": {
+			"methods": {}
+		}
+	},
+	"settings": {
+		"compilationTarget": {
+			"DRPReactionInterface.sol": "DRPReactionInterface"
+		},
+		"evmVersion": "istanbul",
+		"libraries": {},
+		"optimizer": {
+			"enabled": false,
+			"runs": 200
+		},
+		"remappings": []
+	},
+	"sources": {
+		"DRPReactionInterface.sol": {
+			"keccak256": "0xf94b3e15701bd390e056047a8698dec62b4ccab6c169895e2cca06663edf402c",
+			"urls": [
+				"bzz-raw://26aa5e32f0a6d9619aa14919b18d134f38e07075a4db86280787d6d019cf249b",
+				"dweb:/ipfs/QmXtta7mfz7DoCmosnTV6q9soAeehpUBVh4NdNvXjgzFAy"
+			]
+		}
+	},
+	"version": 1
+}

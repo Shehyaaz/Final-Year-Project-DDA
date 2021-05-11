@@ -7,7 +7,7 @@ const DDA = artifacts.require("./DDA.sol");
 const trustedCTLogs = require("../ctlogs/trustedCTLogs.json");
 let logIDs = [];
 for(const log of trustedCTLogs){
-    logIDs.push("0x"+Buffer.from(log["log_id"],"base64").toString("hex"));
+    logIDs.push(log["log_id"]);
 }
 
 module.exports = function(deployer) {
