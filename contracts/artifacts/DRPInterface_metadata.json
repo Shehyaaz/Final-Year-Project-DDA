@@ -37,11 +37,6 @@
 						"internalType": "uint8",
 						"name": "contract_fund_payment",
 						"type": "uint8"
-					},
-					{
-						"internalType": "uint8",
-						"name": "den",
-						"type": "uint8"
 					}
 				],
 				"name": "trigger",
@@ -59,7 +54,7 @@
 						"type": "address"
 					}
 				],
-				"name": "verifyAddress",
+				"name": "verifyDRPAddress",
 				"outputs": [
 					{
 						"internalType": "bool",
@@ -81,7 +76,7 @@
 	},
 	"settings": {
 		"compilationTarget": {
-			"DRPReactionInterface.sol": "DRPReactionInterface"
+			"DRPInterface.sol": "DRPInterface"
 		},
 		"evmVersion": "istanbul",
 		"libraries": {},
@@ -92,11 +87,11 @@
 		"remappings": []
 	},
 	"sources": {
-		"DRPReactionInterface.sol": {
-			"keccak256": "0xf94b3e15701bd390e056047a8698dec62b4ccab6c169895e2cca06663edf402c",
+		"DRPInterface.sol": {
+			"keccak256": "0x217052096217432b713470be2ba90583d96b867a9c63be3862a3e7c2c767ac0c",
 			"urls": [
-				"bzz-raw://26aa5e32f0a6d9619aa14919b18d134f38e07075a4db86280787d6d019cf249b",
-				"dweb:/ipfs/QmXtta7mfz7DoCmosnTV6q9soAeehpUBVh4NdNvXjgzFAy"
+				"bzz-raw://25ddd6353f04eb3c3cf4c7e14340e1200138683c45a09d84cdc9d440dd65c373",
+				"dweb:/ipfs/QmUaXHwcgPWksZr7pVLTjUFQ73JjU3696JC4g2hgDADjB7"
 			]
 		}
 	},

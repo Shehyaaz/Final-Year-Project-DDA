@@ -46,7 +46,7 @@
 		"methodIdentifiers": {
 			"check(bytes32[],bytes32[],uint256[],uint256,uint256,uint256)": "4d556b1d",
 			"terminateCCP()": "b903d21a",
-			"verifyAddress(address)": "fcb2cafc"
+			"verifyCCPAddress(address)": "7b31d722"
 		}
 	},
 	"abi": [
@@ -57,7 +57,7 @@
 			"type": "constructor"
 		},
 		{
-			"constant": false,
+			"constant": true,
 			"inputs": [
 				{
 					"internalType": "bytes32[]",
@@ -99,7 +99,7 @@
 				}
 			],
 			"payable": false,
-			"stateMutability": "nonpayable",
+			"stateMutability": "view",
 			"type": "function"
 		},
 		{
@@ -120,7 +120,7 @@
 					"type": "address"
 				}
 			],
-			"name": "verifyAddress",
+			"name": "verifyCCPAddress",
 			"outputs": [
 				{
 					"internalType": "bool",

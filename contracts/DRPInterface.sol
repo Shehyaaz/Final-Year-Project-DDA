@@ -5,7 +5,7 @@ Authors : Mohammed Sufiyan Aman, Riyanchhi Agrawal, Shakshi Pandey, Shehyaaz Kha
 
 pragma solidity ^0.5.0;
 
-contract DRPReactionInterface {
+contract DRPInterface {
     address payable owner;
     
     constructor() public {
@@ -13,16 +13,16 @@ contract DRPReactionInterface {
     }
     
     modifier notOwner() {
-        require(owner != msg.sender, "Contract owner cannot call this function");
+        require(owner != msg.sender);
         _;
     }
     
-    function verifyAddress(address _addr) public view returns(bool){
+    function verifyDRPAddress(address _addr) external view returns(bool){
         return _addr == address(this);
     }
     
     /* this function destroys the contract */
-    function terminate() external {
+    function terminate() external notOwner{
         selfdestruct(owner);
     }
     
@@ -32,7 +32,6 @@ contract DRPReactionInterface {
     function trigger(
         uint256 _drpPrice,
         uint8 internal_misbehaviour,
-        uint8 contract_fund_payment,
-        uint8 den
+        uint8 contract_fund_payment
     ) external;
 }

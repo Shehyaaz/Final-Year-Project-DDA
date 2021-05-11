@@ -13,22 +13,22 @@ contract CheckInterface {
     }
     
     modifier onlyOwner() {
-        require(owner == msg.sender, "Only contract owner can access this function");
+        require(owner == msg.sender);
         _;
     }
     
-    function verifyAddress(address _addr) public view returns(bool){
+    function verifyCCPAddress(address _addr) external view returns(bool){
         return _addr == address(this);
     }
     
     /* this function destroys the contract */
-    function terminateCCP() public {
+    function terminateCCP() external onlyOwner{
         selfdestruct(owner);
     }
     
     /* 
     * This function must be implemented by a child contract.
-    *  First return value indicates if the certificate is valid, second value indicates if the signature is valid
+    * Return value indicates if the certificate is valid.
     */
     function check(
         bytes32[] calldata _ctLogIDs, 
@@ -37,5 +37,5 @@ contract CheckInterface {
         uint256 _maximum_merge_delay,
         uint256 _certValidFrom,
         uint256 _certValidTo
-    ) external returns(bool);
+    ) external view returns(bool);
 }

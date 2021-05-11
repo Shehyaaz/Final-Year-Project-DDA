@@ -35,24 +35,11 @@
 					{
 						"indexed": false,
 						"internalType": "bool",
-						"name": "_check",
+						"name": "_certValid",
 						"type": "bool"
 					}
 				],
 				"name": "CertChecked",
-				"type": "event"
-			},
-			{
-				"anonymous": false,
-				"inputs": [
-					{
-						"indexed": false,
-						"internalType": "address",
-						"name": "_domainAddr",
-						"type": "address"
-					}
-				],
-				"name": "DRPAlreadyPurchased",
 				"type": "event"
 			},
 			{
@@ -114,12 +101,6 @@
 						"internalType": "address",
 						"name": "_contract",
 						"type": "address"
-					},
-					{
-						"indexed": false,
-						"internalType": "bool",
-						"name": "status",
-						"type": "bool"
 					}
 				],
 				"name": "InvalidContract",
@@ -133,12 +114,6 @@
 						"internalType": "address",
 						"name": "_addr",
 						"type": "address"
-					},
-					{
-						"indexed": false,
-						"internalType": "bool",
-						"name": "_registered",
-						"type": "bool"
 					}
 				],
 				"name": "Registered",
@@ -152,12 +127,6 @@
 						"internalType": "address",
 						"name": "_addr",
 						"type": "address"
-					},
-					{
-						"indexed": false,
-						"internalType": "bool",
-						"name": "_updated",
-						"type": "bool"
 					}
 				],
 				"name": "Updated",
@@ -175,7 +144,7 @@
 					{
 						"indexed": false,
 						"internalType": "bool",
-						"name": "isCCP",
+						"name": "_isCCP",
 						"type": "bool"
 					}
 				],
@@ -248,15 +217,6 @@
 				"type": "function"
 			},
 			{
-				"constant": false,
-				"inputs": [],
-				"name": "close",
-				"outputs": [],
-				"payable": false,
-				"stateMutability": "nonpayable",
-				"type": "function"
-			},
-			{
 				"constant": true,
 				"inputs": [],
 				"name": "contractOwner",
@@ -301,7 +261,16 @@
 						"type": "uint256"
 					}
 				],
-				"name": "deleteDRP",
+				"name": "deleteDRPFromClientList",
+				"outputs": [],
+				"payable": false,
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"constant": false,
+				"inputs": [],
+				"name": "destroyContract",
 				"outputs": [],
 				"payable": false,
 				"stateMutability": "nonpayable",
@@ -340,7 +309,7 @@
 			{
 				"constant": false,
 				"inputs": [],
-				"name": "expire",
+				"name": "expireDRP",
 				"outputs": [],
 				"payable": false,
 				"stateMutability": "nonpayable",
@@ -381,11 +350,21 @@
 						"internalType": "uint256",
 						"name": "",
 						"type": "uint256"
-					},
+					}
+				],
+				"payable": false,
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"constant": true,
+				"inputs": [],
+				"name": "getClientDRPListLength",
+				"outputs": [
 					{
-						"internalType": "address",
+						"internalType": "uint256",
 						"name": "",
-						"type": "address"
+						"type": "uint256"
 					}
 				],
 				"payable": false,
@@ -401,7 +380,7 @@
 						"type": "uint256"
 					}
 				],
-				"name": "getDRPPurchaseDetails",
+				"name": "getDRPDetails",
 				"outputs": [
 					{
 						"internalType": "bytes32",
@@ -417,11 +396,21 @@
 						"internalType": "address",
 						"name": "",
 						"type": "address"
-					},
+					}
+				],
+				"payable": false,
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"constant": true,
+				"inputs": [],
+				"name": "getDRPStatus",
+				"outputs": [
 					{
-						"internalType": "uint8",
+						"internalType": "bool",
 						"name": "",
-						"type": "uint8"
+						"type": "bool"
 					}
 				],
 				"payable": false,
@@ -432,6 +421,21 @@
 				"constant": true,
 				"inputs": [],
 				"name": "isClientRegistered",
+				"outputs": [
+					{
+						"internalType": "bool",
+						"name": "",
+						"type": "bool"
+					}
+				],
+				"payable": false,
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"constant": true,
+				"inputs": [],
+				"name": "isDomainRegistered",
 				"outputs": [
 					{
 						"internalType": "bool",
@@ -656,31 +660,24 @@
 	},
 	"sources": {
 		"CheckInterface.sol": {
-			"keccak256": "0x52597daf0c3c58903c34ad3425c27e502bdb81658f24aed784fc588384e278f0",
+			"keccak256": "0x199529de84e3bc11276fd1776b5d3e8020cd3ba09cf74e1b0ffc877123c882c6",
 			"urls": [
-				"bzz-raw://576a7a5e4785444e8639b2af3757c01705046d73619523c0ad66ed1fe798573f",
-				"dweb:/ipfs/QmZzsQiufk7B7BKLtW8R7bepVuh13RPhVWWPn9VLdWUFGR"
+				"bzz-raw://06b85ad6bbef9b11dcebc2cff903a6775e646955a9fee900963e55c11f02a6cc",
+				"dweb:/ipfs/QmaLRmtUeYfaCVtBQEFDd9rWA7bLctekcLuF4abEVmLko6"
 			]
 		},
 		"DDA.sol": {
-			"keccak256": "0x0850ffe9a25ecd729ddd0cfc889463a54adf33445270d514c88f771cd1af38ef",
+			"keccak256": "0x65aa4360f8a5002eecf1d733825548ab5710e542e6bd8cbb25540bd8fc0d78c3",
 			"urls": [
-				"bzz-raw://58b9fea2737d962124db38563cbf83ec0b4794ce5d66c803382174a58914ae9b",
-				"dweb:/ipfs/QmPCjD3LgQGKphPjSaayMGkxrQL3JG3RRD7f94FS4wh6AS"
+				"bzz-raw://9d3cb495146664c51f7eb67af0d623e3ca0fd974660d5ae7fe2a733aa8726f7c",
+				"dweb:/ipfs/QmXvMnvU3ioFiGQs8LjNVD1mTpHUPfYVxpxsazrgfNp1MR"
 			]
 		},
-		"DRPReactionInterface.sol": {
-			"keccak256": "0xf94b3e15701bd390e056047a8698dec62b4ccab6c169895e2cca06663edf402c",
+		"DRPInterface.sol": {
+			"keccak256": "0x217052096217432b713470be2ba90583d96b867a9c63be3862a3e7c2c767ac0c",
 			"urls": [
-				"bzz-raw://26aa5e32f0a6d9619aa14919b18d134f38e07075a4db86280787d6d019cf249b",
-				"dweb:/ipfs/QmXtta7mfz7DoCmosnTV6q9soAeehpUBVh4NdNvXjgzFAy"
-			]
-		},
-		"SafeMath.sol": {
-			"keccak256": "0x52c4460562c8f74035a0e1f85becacf75157eb72c829143505422f92ee7254a2",
-			"urls": [
-				"bzz-raw://5fce72bc05522d0b12e0685dfc5abdcadf0dfeb1945247c0aec047a3a7650723",
-				"dweb:/ipfs/QmQhNBeRezXp7iG59xYX8bw8SZEqj4ETNWHodHyYBznnrC"
+				"bzz-raw://25ddd6353f04eb3c3cf4c7e14340e1200138683c45a09d84cdc9d440dd65c373",
+				"dweb:/ipfs/QmUaXHwcgPWksZr7pVLTjUFQ73JjU3696JC4g2hgDADjB7"
 			]
 		}
 	},

@@ -12,7 +12,7 @@
 				"type": "constructor"
 			},
 			{
-				"constant": false,
+				"constant": true,
 				"inputs": [
 					{
 						"internalType": "bytes32[]",
@@ -54,7 +54,7 @@
 					}
 				],
 				"payable": false,
-				"stateMutability": "nonpayable",
+				"stateMutability": "view",
 				"type": "function"
 			},
 			{
@@ -75,7 +75,7 @@
 						"type": "address"
 					}
 				],
-				"name": "verifyAddress",
+				"name": "verifyCCPAddress",
 				"outputs": [
 					{
 						"internalType": "bool",
@@ -109,10 +109,10 @@
 	},
 	"sources": {
 		"CheckInterface.sol": {
-			"keccak256": "0x52597daf0c3c58903c34ad3425c27e502bdb81658f24aed784fc588384e278f0",
+			"keccak256": "0x199529de84e3bc11276fd1776b5d3e8020cd3ba09cf74e1b0ffc877123c882c6",
 			"urls": [
-				"bzz-raw://576a7a5e4785444e8639b2af3757c01705046d73619523c0ad66ed1fe798573f",
-				"dweb:/ipfs/QmZzsQiufk7B7BKLtW8R7bepVuh13RPhVWWPn9VLdWUFGR"
+				"bzz-raw://06b85ad6bbef9b11dcebc2cff903a6775e646955a9fee900963e55c11f02a6cc",
+				"dweb:/ipfs/QmaLRmtUeYfaCVtBQEFDd9rWA7bLctekcLuF4abEVmLko6"
 			]
 		}
 	},
