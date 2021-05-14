@@ -12,6 +12,7 @@ import { withStyles } from "@material-ui/core/styles";
 import logo from "../assets/metamask.svg";
 import getWeb3 from "../utils/getWeb3";
 import AppContext from "../context/AppContext";
+import DDA from "./contracts/DDA.json";
 
 const useStyles = theme => ({
   root: {
@@ -63,13 +64,12 @@ class HomePage extends Component {
 			const accounts = await web3.eth.getAccounts();
 	
 			// Get the contract instance.
-			//const networkId = await web3.eth.net.getId();
-			// const deployedNetwork = SimpleStorageContract.networks[networkId];
-			const instance = 10;
-			// const instance = new web3.eth.Contract(
-			// 	SimpleStorageContract.abi,
-			// 	deployedNetwork && deployedNetwork.address,
-			// );
+			const networkId = await web3.eth.net.getId();
+			const deployedNetwork = DDA.networks[networkId];
+			const instance = new web3.eth.Contract(
+				DDA.abi,
+				deployedNetwork && deployedNetwork.address,
+			);
 		
 			if( web3 != null && accounts != null && instance != null  ){
 				// update context

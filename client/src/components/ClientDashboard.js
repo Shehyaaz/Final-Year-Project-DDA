@@ -58,7 +58,7 @@ class ClientDashboard extends Component {
             openRegistrationForm: false,
             openPurchaseForm: false,
             drpList: [],
-            domains: [{name: "google.com", price: 1}, {name: "facebook.com", price: 2}]
+            domains: []
         }
 		this.handleRegisterCCP = this.handleRegisterCCP.bind(this);
         this.handlePurchaseDRP = this.handlePurchaseDRP.bind(this);
@@ -109,7 +109,16 @@ class ClientDashboard extends Component {
         // TODO: check if client is already registered, get drp list, domain list and update state
         this.setState({
             account: this.context.account
-        });        
+        }); 
+        const isRegistered = await this.context.contract.methods.isClientRegistered();
+        if(isRegistered){
+            const drpListLength = await this.context.contract.methods.getClientDRPListLength();
+            if (drpListLength > 0){
+                for(let i=0; i < drpListLength; i++){
+                    
+                }
+            }
+        }       
     }
 
     componentDidUpdate(prevProps, prevState){

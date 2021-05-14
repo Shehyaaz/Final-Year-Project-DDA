@@ -16,7 +16,7 @@ contract DDA {
     /* contract owner address */
     address payable public contractOwner;
     
-    /* Parameters used to determine various payments in this contract
+    /* Parameters used to determine various payments in this contract.
        The common denominator for all parameters is 10
     */
     uint8 constant private escrow = 5; // escrow parameter(alpha) = 50% (NOTE: escrow parameter < 62.5 % given the below set of parameters)
@@ -74,8 +74,6 @@ contract DDA {
     event Updated(address _addr);
     event DRPpurchased(address _clientAddr, address _domainAddr, uint256 _amount);
     event CertChecked(address _clientAddr, address _domainAddr, bool _certValid);
-    event InvalidContract(address _contract);
-    event ValidityError(address  _contract, bool _isCCP);
     event DRPExpired(address _domainAddr);
     event DRPDeleted(address _domainAddr);
     
@@ -106,17 +104,15 @@ contract DDA {
     }
     
     function updateClient(
-        uint256 _validFrom,
         uint256 _validTo,
         address _checkContract
     ) external payable{
         require(clients[msg.sender].ccp.clientName != "" &&
-            _validTo > _validFrom &&
+            _validTo > clients[msg.sender].ccp.validFrom &&
             msg.value == client_update_fee &&
             CheckInterface(_checkContract).verifyCCPAddress(_checkContract)
         );
         
-        clients[msg.sender].ccp.validFrom = _validFrom;
         clients[msg.sender].ccp.validTo = _validTo;
         clients[msg.sender].ccp.checkContract = _checkContract;
         
@@ -140,7 +136,7 @@ contract DDA {
             DRPInterface(_reactContract).verifyDRPAddress(_reactContract)
         );
         
-        domainDRPs[msg.sender] = DRP(_domainName, _issuerName, _validFrom, _validTo, _drpPrice, msg.sender, _reactContract, uint8(_version));
+        domainDRPs[msg.sender] = DRP(_domainName, _issuerName, _validFrom, _validTo, _drpPrice, msg.sender, _reactContract, _version);
         registeredDomains.push(msg.sender); // add domain address to list of registered addresses
         
         emit Registered(msg.sender);
@@ -148,20 +144,18 @@ contract DDA {
     
     function updateDomain(
         bytes32 _issuerName,
-        uint256 _validFrom,
         uint256 _validTo,
         uint256 _drpPrice,
         address _reactContract
     ) external payable{
         require(domainDRPs[msg.sender].domainName != "" &&
             _issuerName != "" &&
-            _validTo > _validFrom &&
+            _validTo > domainDRPs[msg.sender].validFrom &&
             msg.value == domain_update_fee &&
             DRPInterface(_reactContract).verifyDRPAddress(_reactContract)
         );
         
         domainDRPs[msg.sender].issuerName = _issuerName;
-        domainDRPs[msg.sender].validFrom = _validFrom;
         domainDRPs[msg.sender].validTo = _validTo;
         domainDRPs[msg.sender].drpPrice = _drpPrice;
         domainDRPs[msg.sender].reactContract = _reactContract;
@@ -171,7 +165,8 @@ contract DDA {
     
     function purchaseDRP(address payable _domainAddr) external payable {
         DRP memory drp = domainDRPs[_domainAddr];
-        require(clients[msg.sender].drpList[_domainAddr].domainName == "" &&
+        require(clients[msg.sender].ccp.clientName != "" &&
+            clients[msg.sender].drpList[_domainAddr].domainName == "" &&
             DRPInterface(drp.reactContract).verifyDRPAddress(drp.reactContract) &&
             msg.value == drp.drpPrice
         );
@@ -196,25 +191,13 @@ contract DDA {
         uint256 certValidTo
     ) external {
         CCP memory ccp = clients[msg.sender].ccp;
-        require(ccp.clientAddress == msg.sender &&
-            _drpIndex < clients[msg.sender].purchasedDRP.length
-        );
-        if(ccp.validFrom > now || ccp.validTo < now){
-            emit ValidityError(ccp.checkContract, true);
-            return;
-        }
-        
         DRP memory drp = clients[msg.sender].drpList[clients[msg.sender].purchasedDRP[_drpIndex]];
-        if(drp.validFrom > now || drp.validTo < now){
-            emit ValidityError(drp.reactContract, false);
-            return;
-        }
-        
         DRPInterface reactContract = DRPInterface(drp.reactContract);
-        if( !reactContract.verifyDRPAddress(drp.reactContract)){
-            emit InvalidContract(drp.reactContract);
-            return;
-        }
+        require(ccp.clientAddress == msg.sender &&
+            ccp.validTo >= now &&
+            drp.validTo >= now &&
+            reactContract.verifyDRPAddress(drp.reactContract)
+        );
         
         bool status = CheckInterface(ccp.checkContract).check(ctLogIDs, sctLogID, sctTimestamp, maximum_merge_delay, certValidFrom, certValidTo);
         
@@ -250,11 +233,9 @@ contract DDA {
     
     /* delete DRP from client DRP list */
     function deleteDRPFromClientList(uint256 _drpIndex) public{
-        uint256 drpListLength = clients[msg.sender].purchasedDRP.length;
-        require(_drpIndex < drpListLength &&
-            clients[msg.sender].ccp.clientName != ""
-        );
+        require(clients[msg.sender].ccp.clientName != "");
         
+        uint256 drpListLength = clients[msg.sender].purchasedDRP.length;
         address domainAddr = clients[msg.sender].purchasedDRP[_drpIndex];
         clients[msg.sender].purchasedDRP[_drpIndex] = clients[msg.sender].purchasedDRP[drpListLength - 1];
         clients[msg.sender].purchasedDRP.length = drpListLength - 1;
@@ -286,10 +267,38 @@ contract DDA {
         return domainDRPs[msg.sender].domainName != "";
     }
     
+    /* get client details */
+    function getClientDetails() external view returns(bytes32, uint256, uint256, address, address, uint8){
+        CCP memory ccp = clients[msg.sender].ccp;
+        require(ccp.clientName != "");
+        return (
+            ccp.clientName,
+            ccp.validFrom,
+            ccp.validTo,
+            ccp.clientAddress,
+            ccp.checkContract,
+            ccp.version
+        );
+    }
+    
+    /* get domainName details */
+    function getDomainDetails() external view returns(bytes32, bytes32, uint256, uint256, uint256, address, address, uint8){
+        DRP memory drp = domainDRPs[msg.sender];
+        require(drp.domainName != "");
+        return (
+            drp.domainName,
+            drp.issuerName,
+            drp.validFrom,
+            drp.validTo,
+            drp.drpPrice,
+            drp.domainAddress,
+            drp.reactContract,
+            drp.version
+        );
+    }
+    
     /* get details needed to purchase a DRP */
     function getDRPDetails(uint256 _drpIndex) external view returns(bytes32, uint256, address){
-        require(_drpIndex < registeredDomains.length);
-        
         DRP memory drp = domainDRPs[registeredDomains[_drpIndex]];
         if(drp.validTo >= now && DRPInterface(drp.reactContract).verifyDRPAddress(drp.reactContract))
             return (
@@ -306,8 +315,6 @@ contract DDA {
     
     /* get client DRP list details */
     function getClientDRPList(uint256 _drpIndex) external view returns(bytes32, uint256, uint256, uint256, uint256){
-        require(_drpIndex < clients[msg.sender].purchasedDRP.length);
-        
         address drpAddr = clients[msg.sender].purchasedDRP[_drpIndex];
         DRP memory drp = clients[msg.sender].drpList[drpAddr];
         return (
@@ -319,10 +326,22 @@ contract DDA {
         );
     }
     
+    /* get CCP status */
+    function getCCPStatus() external view returns(bool){
+        CCP memory ccp = clients[msg.sender].ccp;
+        require(ccp.clientName != "");
+        return ccp.validTo >= now && CheckInterface(ccp.checkContract).verifyCCPAddress(ccp.checkContract) ;
+    }
+    
     /* get DRP status */
     function getDRPStatus() external view returns(bool){
         DRP memory drp = domainDRPs[msg.sender];
         return drp.validTo > now && DRPInterface(drp.reactContract).verifyDRPAddress(drp.reactContract);
+    }
+    
+    /* get Domain escrow amount */
+    function getEscrowAmount() external view returns(uint256){
+        return escrowedAmount[msg.sender];
     }
     
     /* function to delete smart contract from blockchain */

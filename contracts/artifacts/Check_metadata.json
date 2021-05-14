@@ -69,7 +69,7 @@
 						"type": "address"
 					}
 				],
-				"name": "verifyAddress",
+				"name": "verifyCCPAddress",
 				"outputs": [
 					{
 						"internalType": "bool",
@@ -110,10 +110,10 @@
 			]
 		},
 		"CheckInterface.sol": {
-			"keccak256": "0xc0f81d0b88ac242a4f131247e2b8d4482e62b885c54362ee3d5d3f3f6312f227",
+			"keccak256": "0x199529de84e3bc11276fd1776b5d3e8020cd3ba09cf74e1b0ffc877123c882c6",
 			"urls": [
-				"bzz-raw://2cf6ef25e28fc7bcde3933ef6b7362937fe1d8705d055a39a4c418d8298e35bb",
-				"dweb:/ipfs/QmWpQN2VBY1P7V5zL5ax54ELqyAjtgsgcGhGLPWXmWK1Q6"
+				"bzz-raw://06b85ad6bbef9b11dcebc2cff903a6775e646955a9fee900963e55c11f02a6cc",
+				"dweb:/ipfs/QmaLRmtUeYfaCVtBQEFDd9rWA7bLctekcLuF4abEVmLko6"
 			]
 		}
 	},

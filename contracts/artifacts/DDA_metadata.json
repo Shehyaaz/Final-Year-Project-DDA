@@ -99,19 +99,6 @@
 					{
 						"indexed": false,
 						"internalType": "address",
-						"name": "_contract",
-						"type": "address"
-					}
-				],
-				"name": "InvalidContract",
-				"type": "event"
-			},
-			{
-				"anonymous": false,
-				"inputs": [
-					{
-						"indexed": false,
-						"internalType": "address",
 						"name": "_addr",
 						"type": "address"
 					}
@@ -130,25 +117,6 @@
 					}
 				],
 				"name": "Updated",
-				"type": "event"
-			},
-			{
-				"anonymous": false,
-				"inputs": [
-					{
-						"indexed": false,
-						"internalType": "address",
-						"name": "_contract",
-						"type": "address"
-					},
-					{
-						"indexed": false,
-						"internalType": "bool",
-						"name": "_isCCP",
-						"type": "bool"
-					}
-				],
-				"name": "ValidityError",
 				"type": "event"
 			},
 			{
@@ -317,6 +285,21 @@
 			},
 			{
 				"constant": true,
+				"inputs": [],
+				"name": "getCCPStatus",
+				"outputs": [
+					{
+						"internalType": "bool",
+						"name": "",
+						"type": "bool"
+					}
+				],
+				"payable": false,
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"constant": true,
 				"inputs": [
 					{
 						"internalType": "uint256",
@@ -373,6 +356,46 @@
 			},
 			{
 				"constant": true,
+				"inputs": [],
+				"name": "getClientDetails",
+				"outputs": [
+					{
+						"internalType": "bytes32",
+						"name": "",
+						"type": "bytes32"
+					},
+					{
+						"internalType": "uint256",
+						"name": "",
+						"type": "uint256"
+					},
+					{
+						"internalType": "uint256",
+						"name": "",
+						"type": "uint256"
+					},
+					{
+						"internalType": "address",
+						"name": "",
+						"type": "address"
+					},
+					{
+						"internalType": "address",
+						"name": "",
+						"type": "address"
+					},
+					{
+						"internalType": "uint8",
+						"name": "",
+						"type": "uint8"
+					}
+				],
+				"payable": false,
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"constant": true,
 				"inputs": [
 					{
 						"internalType": "uint256",
@@ -411,6 +434,71 @@
 						"internalType": "bool",
 						"name": "",
 						"type": "bool"
+					}
+				],
+				"payable": false,
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"constant": true,
+				"inputs": [],
+				"name": "getDomainDetails",
+				"outputs": [
+					{
+						"internalType": "bytes32",
+						"name": "",
+						"type": "bytes32"
+					},
+					{
+						"internalType": "bytes32",
+						"name": "",
+						"type": "bytes32"
+					},
+					{
+						"internalType": "uint256",
+						"name": "",
+						"type": "uint256"
+					},
+					{
+						"internalType": "uint256",
+						"name": "",
+						"type": "uint256"
+					},
+					{
+						"internalType": "uint256",
+						"name": "",
+						"type": "uint256"
+					},
+					{
+						"internalType": "address",
+						"name": "",
+						"type": "address"
+					},
+					{
+						"internalType": "address",
+						"name": "",
+						"type": "address"
+					},
+					{
+						"internalType": "uint8",
+						"name": "",
+						"type": "uint8"
+					}
+				],
+				"payable": false,
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"constant": true,
+				"inputs": [],
+				"name": "getEscrowAmount",
+				"outputs": [
+					{
+						"internalType": "uint256",
+						"name": "",
+						"type": "uint256"
 					}
 				],
 				"payable": false,
@@ -583,11 +671,6 @@
 				"inputs": [
 					{
 						"internalType": "uint256",
-						"name": "_validFrom",
-						"type": "uint256"
-					},
-					{
-						"internalType": "uint256",
 						"name": "_validTo",
 						"type": "uint256"
 					},
@@ -610,11 +693,6 @@
 						"internalType": "bytes32",
 						"name": "_issuerName",
 						"type": "bytes32"
-					},
-					{
-						"internalType": "uint256",
-						"name": "_validFrom",
-						"type": "uint256"
 					},
 					{
 						"internalType": "uint256",
@@ -667,10 +745,10 @@
 			]
 		},
 		"DDA.sol": {
-			"keccak256": "0x65aa4360f8a5002eecf1d733825548ab5710e542e6bd8cbb25540bd8fc0d78c3",
+			"keccak256": "0xa302890661838367d893149c11f788a35e2e47c5b6329270804e7a3286dbc753",
 			"urls": [
-				"bzz-raw://9d3cb495146664c51f7eb67af0d623e3ca0fd974660d5ae7fe2a733aa8726f7c",
-				"dweb:/ipfs/QmXvMnvU3ioFiGQs8LjNVD1mTpHUPfYVxpxsazrgfNp1MR"
+				"bzz-raw://64c26b1d005d3ee089f68649c2f41c9689ba564cdf8ba1621bd074dba920e4e7",
+				"dweb:/ipfs/QmeszpkvMyQKMALzQWNGmzuHVq2mHGTdwCL76AvXpiKBWk"
 			]
 		},
 		"DRPInterface.sol": {
