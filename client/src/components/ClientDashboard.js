@@ -63,20 +63,24 @@ class ClientDashboard extends Component {
 		this.handleRegisterCCP = this.handleRegisterCCP.bind(this);
         this.handlePurchaseDRP = this.handlePurchaseDRP.bind(this);
         this.handleDRPCheck = this.handleDRPCheck.bind(this);
+        this.getBlockChainData = this.getBlockChainData.bind(this);
 	}
 
-    handleDRPCheck(domainName){
-        alert("Checked "+domainName);
+    handleDRPCheck(drpIndex){
+        alert("Checked "+drpIndex);
     }
 
     DataRow = row => (
-        <TableRow key={row.domainName}>
+        <TableRow key={row.drpIndex}>
           <TableCell>{row.domainName}</TableCell>
+          <TableCell>{row.validFrom}</TableCell>
+          <TableCell>{row.validTo}</TableCell>
+          <TableCell>{row.drpPrice}</TableCell>
           <TableCell>{row.lastChecked}</TableCell>
           <TableCell>
               <Button color="secondary" size="small" endIcon={<VerifiedUserOutlined/>}
                 disableElevation
-                onClick= {() => this.handleDRPCheck(row.domainName)}
+                onClick= {() => this.handleDRPCheck(row.drpIndex)}
               >
                   Check
               </Button>
@@ -105,20 +109,24 @@ class ClientDashboard extends Component {
         // TODO: send details to Blockchain
     }
 
+    async getBlockChainData(){
+        const isRegistered = await this.context.contract.methods.isClientRegistered();
+        const drpList = [];
+        if(isRegistered){
+            const drpListLength = await this.context.contract.methods.getClientDRPListLength();
+            for(let i=0; i < drpListLength; i++){
+                const [domainName, validFrom, validTo, drpPrice, lastChecked] = await this.context.contract.methods.getClientDRPList(i); // an array of values is returned
+                // TODO: convert return values to appropriate type(bytes32 to string)
+            }
+        }
+    }
+
     componentDidMount(){
         // TODO: check if client is already registered, get drp list, domain list and update state
         this.setState({
             account: this.context.account
-        }); 
-        const isRegistered = await this.context.contract.methods.isClientRegistered();
-        if(isRegistered){
-            const drpListLength = await this.context.contract.methods.getClientDRPListLength();
-            if (drpListLength > 0){
-                for(let i=0; i < drpListLength; i++){
-                    
-                }
-            }
-        }       
+        });
+        this.getBlockChainData();       
     }
 
     componentDidUpdate(prevProps, prevState){
