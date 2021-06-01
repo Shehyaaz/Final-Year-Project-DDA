@@ -124,6 +124,13 @@ class Dashboard extends Component {
                 account: accounts[0]
             });
         });
+        window.onbeforeunload = (event) => {
+            event.preventDefault();
+            event.returnValue = "";
+        };
+        window.onunload = (event) => {
+            this.handleLogout();
+        }
     }
 
     componentWillUnmount(){

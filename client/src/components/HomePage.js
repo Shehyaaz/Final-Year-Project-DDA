@@ -12,7 +12,7 @@ import { withStyles } from "@material-ui/core/styles";
 import logo from "../assets/metamask.svg";
 import getWeb3 from "../utils/getWeb3";
 import AppContext from "../context/AppContext";
-import DDA from "./contracts/DDA.json";
+import DDA from "../contracts/DDA.json";
 
 const useStyles = theme => ({
   root: {
@@ -59,7 +59,7 @@ class HomePage extends Component {
 		try {
 			// Get network provider and web3 instance.
 			const web3 = await getWeb3();
-			
+
 			// Use web3 to get the user's accounts.
 			const accounts = await web3.eth.getAccounts();
 	
@@ -70,8 +70,8 @@ class HomePage extends Component {
 				DDA.abi,
 				deployedNetwork && deployedNetwork.address,
 			);
-		
-			if( web3 != null && accounts != null && instance != null  ){
+			
+			if( web3 != null && accounts != null && instance != null ){
 				// update context
 				this.context.setContext({
 					web3: web3, 

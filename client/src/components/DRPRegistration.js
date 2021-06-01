@@ -14,17 +14,17 @@ import {
 import {
   Alert
 } from "@material-ui/lab";
-import { withStyles } from "@material-ui/core/styles";
+//import { withStyles } from "@material-ui/core/styles";
 import { siteKey } from "../utils/constants";
 import AppContext from '../context/AppContext';
 import getCertDetails from '../utils/getCertDetails';
 
-const useStyles = theme => ({
-  uploadButton: {
-    marginTop: theme.spacing(2),
-    marginBottom: theme.spacing(2),
-  },
-});
+// const useStyles = theme => ({
+//   uploadButton: {
+//     marginTop: theme.spacing(2),
+//     marginBottom: theme.spacing(2),
+//   },
+// });
 
 class DRPRegistration extends Component {
 	constructor(props){
@@ -36,7 +36,7 @@ class DRPRegistration extends Component {
       errorMessage: '',
       domainName: '',
       issuer: '',
-      version: 0,
+      version: 1,
       validFrom: new Date().toISOString().split("T")[0],
       validTo: new Date().toISOString().split("T")[0],
       drpAddress: '',
@@ -91,8 +91,6 @@ class DRPRegistration extends Component {
       errorMessage = "Issuer name is invalid!";
     else if(domainDetails.issuer.search(domainDetails.domainName) === -1)
       errorMessage = "Domain must be a sub-domain of DRP issuer!";
-    else if(isNaN(domainDetails.version) || parseFloat(domainDetails.version) % 1 !== 0 || parseFloat(domainDetails.version) <= 0)
-      errorMessage = "Version must be a positive number such as 1, 2, etc. !";
     else if(isNaN(domainDetails.price) || parseFloat(domainDetails.price) <= 0)
       errorMessage = "Invalid or negative price!";
     else if(new Date(domainDetails.validFrom).getTime() >= new Date(domainDetails.validTo).getTime())
@@ -132,11 +130,11 @@ class DRPRegistration extends Component {
     });
   }
 
-  updateFileName = (event) => {
-    this.setState({
-      certFile: event.target.files[0]
-    });
-  }
+  // updateFileName = (event) => {
+  //   this.setState({
+  //     certFile: event.target.files[0]
+  //   });
+  // }
 
   componentDidMount(){
     if(this.props.update){
@@ -145,10 +143,10 @@ class DRPRegistration extends Component {
   }
 
   render() { 
-    const classes = this.props.classes;
+    //const classes = this.props.classes;
     const {isVerified, agree, error, errorMessage, certFile, ...domainDetails} = {...this.state};
     const buttonDisabled = !(isVerified && agree && domainDetails.domainName && domainDetails.issuer
-                              && domainDetails.version && domainDetails.drpAddress
+                              && domainDetails.drpAddress
                               && domainDetails.price && certFile);
     domainDetails.domainPay = this.context.account;
   	return (
@@ -184,8 +182,10 @@ class DRPRegistration extends Component {
           <TextField
             variant="outlined" margin="normal" required fullWidth
             label="Version" name="version"
-            value={domainDetails.version ? domainDetails.version : ''}
-            onChange={this.updateFormState}  
+            value={domainDetails.version}
+            InputProps={{
+              readOnly: true
+            }}
           />
           <Grid container direction="row" spacing={2}>
             <Grid item xs={12} sm={6}>
@@ -197,6 +197,9 @@ class DRPRegistration extends Component {
                   onChange={this.updateFormState}
                   fullWidth 
                   required
+                  InputProps={{
+                    readOnly: this.props.update
+                  }}
                 />
             </Grid>
             <Grid item xs={12} sm={6}>
@@ -233,7 +236,7 @@ class DRPRegistration extends Component {
                 fullWidth
               />
             </Grid>
-            <Grid item xs={12} sm={3}>
+            {/* <Grid item xs={12} sm={3}>
               <Button
                 variant="contained"
                 color="primary"
@@ -250,7 +253,7 @@ class DRPRegistration extends Component {
                   onClick={e => e.target.value = ""}
                 />
               </Button>
-            </Grid>
+            </Grid> */}
           </Grid>
           <div>
             <input type="checkbox" name="agree" checked={agree} onChange={this.checkboxHandler} />
@@ -284,6 +287,7 @@ class DRPRegistration extends Component {
 }
 
 DRPRegistration.contextType = AppContext;
-export default withStyles(useStyles,{ withTheme: true })(DRPRegistration);
+//export default withStyles(useStyles,{ withTheme: true })(DRPRegistration);
+export default DRPRegistration;
 
 

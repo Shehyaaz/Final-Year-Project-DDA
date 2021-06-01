@@ -63,12 +63,10 @@ class ClientDashboard extends Component {
 		this.handleRegisterCCP = this.handleRegisterCCP.bind(this);
         this.handlePurchaseDRP = this.handlePurchaseDRP.bind(this);
         this.handleDRPCheck = this.handleDRPCheck.bind(this);
-        this.getBlockChainData = this.getBlockChainData.bind(this);
+        this.getClientData = this.getClientData.bind(this);
+        this.getDRPDetails = this.getDRPDetails.bind(this);
+        this.checkCCPStatus = this.checkCCPStatus.bind(this);
 	}
-
-    handleDRPCheck(drpIndex){
-        alert("Checked "+drpIndex);
-    }
 
     DataRow = row => (
         <TableRow key={row.drpIndex}>
@@ -80,60 +78,270 @@ class ClientDashboard extends Component {
           <TableCell>
               <Button color="secondary" size="small" endIcon={<VerifiedUserOutlined/>}
                 disableElevation
-                onClick= {() => this.handleDRPCheck(row.drpIndex)}
+                onClick= {() => this.handleDRPCheck(row.domainName, row.drpIndex)}
               >
                   Check
               </Button>
           </TableCell>
         </TableRow>
     );
-    
-    handleRegisterCCP(clientDetails){
+
+    async handleDRPCheck(domainName, drpIndex){
         this.setState({
-            //isLoading: true,
+            isLoading: true
+        });
+        fetch("/getsct?domainName="+domainName)
+        .then((res) => {
+            if(res.ok){
+                return res.json();
+            }
+            throw new Error(res);
+        })
+        .then((res) => {
+            // call check certificate function from contract
+            const sctLogID = res.sctList.map(sct => sct.logID);
+            const sctTimestamp = res.sctList.map(sct => sct.timestamp);
+            this.context.contract.checkCertificate(
+                drpIndex,
+                sctLogID,
+                sctTimestamp,
+                res.certValidFrom,
+                res.certValidTo
+            ).send({
+                from: this.state.account
+            })
+            .on("receipt", (receipt) => {
+                // certificate check was executed
+                if(receipt.events.CertChecked && receipt.events.CertChecked.returnValues._certValid){
+                    alert(domainName+" certificate is Valid");
+                    this.setState({
+                        isLoading: false
+                    });
+                }
+                else{
+                    alert(domainName+" has an INVALID certificate !");
+                    await this.getClientData();
+                    this.setState({
+                        isLoading: false
+                    });
+                }
+            })
+            .on("error", () => {
+                // certificate check was not executed
+                if(confirm("Please check CCP and purchased DRP validity. If found valid, this DRP has been terminated. Delete this DRP ?")){
+                    this.context.contract.deleteDRPFromClientList(drpIndex).send({
+                        from: this.state.account
+                    })
+                    .on("receipt", (receipt) => {
+                        if(receipt.events.DRPDeleted && receipt.events.DRPDeleted.returnValues._domainAddr){
+                            alert(domainName+" DRP deleted successfully");
+                            this.setState({
+                                isLoading: false
+                            });
+                        }
+                        else {
+                            alert("Could not delete DRP :(");
+                            this.setState({
+                                isLoading: false
+                            });
+                        }
+                    })
+                    .on("error", ()=>{
+                        alert("An error has occurred :(");
+                        this.setState({
+                            isLoading: false
+                        });
+                    });
+                }
+            });
+        })
+        .catch((err) => {
+            alert("An error occurred: "+err);
+            this.setState({
+                isLoading: false
+            });
+        });
+    }
+    
+    async handleRegisterCCP(clientDetails){
+        this.setState({
+            isLoading: true,
             openRegistrationForm: false
         });
-        console.log(clientDetails);
-        // TODO: send details to Blockchain
-        this.state.isRegistered
-        ? console.log("Updated CCP")
-        : console.log("Registered CCP");
-    }
-
-    handlePurchaseDRP(domainName){
-        this.setState({
-            //isLoading: true,
-            openPurchaseForm: false
-        });
-        console.log("Purchased DRP: "+domainName);
-        // TODO: send details to Blockchain
-    }
-
-    async getBlockChainData(){
-        const isRegistered = await this.context.contract.methods.isClientRegistered();
-        const drpList = [];
-        if(isRegistered){
-            const drpListLength = await this.context.contract.methods.getClientDRPListLength();
-            for(let i=0; i < drpListLength; i++){
-                const [domainName, validFrom, validTo, drpPrice, lastChecked] = await this.context.contract.methods.getClientDRPList(i); // an array of values is returned
-                // TODO: convert return values to appropriate type(bytes32 to string)
+        if(this.state.isRegistered){
+            // get update fee from blockchain
+            const updateFee = await this.context.contract.client_update_fee;
+            // update client details
+            try{
+                this.context.contract.methods.updateClient(
+                    Math.floor(new Date(clientDetails.validTo).getTime()/1000),
+                    clientDetails.ccpAddress
+                ).send({
+                    from: this.state.account,
+                    value: updateFee
+                })
+                .on("receipt", () => {
+                    alert(clientDetails.clientName+" details updated successfully !");
+                    this.setState({
+                        isLoading: false
+                    });
+                })
+                .on("error", () => {
+                    alert(clientDetails.clientName+" updation failed !");
+                    this.setState({
+                        isLoading: false
+                    });
+                });
+            }catch(err){
+                alert(clientDetails.clientName+" updation failed !");
+                this.setState({
+                    isLoading: false
+                });
+            }
+        }
+        else{
+            // get update fee from blockchain
+            const registerFee = await this.context.contract.client_registration_fee;
+            // register client details
+            try{
+                this.context.contract.methods.registerClient(
+                    this.context.web3.utils.utf8ToHex(clientDetails.clientName),
+                    Math.floor(new Date(clientDetails.validFrom).getTime()/1000),
+                    Math.floor(new Date(clientDetails.validTo).getTime()/1000),
+                    clientDetails.ccpAddress,
+                    clientDetails.version
+                ).send({
+                    from: this.state.account,
+                    value: registerFee
+                })
+                .on("receipt", () => {
+                    alert(clientDetails.clientName+" registered successfully !");
+                    this.setState({
+                        isLoading: false
+                    });
+                })
+                .on("error", () => {
+                    alert(clientDetails.clientName+" registration failed !");
+                    this.setState({
+                        isLoading: false
+                    });
+                });
+            }catch(err){
+                alert(clientDetails.clientName+" registration failed !");
+                this.setState({
+                    isLoading: false
+                }); 
             }
         }
     }
 
-    componentDidMount(){
-        // TODO: check if client is already registered, get drp list, domain list and update state
+    async handlePurchaseDRP(domain){
         this.setState({
-            account: this.context.account
+            isLoading: true,
+            openPurchaseForm: false
         });
-        this.getBlockChainData();       
+        try{
+            this.context.contract.methods.purchaseDRP(domain.domainAddress).send({
+                from: this.state.account,
+                value: parseInt(this.context.web3.utils.toWei(domain.drpPrice, "ether"))
+            })
+            .on("receipt", () => {
+                alert("Successfully purchased "+domain.domainName+" DRP");
+                this.setState({
+                    isLoading: false
+                });
+            })
+            .on("error", () => {
+                alert("Purchase failed :(");
+                this.setState({
+                    isLoading: false
+                });
+            });
+        }catch(err){
+            alert("Purchase failed :(");
+            this.setState({
+                isLoading: false
+            }); 
+        }
+    }
+
+    async checkCCPStatus(){
+        this.setState({
+            isLoading: true
+        });
+        const ccpStatus = await this.context.contract.methods.getCCPStatus().call();
+        if(ccpStatus){
+            alert("CCP valid :)");
+        }
+        else{
+            alert("CCP has expired :(");
+        }
+        this.setState({
+            isLoading: false
+        });
+    }
+
+    async getClientData(){
+        const isRegistered = await this.context.contract.methods.isClientRegistered().call();
+        const drpList = [];
+        if(isRegistered){
+            const drpListLength = await this.context.contract.methods.getClientDRPListLength().call();
+            for(let i=0; i < drpListLength; i++){
+                const [domainName, validFrom, validTo, drpPrice, lastChecked] = await this.context.contract.methods.getClientDRPList(i).call(); // an array of values is returned
+                drpList.push({
+                    domainName: this.context.web3.utils.hexToUtf8(domainName),
+                    validFrom: new Date(validFrom).toISOString().split("T")[0],
+                    validTo: new Date(validTo).toISOString().split("T")[0],
+                    drpPrice: parseFloat(this.context.web3.utils.fromWei(drpPrice, "ether")),
+                    lastChecked: lastChecked > 0 ? new Date(lastChecked).toISOString().split("T")[0] : "-"
+                });
+            }
+        }
+        this.setState({
+            isRegistered,
+            drpList
+        });
+    }
+
+    async getDRPDetails(){
+        const domains = [];
+        const drpNum = await this.context.contract.methods.getNumDRP().call();
+        for(let i = 0; i < drpNum; i++){
+            const [domainName, drpPrice, domainAddress] = await this.context.contract.methods.getDRPDetails(i).call(); // an array of values is returned
+            domains.push({
+                domainName: this.context.web3.utils.hexToUtf8(domainName),
+                drpPrice: parseFloat(this.context.web3.utils.fromWei(drpPrice, "ether")),
+                domainAddress
+            });
+        }
+        this.setState({
+            domains
+        });
+    }
+
+    componentDidMount = async() => {
+        this.setState({
+            account: this.context.account,
+            isLoading: true
+        });
+        await this.getClientData();
+        await this.getDRPDetails();
+        await this.watchBlockChainEvents(); 
+        this.setState({
+            isLoading: false
+        });    
     }
 
     componentDidUpdate(prevProps, prevState){
         if(prevState.account !== this.context.account){
-            // TODO: get client data when ethereum account is changed
             this.setState({
-                account: this.context.account
+                account: this.context.account,
+                isLoading: true
+            });
+            this.getClientData().then(() => {
+                this.setState({
+                    isLoading: false
+                });
             });
         }
     }
@@ -169,17 +377,27 @@ class ClientDashboard extends Component {
                                         <PersonAdd/>
                                     </Avatar>
                                     }
-                                    title="Register"
+                                    title={this.state.isRegistered ? "Update/Check CCP Status" : "Register/Check CCP Status"}
                                 />
                                 <CardContent>
                                     <Typography variant="body2" color="textSecondary" component="p">
-                                        To register in the system, the user(client) must specify a Client Check Policy
-                                        or CCP
+                                        To register/update in the system, the user(client) must specify a Client Check Policy
+                                        or CCP.
                                     </Typography>
                                 </CardContent>
                                 <CardActions disableSpacing>
                                     <Button color="primary"
-                                        startIcon={<PersonAdd/>}
+                                        startIcon={<VerifiedUserOutlined />}
+                                        onClick={this.checkCCPStatus}
+                                        disableElevation
+                                        disabled={!this.state.isRegistered}
+                                        size="small" 
+                                        className={classes.cardButton}   
+                                    >
+                                       Check CCP Status
+                                    </Button>
+                                    <Button color="primary"
+                                        startIcon={<PersonAdd />}
                                         onClick={() => this.setState({openRegistrationForm: true})}
                                         disableElevation
                                         size="small" 

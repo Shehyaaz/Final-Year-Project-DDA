@@ -1,4 +1,3 @@
-const Constants = artifacts.require("./Constants.sol");
 const Check = artifacts.require("./Check.sol");
 const DRPReaction = artifacts.require("./DRPReaction.sol");
 const DDA = artifacts.require("./DDA.sol");
@@ -11,7 +10,6 @@ for(const log of trustedCTLogs){
 }
 
 module.exports = function(deployer) {
- deployer.deploy(Constants);
  deployer.deploy(Check);
  deployer.deploy(DRPReaction);
  deployer.deploy(DDA, logIDs);

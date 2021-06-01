@@ -281,7 +281,7 @@ contract DDA {
         );
     }
     
-    /* get domainName details */
+    /* get domain details */
     function getDomainDetails() external view returns(bytes32, bytes32, uint256, uint256, uint256, address, address, uint8){
         DRP memory drp = domainDRPs[msg.sender];
         require(drp.domainName != "");
@@ -311,6 +311,11 @@ contract DDA {
     /* get client drp list length */
     function getClientDRPListLength() external view returns(uint256){
         return clients[msg.sender].purchasedDRP.length;
+    }
+
+    /* get number of registered domains */
+    function getNumDRP() external view returns(uint256){
+        return registeredDomains.length;
     }
     
     /* get client DRP list details */

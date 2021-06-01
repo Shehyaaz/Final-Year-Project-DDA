@@ -20,7 +20,7 @@ class PurchaseDRP extends Component {
     super(props);
     this.state={
       isVerified: false,
-      domainName: this.props.domains.length && this.props.domains[0]
+      selectedDomain: this.props.domains.length && this.props.domains[0]
     };
     this.initialState = {...this.state};
     this.verifyCallback = this.verifyCallback.bind(this);
@@ -51,7 +51,7 @@ class PurchaseDRP extends Component {
   }
 
   render() {
-    const buttonDisabled = !this.state.isVerified || !this.state.domainName;
+    const buttonDisabled = !this.state.isVerified || !this.state.selectedDomain;
     return (
       (this.props.domains.length > 0)
         ? <Dialog open={this.props.open} aria-labelledby="purchase-drp">
@@ -62,11 +62,11 @@ class PurchaseDRP extends Component {
                 value={this.state.domainName}
                 onChange={(event, newValue) => {
                   this.setState({
-                    domainName: newValue
+                    selectedDomain: newValue
                   });
                 }}
                 options={this.props.domains}
-                getOptionLabel={(option) => option.name+" ("+option.price+" ether)"}
+                getOptionLabel={(option) => option.domainName+" ("+option.drpPrice+" ether)"}
                 renderInput={(params) => <TextField {...params} label="Domain Name" variant="outlined" required/>}
               />
               <Box m={2}  justifyContent="center">  
@@ -83,7 +83,7 @@ class PurchaseDRP extends Component {
               </Button>
               <Button
                 disabled={buttonDisabled} color="primary"
-                onClick={() => this.handlePurchase(this.state.domainName.name)}
+                onClick={() => this.handlePurchase(this.state.selectedDomain)}
               >
                 Purchase
               </Button>

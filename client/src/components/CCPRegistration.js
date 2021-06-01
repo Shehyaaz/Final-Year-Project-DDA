@@ -26,7 +26,7 @@ class CCPRegistration extends Component {
       error: false,
       errorMessage: '',
       clientName: '',
-      version: 0,
+      version: 1,
       validFrom: new Date().toISOString().split("T")[0],
       validTo: new Date().toISOString().split("T")[0],
       ccpAddress: ''
@@ -59,9 +59,7 @@ class CCPRegistration extends Component {
   validateFiels(clientDetails){
     const addressRegEx = /^(0[xX])[A-Fa-f0-9]{40}$/;
     let errorMessage = "";
-    if(isNaN(clientDetails.version) || parseFloat(clientDetails.version) % 1 !== 0 || parseFloat(clientDetails.version) <= 0)
-      errorMessage = "Version must be a positive number such as 1, 2, etc. !";
-    else if(new Date(clientDetails.validFrom).getTime() >= new Date(clientDetails.validTo).getTime())
+    if(new Date(clientDetails.validFrom).getTime() >= new Date(clientDetails.validTo).getTime())
       errorMessage = "CCP Validity must be more than a day";
     else if(!addressRegEx.test(clientDetails.ccpAddress))
       errorMessage = "Invalid CCP address";
@@ -107,7 +105,7 @@ class CCPRegistration extends Component {
   render() {
     const {isVerified, agree, error, errorMessage, ...clientDetails} = {...this.state};
     const buttonDisabled = !(isVerified && agree && clientDetails.clientName
-                            && clientDetails.version && clientDetails.ccpAddress);
+                            && clientDetails.ccpAddress);
     clientDetails.clientPay = this.context.account;
   	return (
     <Dialog open={this.props.open} aria-labelledby="register-ccp">
@@ -136,8 +134,10 @@ class CCPRegistration extends Component {
         <TextField
           variant="outlined" margin="normal" required fullWidth
           label="Version" name="version"  
-          value={clientDetails.version ? clientDetails.version : ''}
-          onChange={this.updateFormState} 
+          value={clientDetails.version}
+          InputProps={{
+            readOnly: true
+          }}
         />
         <Grid container direction="row" spacing={2}>
           <Grid item xs={12} sm={6}>
@@ -149,6 +149,9 @@ class CCPRegistration extends Component {
                 onChange={this.updateFormState}
                 fullWidth 
                 required
+                InputProps={{
+                  readOnly: this.props.update
+                }}
               />
           </Grid>
           <Grid item xs={12} sm={6}>
