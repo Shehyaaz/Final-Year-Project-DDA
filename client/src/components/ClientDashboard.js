@@ -57,14 +57,12 @@ class ClientDashboard extends Component {
             isRegistered: false,
             openRegistrationForm: false,
             openPurchaseForm: false,
-            drpList: [],
-            domains: []
+            drpList: []
         }
 		this.handleRegisterCCP = this.handleRegisterCCP.bind(this);
         this.handlePurchaseDRP = this.handlePurchaseDRP.bind(this);
         this.handleDRPCheck = this.handleDRPCheck.bind(this);
         this.getClientData = this.getClientData.bind(this);
-        this.getDRPDetails = this.getDRPDetails.bind(this);
         this.checkCCPStatus = this.checkCCPStatus.bind(this);
 	}
 
@@ -200,7 +198,7 @@ class ClientDashboard extends Component {
             }
         }
         else{
-            // get update fee from blockchain
+            // get registration fee from blockchain
             const registerFee = await this.context.contract.client_registration_fee;
             // register client details
             try{
@@ -258,7 +256,7 @@ class ClientDashboard extends Component {
                 });
             });
         }catch(err){
-            alert("Purchase failed :(");
+            alert("Purchase failed :( "+err);
             this.setState({
                 isLoading: false
             }); 
@@ -269,12 +267,18 @@ class ClientDashboard extends Component {
         this.setState({
             isLoading: true
         });
-        const ccpStatus = await this.context.contract.methods.getCCPStatus().call();
-        if(ccpStatus){
+        const [ccpValidityStatus, ccpContractStatus] = await this.context.contract.methods.getCCPStatus().call();
+        if(ccpValidityStatus && ccpContractStatus){
             alert("CCP valid :)");
         }
+        else if(ccpValidityStatus && !ccpContractStatus){
+            alert("CCP Check Contract is invalid :(");
+        }
+        else if(!ccpValidityStatus && ccpContractStatus){
+            alert("CCP validity has expired :(");
+        }
         else{
-            alert("CCP has expired :(");
+            alert("CCP validity has expired and CCP Check Contract is invalid :(");
         }
         this.setState({
             isLoading: false
@@ -303,46 +307,27 @@ class ClientDashboard extends Component {
         });
     }
 
-    async getDRPDetails(){
-        const domains = [];
-        const drpNum = await this.context.contract.methods.getNumDRP().call();
-        for(let i = 0; i < drpNum; i++){
-            const [domainName, drpPrice, domainAddress] = await this.context.contract.methods.getDRPDetails(i).call(); // an array of values is returned
-            domains.push({
-                domainName: this.context.web3.utils.hexToUtf8(domainName),
-                drpPrice: parseFloat(this.context.web3.utils.fromWei(drpPrice, "ether")),
-                domainAddress
-            });
-        }
-        this.setState({
-            domains
-        });
-    }
-
     componentDidMount = async() => {
         this.setState({
             account: this.context.account,
             isLoading: true
         });
         await this.getClientData();
-        await this.getDRPDetails();
-        await this.watchBlockChainEvents(); 
         this.setState({
             isLoading: false
         });    
     }
 
-    componentDidUpdate(prevProps, prevState){
+    componentDidUpdate = async(prevProps, prevState) => {
         if(prevState.account !== this.context.account){
             this.setState({
                 account: this.context.account,
                 isLoading: true
             });
-            this.getClientData().then(() => {
-                this.setState({
-                    isLoading: false
-                });
-            });
+            await this.getClientData();
+            this.setState({
+                isLoading: false
+            });  
         }
     }
 
@@ -481,8 +466,7 @@ class ClientDashboard extends Component {
                 <PurchaseDRP 
                     open={this.state.openPurchaseForm} 
                     onClose={() => this.setState({openPurchaseForm: false})}
-                    domains={this.state.domains}
-                    onPurchase={(domainName) => this.handlePurchaseDRP(domainName)}
+                    onPurchase={(domain) => this.handlePurchaseDRP(domain)}
                 />
             </div>
         );

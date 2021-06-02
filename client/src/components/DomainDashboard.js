@@ -9,18 +9,15 @@ import {
     CardContent,
     CardActions,
     Button,
-    Paper,
-    Typography,
-    Table,
-    TableContainer,
-    TableHead,
-    TableBody,
-    TableRow,
-    TableCell
+    Typography
 } from "@material-ui/core";
 import {
     PersonAdd,
-    Block
+    DoneOutline,
+    MonetizationOn,
+    DeleteForever,
+    VerifiedUserOutlined,
+    DeleteOutline
 } from "@material-ui/icons";
 import { withStyles } from "@material-ui/core/styles";
 import { red } from "@material-ui/core/colors";
@@ -54,45 +51,211 @@ class DomainDashboard extends Component {
             account: '',
             isLoading: false,
             isRegistered: false,
-            openRegistrationForm: false,
-            numInvalid: 0,
-            subdomains: []
+            openRegistrationForm: false
         }
 		this.handleRegisterDRP = this.handleRegisterDRP.bind(this);
+        this.getDomainRegistrationStatus = this.getDomainRegistrationStatus.bind(this); 
+        this.getDRPStatus = this.getDRPStatus.bind(this);
+        this.getEscrowAmount = this.getEscrowAmount.bind(this);
+        this.expireDRP = this.expireDRP.bind(this);   
 	}
 
-    handleRegisterDRP(domainDetails){
+    async getDomainRegistrationStatus(){
+        const isRegistered = await this.context.contract.methods.isDomainRegistered().call();
         this.setState({
-            //isLoading: true,
-            openRegistrationForm: false
+            isRegistered
         });
-        console.log(domainDetails);
-        // TODO: send details to blockchain
-        this.state.isRegistered
-        ? console.log("Updated DRP")
-        : console.log("Registered DRP");
     }
 
-    DataRow = row => (
-        <TableRow key={row.subDomainName}>
-          <TableCell>{row.subDomainName}</TableCell>
-          <TableCell>{row.certStatus}</TableCell>
-        </TableRow>
-    );
+    async handleRegisterDRP(domainDetails){
+        this.setState({
+            isLoading: true,
+            openRegistrationForm: false
+        });
+        if(this.state.isRegistered){
+            // get update fee from blockchain
+            const updateFee = await this.context.contract.domain_update_fee;
+            // update domain details
+            try{
+                this.context.contract.methods.updateDomain(
+                    this.context.web3.utils.utf8ToHex(domainDetails.issuer),
+                    Math.floor(new Date(domainDetails.validTo).getTime()/1000),
+                    parseInt(this.context.web3.utils.toWei(domainDetails.price, "ether")),
+                    domainDetails.drpAddress
+                ).send({
+                    from: this.state.account,
+                    value: updateFee
+                })
+                .on("receipt", () => {
+                    alert(domainDetails.domainName+" details updated successfully !");
+                    this.setState({
+                        isLoading: false
+                    });
+                })
+                .on("error", () => {
+                    alert(domainDetails.domainName+" updation failed !");
+                    this.setState({
+                        isLoading: false
+                    });
+                });
+            }catch(err){
+                alert(domainDetails.domainName+" updation failed !");
+                this.setState({
+                    isLoading: false
+                });
+            }
+        }
+        else{
+            // check if domain is available on the Internet
+            fetch("/verify?domainName="+domainDetails.domainName)
+            .then((res) => {
+                if(res.ok){
+                    // get rregistration fee from blockchain
+                    const registerFee = await this.context.contract.domain_registration_fee;
+                    // register domain details
+                    try{
+                        this.context.contract.methods.registerDomain(
+                            this.context.web3.utils.utf8ToHex(domainDetails.domainName),
+                            this.context.web3.utils.utf8ToHex(domainDetails.issuer),
+                            Math.floor(new Date(domainDetails.validFrom).getTime()/1000),
+                            Math.floor(new Date(domainDetails.validTo).getTime()/1000),
+                            parseInt(this.context.web3.utils.toWei(domainDetails.price, "ether")),
+                            domainDetails.drpAddress,
+                            domainDetails.version
+                        ).send({
+                            from: this.state.account,
+                            value: registerFee
+                        })
+                        .on("receipt", () => {
+                            alert(domainDetails.domainName+" registered successfully !");
+                            this.setState({
+                                isLoading: false
+                            });
+                        })
+                        .on("error", () => {
+                            alert(domainDetails.domainName+" registration failed !");
+                            this.setState({
+                                isLoading: false
+                            });
+                        });
+                    }catch(err){
+                        alert(domainDetails.domainName+" registration failed !");
+                        this.setState({
+                            isLoading: false
+                        }); 
+                    }
+                }
+                else{
+                    alert(doaminDetails.domainName+" was not found on the Internet !");
+                    this.setState({
+                        isLoading: false
+                    });
+                }
+            })
+            .catch((err) => {
+                alert("An error occurred: "+err);
+                this.setState({
+                    isLoading: false
+                });
+            });
+        }
+    }
+
+    async checkDRPStatus(){
+        this.setState({
+            isLoading: true
+        });
+        const [drpValidityStatus, drpContractStatus] = await this.context.contract.methods.getDRPPStatus().call();
+        if(drpValidityStatus && drpContractStatus){
+            alert("DRP valid :)");
+        }
+        else if(drpValidityStatus && !drpContractStatus){
+            alert("DRP React Contract is either invalid or has been terminated :(");
+        }
+        else if(!drpValidityStatus && drpContractStatus){
+            alert("DRP validity has expired :(");
+        }
+        else{
+            alert("DRP validity has expired and DRP React Contract is either invalid or has been terminated :(");
+        }
+        this.setState({
+            isLoading: false
+        });
+    }
+
+    async getEscrowAmount(){
+        this.setState({
+            isLoading: true
+        });
+        const escrowAmount = await this.context.contract.methods.getEscrowAmount().call();
+        alert("Your escrowed amount is :"+parseFloat(this.context.web3.utils.fromWei(escrowAmount, "ether")));
+        this.setState({
+            isLoading: false
+        });
+    }
+
+    async expireDRP(){
+        this.setState({
+            isLoading: true
+        });
+        if(confirm("Expiring the DRP will delete your DRP from the blockchain, do you wish to continue")){
+            try{
+                const result = await this.context.contract.methods.expireDRP().send({
+                    from: this.state.account
+                })
+                .on("receipt", (receipt) => {
+                    if(receipt.events.DRPExpired && receipt.events.DRPExpired.returnValues._domainAddr){
+                        alert("DRP expired successfully");
+                        await this.getDomainRegistrationStatus();
+                        this.setState({
+                            isLoading: false
+                        });
+                    }
+                    else{
+                        alert("Failed to expire DRP :(");
+                        this.setState({
+                            isLoading: false
+                        });
+                    }
+                })
+                .on("error", () => {
+                    alert("An error has occurred, failed to expire DRP :(");
+                    this.setState({
+                        isLoading: false
+                    });
+                });
+            }
+            catch(err){
+                alert("An error occurred "+err);
+                this.setState({
+                    isLoading: false
+                });
+            }
+        }
+    }
 
     componentDidMount(){
-        // TODO: check if domain is already registered and update state
         this.setState({
-            account: this.context.account
+            account: this.context.account,
+            isLoading: true
+        });
+        this.getDomainRegistrationStatus().then(() => {
+            this.setState({
+                isLoading: false
+            });
         });        
     }
 
     componentDidUpdate(prevProps, prevState){
         if(prevState.account !== this.context.account){
-            // TODO: get domain data when ethereum account is changed
             this.setState({
                 account: this.context.account
             });
+            this.getDomainRegistrationStatus().then(() => {
+                this.setState({
+                    isLoading: false
+                });
+            });  
         }
     }
 
@@ -131,7 +294,7 @@ class DomainDashboard extends Component {
                                 />
                                 <CardContent>
                                     <Typography variant="body2" color="textSecondary" component="p">
-                                        To register in the system, the user(domain) must specify a Domain Reaction Policy
+                                        To register/update in the system, the user(domain) must specify a Domain Reaction Policy
                                         or DRP
                                     </Typography>
                                 </CardContent>
@@ -154,58 +317,101 @@ class DomainDashboard extends Component {
                             <Card>
                                 <CardHeader
                                     avatar={
-                                    <Avatar aria-label="purchase-drp" className={classes.avatar}>
-                                        <Block />
+                                    <Avatar aria-label="drp-status" className={classes.avatar}>
+                                        <DoneOutline />
                                     </Avatar>
                                     }
-                                    title="Invalid Certificates"
+                                    title="DRP Status"
                                 />
                                 <CardContent>
                                     <Typography variant="body2" color="textSecondary" component="p">
-                                        Number of certificates determined to be invalid by clients who use
-                                        the system.
+                                        Check the status of your DRP.
                                     </Typography>
                                 </CardContent>
                                 <CardActions disableSpacing>
-                                    <Button    
+                                    <Button color="primary"
+                                        startIcon={<VerifiedUserOutlined />}
+                                        onClick={this.checkDRPStatus}
                                         disableElevation
-                                        size="small"
-                                        className={classes.cardButton} 
+                                        disabled={!this.state.isRegistered}
+                                        size="small" 
+                                        className={classes.cardButton}   
                                     >
-                                        <Typography gutterBottom variant="h5" component="h2" color="error">
-                                            {this.state.numInvalid}
-                                        </Typography>
+                                       Check DRP Status
                                     </Button>
                                 </CardActions>
                             </Card>
                         </Grid>
                     </Grid>
-                    <Grid item xs={12} sm={12}>
-                        <Typography variant="h5" component="h5">
-                            List of Sub-domains
-                        </Typography>
-                        <br />
-                        <TableContainer component={Paper}>
-                            <Table aria-label="sub-domain-table">
-                                <TableHead>
-                                    <TableRow>
-                                        <TableCell>Sub-domain Name</TableCell>
-                                        <TableCell>Certificate Status</TableCell>                                       
-                                    </TableRow>
-                                </TableHead>
-                                <TableBody>
-                                    {(this.state.subdomains.length === 0)
-                                    ? <TableRow>
-                                        <TableCell align="center" colSpan="3">
-                                            <Typography variant ="h6" component="h6">
-                                                No sub-domains for your domain
-                                            </Typography>
-                                      </TableCell>
-                                    </TableRow>
-                                    : this.state.subdomains.map((row) => this.DataRow(row) )}
-                                </TableBody>
-                            </Table>
-                        </TableContainer>
+                    <Grid
+                        container
+                        item
+                        xs={12} 
+                        sm={12}
+                        direction="row"
+                        alignItems="center"
+                        justify="center"
+                        spacing={6}
+                    >
+                        <Grid item xs={12} sm={6} >
+                            <Card>
+                                <CardHeader
+                                    avatar={
+                                    <Avatar aria-label="get-escrow-amount" className={classes.avatar}>
+                                        <MonetizationOn />
+                                    </Avatar>
+                                    }
+                                    title="Escrowed Amount"
+                                />
+                                <CardContent>
+                                    <Typography variant="body2" color="textSecondary" component="p">
+                                        View the amount escrowed by the system.
+                                    </Typography>
+                                </CardContent>
+                                <CardActions disableSpacing>
+                                    <Button color="primary"
+                                        startIcon={<MonetizationOn />}
+                                        onClick={this.getEscrowAmount}
+                                        disableElevation
+                                        disabled={!this.state.isRegistered}
+                                        size="small"
+                                        className={classes.cardButton}    
+                                    >
+                                        View escrowed amount
+                                    </Button>
+                                </CardActions>
+                            </Card>
+                        </Grid>
+                        <Grid item xs={12} sm={6} >
+                            <Card>
+                                <CardHeader
+                                    avatar={
+                                    <Avatar aria-label="expire-drp" className={classes.avatar}>
+                                        <DeleteForever />
+                                    </Avatar>
+                                    }
+                                    title="Expire DRP"
+                                />
+                                <CardContent>
+                                    <Typography variant="body2" color="textSecondary" component="p">
+                                        Expire your DRP, this will delete your DRP from the system and transfer
+                                        the escrowed amount to you
+                                    </Typography>
+                                </CardContent>
+                                <CardActions disableSpacing>
+                                    <Button color="primary"
+                                        startIcon={<DeleteOutline />}
+                                        onClick={this.expireDRP}
+                                        disableElevation
+                                        disabled={!this.state.isRegistered}
+                                        size="small" 
+                                        className={classes.cardButton}   
+                                    >
+                                       Expire DRP
+                                    </Button>
+                                </CardActions>
+                            </Card>
+                        </Grid>
                     </Grid>
                 </Grid>
                 <DRPRegistration 

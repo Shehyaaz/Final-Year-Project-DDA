@@ -53,6 +53,21 @@ app.get("/welcome", (req, res) => {
   res.send({ message: "YOUR EXPRESS BACKEND IS CONNECTED TO REACT" });
 });
 
+app.get("/verify", (req, res) => {
+  if(req.query && req.query.domainName){
+    getCertDetails(req.query.domainName)
+    .then(() => {
+      res.status(200);
+    })
+    .catch(() =>{
+      res.status(500);
+    });
+  }
+  else{
+    res.status(400).send({message: "Invalid request, please specify domain name"});
+  }
+});
+
 app.get("/getsct", (req, res) => {
   if(req.query && req.query.domainName){
     getCertDetails(req.query.domainName)

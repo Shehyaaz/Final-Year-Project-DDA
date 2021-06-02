@@ -38,9 +38,9 @@ class About extends Component {
                             About Decentralised Domain Authentication
                         </Typography>
                         <Typography variant="body1" gutterBottom className={classes.content}>
-                            It is a system for detecting and automatically responding to Domain misbehavior with smart contracts on
+                            Decentralised Domain Authentication is a system for detecting and automatically responding to Domain misbehavior with smart contracts on
                             Ethereum Blockchain. This provides an approach for enhancing the security of
-                            TLS handshake authentication protocols. In general, ETDA system extends the traditional TLS ecosystem where domains
+                            TLS handshake authentication protocols. In general, DDA system extends the traditional TLS ecosystem where domains
                             interact with clients by carrying out TLS handshake with Ethereum blockchain.
                         </Typography>
                         <br />
@@ -48,7 +48,11 @@ class About extends Component {
                             How to use this system
                         </Typography>
                         <Typography variant="body1" gutterBottom className={classes.content}>
-                            Tells how to use DDA
+                            To use the system, the user must first register in the system. The user can register either as a
+                            client or as a domain or both. To register as a client, the user must navigate to the Client Dashboard
+                            and click "Register CCP". To register as a domain, the user must navigate to the Domain Dashboard and
+                            click "Register DRP". Once registered, the user can explore the Dashboards to access the various functions
+                            offered by the system.
                         </Typography>
                         <br /><br />
                         <Typography variant="h4" gutterBottom>
@@ -57,19 +61,47 @@ class About extends Component {
                         <Typography variant="h6" gutterBottom className={classes.content}>
                             Clients
                         </Typography>
-                        <ul>
-                            <li>Condition 1.</li>
-                            <li>Condition 2.</li>
-                            <li>Condition 3.</li>
-                        </ul>
+                        <ol>
+                            <li>The Client must provide a valid Check Contract address when registering/updating details in the system.</li>
+                            <li>The Check Contract must be a valid smart contract deployed in the blockchain.</li>
+                            <li>
+                                The Check Contract must mandatorily inherit 
+                                <a href = "https://github.com/Shehyaaz/Final-Year-Project-DDA/blob/shehyaaz/contracts/CheckInterface.sol">CheckInterface.sol</a>
+                                and implement the abstract functions in that smart contract interface.
+                            </li>
+                        </ol>
                         <Typography variant="h6" gutterBottom className={classes.content}>
                             Domains
                         </Typography>
-                        <ul>
-                            <li>Condition 1.</li>
-                            <li>Condition 2.</li>
-                            <li>Condition 3.</li>
-                        </ul>
+                        <ol>
+                            <li>
+                                The Domain must provide a valid domain name and issuer name. The domain name must be publicly accessible
+                                on the Internet and must belong solely to the domain owner.
+                            </li>
+                            <li>
+                                The certificate issued by the Domain during TLS handshake must follow the X.509v3 certificate standard.
+                            </li>
+                            <li>The Domain must provide a valid React Contract address when registering/updating details in the system.</li>
+                            <li>The React Contract must be a valid smart contract deployed in the blockchain.</li>
+                            <li>
+                                The React Contract must mandatorily inherit 
+                                <a href = "https://github.com/Shehyaaz/Final-Year-Project-DDA/blob/shehyaaz/contracts/DRPInterface.sol">DRPInterface.sol</a>
+                                and implement the abstract functions in that smart contract interface.
+                            </li>
+                            <li>The Domain must accept all payments made towards the DDA system.</li>
+                            <li>
+                                When a Client purchases a DRP, 50% of the purchase amount will be ecrowed by the smart contract.
+                                The escrowed amount will be returned to the Domain when the Domain expires its DRP.
+                            </li>
+                            <li>
+                                In the event of detection of Invalid Certificate, 90% of the DRP price will be fined as misbehaviour
+                                payment, and 30% of the DRP price will be fined as contract fund payment.
+                            </li>
+                            <li>
+                                In the event of detection of Invalid Certificate, the Domain's React Contract will be destroyed, making
+                                the contract inaccessible.
+                            </li>
+                        </ol>
                     </Grid>
                     <Grid container item spacing={3}>
                         <Grid item xs={12} sm={12}>

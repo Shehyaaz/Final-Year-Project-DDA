@@ -8,7 +8,8 @@ import {
   DialogContent,
   DialogContentText,
   DialogActions,
-  DialogTitle 	
+  DialogTitle, 	
+  CircularProgress
 } from '@material-ui/core';
 import {
   Autocomplete
@@ -20,7 +21,9 @@ class PurchaseDRP extends Component {
     super(props);
     this.state={
       isVerified: false,
-      selectedDomain: this.props.domains.length && this.props.domains[0]
+      isLoading: false,
+      domains: [],
+      selectedDomain: null
     };
     this.initialState = {...this.state};
     this.verifyCallback = this.verifyCallback.bind(this);
@@ -35,11 +38,11 @@ class PurchaseDRP extends Component {
     this.props.onClose();
   }
 
-  handlePurchase(domainName){
+  handlePurchase(domain){
     this.setState({
       ...this.initialState
     });
-    this.props.onPurchase(domainName);
+    this.props.onPurchase(domain);
   }
 
   verifyCallback(response){
@@ -50,16 +53,40 @@ class PurchaseDRP extends Component {
     }
   }
 
+  componentDidMount = async() => {
+      this.setState({
+        isLoading: true
+      });
+      // load domain DRPs data
+      const domains = [];
+      const drpNum = await this.context.contract.methods.getNumDRP().call();
+      for(let i = 0; i < drpNum; i++){
+          const [domainName, drpPrice, domainAddress] = await this.context.contract.methods.getDRPDetails(i).call(); // an array of values is returned
+          domains.push({
+              domainName: this.context.web3.utils.hexToUtf8(domainName),
+              drpPrice: parseFloat(this.context.web3.utils.fromWei(drpPrice, "ether")),
+              domainAddress
+          });
+      }
+      this.setState({
+          isLoading: false,
+          domains,
+          selectedDomain: domains[0]
+      });
+  }
+
   render() {
     const buttonDisabled = !this.state.isVerified || !this.state.selectedDomain;
     return (
-      (this.props.domains.length > 0)
-        ? <Dialog open={this.props.open} aria-labelledby="purchase-drp">
+      (this.state.isLoading) 
+        ?<CircularProgress color = "secondary" />
+        :(this.state.domains.length > 0)
+          ?<Dialog open={this.props.open} aria-labelledby="purchase-drp">
             <DialogTitle id="purchase-drp">Purchase DRP</DialogTitle>
             <DialogContent>
               <Autocomplete 
                 id="domain-name"
-                value={this.state.domainName}
+                value={this.state.selectedDomain.domainName}
                 onChange={(event, newValue) => {
                   this.setState({
                     selectedDomain: newValue
@@ -88,20 +115,20 @@ class PurchaseDRP extends Component {
                 Purchase
               </Button>
             </DialogActions>		     	  			
-    	    </Dialog>
-        : <Dialog open={this.props.open} aria-labelledby="purchase-drp">
-            <DialogTitle id="purchase-drp">Purchase DRP</DialogTitle>
-            <DialogContent>
-              <DialogContentText>
-                There are no DRPs to purchase, please try again later
-              </DialogContentText>
-            </DialogContent>
-            <DialogActions>
-              <Button onClick={this.handleClose} color="secondary">
-                Cancel
-              </Button>
-            </DialogActions>
-          </Dialog>
+    	     </Dialog>
+          :<Dialog open={this.props.open} aria-labelledby="purchase-drp">
+              <DialogTitle id="purchase-drp">Purchase DRP</DialogTitle>
+              <DialogContent>
+                <DialogContentText>
+                  There are no DRPs to purchase, please try again later.
+                </DialogContentText>
+              </DialogContent>
+              <DialogActions>
+                <Button onClick={this.handleClose} color="secondary">
+                  Cancel
+                </Button>
+              </DialogActions>
+           </Dialog>
   );
  }
 }

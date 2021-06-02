@@ -21,7 +21,7 @@ contract DDA {
     */
     uint8 constant private escrow = 5; // escrow parameter(alpha) = 50% (NOTE: escrow parameter < 62.5 % given the below set of parameters)
     uint8 constant private termination_parameter = 2; // termination parameter(delta) = 20% 
-    uint8 constant private internal_misbehaviour = 9; // internal misbehaviour payment(mi) = 90%\
+    uint8 constant private internal_misbehaviour = 9; // internal misbehaviour payment(mi) = 90%
     uint8 constant private contract_fund_payment = 3; // contract fund payment(f) = 30%
     uint8 constant private termination_payment = 4; // termination payment(t) = 40%
     uint8 constant private total_funds = internal_misbehaviour + termination_payment + contract_fund_payment;
@@ -268,7 +268,7 @@ contract DDA {
     }
     
     /* get client details */
-    function getClientDetails() external view returns(bytes32, uint256, uint256, address, address, uint8){
+    function getClientDetails() external view returns(bytes32, uint256, uint256, address, address){
         CCP memory ccp = clients[msg.sender].ccp;
         require(ccp.clientName != "");
         return (
@@ -276,13 +276,12 @@ contract DDA {
             ccp.validFrom,
             ccp.validTo,
             ccp.clientAddress,
-            ccp.checkContract,
-            ccp.version
+            ccp.checkContract
         );
     }
     
     /* get domain details */
-    function getDomainDetails() external view returns(bytes32, bytes32, uint256, uint256, uint256, address, address, uint8){
+    function getDomainDetails() external view returns(bytes32, bytes32, uint256, uint256, uint256, address, address){
         DRP memory drp = domainDRPs[msg.sender];
         require(drp.domainName != "");
         return (
@@ -291,9 +290,8 @@ contract DDA {
             drp.validFrom,
             drp.validTo,
             drp.drpPrice,
-            drp.domainAddress,
-            drp.reactContract,
-            drp.version
+            drp.domianAddress,
+            drp.reactContract
         );
     }
     
@@ -332,16 +330,16 @@ contract DDA {
     }
     
     /* get CCP status */
-    function getCCPStatus() external view returns(bool){
+    function getCCPStatus() external view returns(bool, bool){
         CCP memory ccp = clients[msg.sender].ccp;
         require(ccp.clientName != "");
-        return ccp.validTo >= now && CheckInterface(ccp.checkContract).verifyCCPAddress(ccp.checkContract) ;
+        return (ccp.validTo >= now, CheckInterface(ccp.checkContract).verifyCCPAddress(ccp.checkContract)) ;
     }
     
     /* get DRP status */
-    function getDRPStatus() external view returns(bool){
+    function getDRPStatus() external view returns(bool, bool){
         DRP memory drp = domainDRPs[msg.sender];
-        return drp.validTo > now && DRPInterface(drp.reactContract).verifyDRPAddress(drp.reactContract);
+        return (drp.validTo > now, DRPInterface(drp.reactContract).verifyDRPAddress(drp.reactContract));
     }
     
     /* get Domain escrow amount */
