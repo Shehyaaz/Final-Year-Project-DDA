@@ -15,7 +15,7 @@ import {
     AttachMoney,
     AccountTree,
     Person,
-    ExpandMoreIcon,
+    ExpandMore,
     AccountCircle,
     AccountBalanceWallet
 } from "@material-ui/icons";
@@ -49,7 +49,7 @@ class Account extends Component {
             domainDetails: null
         }
         this.getClientData = this.getClientData.bind(this);
-        this.getDomainData = this.getDRPDetails.bind(this);
+        this.getDomainData = this.getDomainData.bind(this);
         this.getBalance = this.getBalance.bind(this);
         this.getDataFromBlockchain = this.getDataFromBlockchain.bind(this);
 	}
@@ -164,7 +164,7 @@ class Account extends Component {
                     >
                         <Accordion>
                             <AccordionSummary
-                                expandIcon={<ExpandMoreIcon />}
+                                expandIcon={<ExpandMore />}
                                 aria-controls="account-content"
                             >
                                 <Typography className={classes.heading}>Your Account Details</Typography>
@@ -193,7 +193,7 @@ class Account extends Component {
                     >
                         <Accordion disabled = {! this.state.clientRegistered}>
                             <AccordionSummary
-                                expandIcon={<ExpandMoreIcon />}
+                                expandIcon={<ExpandMore />}
                                 aria-controls="client-content"
                             >
                                 <Typography className={classes.heading}>Client Details</Typography>
@@ -235,7 +235,7 @@ class Account extends Component {
                     <Grid item xs={12}>
                         <Accordion disabled = {! this.state.domainRegistered}>
                             <AccordionSummary
-                                expandIcon={<ExpandMoreIcon />}
+                                expandIcon={<ExpandMore />}
                                 aria-controls="domain-content"
                             >
                                 <Typography className={classes.heading}>Domain Details</Typography>

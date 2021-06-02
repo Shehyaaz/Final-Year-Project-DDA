@@ -290,7 +290,7 @@ contract DDA {
             drp.validFrom,
             drp.validTo,
             drp.drpPrice,
-            drp.domianAddress,
+            drp.domainAddress,
             drp.reactContract
         );
     }

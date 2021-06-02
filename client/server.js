@@ -8,10 +8,14 @@ const app = express();
 const port = process.env.PORT || 3001;
 app.use(express.static(path.join(__dirname, 'client/build')));
 
-const getCertDetails = (domainName) => new Promise((resolve, reject)=>{
+const getCert = (domainName) => new Promise((resolve, reject)=>{
 	https.request("https://"+domainName, {rejectUnauthorized: true}, (res)=>{
 		resolve(res.socket.getPeerCertificate(true));
-	}).end();
+	})
+  .on("error", (err) => {
+    reject(err);
+  })
+  .end();
 });
 
 function getCertDetails(certDer) {
@@ -55,12 +59,12 @@ app.get("/welcome", (req, res) => {
 
 app.get("/verify", (req, res) => {
   if(req.query && req.query.domainName){
-    getCertDetails(req.query.domainName)
+    getCert(req.query.domainName)
     .then(() => {
-      res.status(200);
+      res.status(200).send({message: "Valid domain"});
     })
     .catch(() =>{
-      res.status(500);
+      res.status(500).send({message: "Invalid domain"});
     });
   }
   else{
@@ -70,19 +74,18 @@ app.get("/verify", (req, res) => {
 
 app.get("/getsct", (req, res) => {
   if(req.query && req.query.domainName){
-    getCertDetails(req.query.domainName)
+    getCert(req.query.domainName)
     .then((cert) => {
       certDetails = getCertDetails(cert.raw);
       res.status(200).send(certDetails);
     })
     .catch((err) => {
-      res.status(500).send({message: "An error was encountered when processing certificate"});
+      res.status(500).send({message: "An error was encountered when processing certificate"+err});
     });
   }
   else{
     res.status(400).send({message: "Invalid request, please specify domain name"});
-  }
-  
+  } 
 });
 
 // This displays message that the server running and listening to specified port

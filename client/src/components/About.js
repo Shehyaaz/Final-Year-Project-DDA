@@ -62,12 +62,22 @@ class About extends Component {
                             Clients
                         </Typography>
                         <ol>
-                            <li>The Client must provide a valid Check Contract address when registering/updating details in the system.</li>
-                            <li>The Check Contract must be a valid smart contract deployed in the blockchain.</li>
                             <li>
-                                The Check Contract must mandatorily inherit 
-                                <a href = "https://github.com/Shehyaaz/Final-Year-Project-DDA/blob/shehyaaz/contracts/CheckInterface.sol">CheckInterface.sol</a>
-                                and implement the abstract functions in that smart contract interface.
+                                <Typography variant="body1">
+                                    The Client must provide a valid Check Contract address when registering/updating details in the system.
+                                </Typography>
+                            </li>
+                            <li>
+                                <Typography variant="body1">
+                                    The Check Contract must be a valid smart contract deployed in the blockchain.
+                                </Typography>
+                            </li>
+                            <li>
+                                <Typography variant="body1">
+                                    The Check Contract must mandatorily inherit{' '} 
+                                    <a href = "https://github.com/Shehyaaz/Final-Year-Project-DDA/blob/shehyaaz/contracts/CheckInterface.sol">CheckInterface.sol</a>
+                                    {' '}and implement the abstract functions in that smart contract interface.
+                                    </Typography>
                             </li>
                         </ol>
                         <Typography variant="h6" gutterBottom className={classes.content}>
@@ -75,31 +85,55 @@ class About extends Component {
                         </Typography>
                         <ol>
                             <li>
-                                The Domain must provide a valid domain name and issuer name. The domain name must be publicly accessible
-                                on the Internet and must belong solely to the domain owner.
+                                <Typography variant="body1">
+                                    The Domain must provide a valid domain name and issuer name. The domain name must be publicly accessible
+                                    on the Internet and must belong solely to the domain owner.
+                                </Typography>
                             </li>
                             <li>
-                                The certificate issued by the Domain during TLS handshake must follow the X.509v3 certificate standard.
-                            </li>
-                            <li>The Domain must provide a valid React Contract address when registering/updating details in the system.</li>
-                            <li>The React Contract must be a valid smart contract deployed in the blockchain.</li>
-                            <li>
-                                The React Contract must mandatorily inherit 
-                                <a href = "https://github.com/Shehyaaz/Final-Year-Project-DDA/blob/shehyaaz/contracts/DRPInterface.sol">DRPInterface.sol</a>
-                                and implement the abstract functions in that smart contract interface.
-                            </li>
-                            <li>The Domain must accept all payments made towards the DDA system.</li>
-                            <li>
-                                When a Client purchases a DRP, 50% of the purchase amount will be ecrowed by the smart contract.
-                                The escrowed amount will be returned to the Domain when the Domain expires its DRP.
+                                <Typography variant="body1">
+                                    The certificate issued by the Domain during TLS handshake must follow the X.509v3 certificate standard.
+                                </Typography>
                             </li>
                             <li>
-                                In the event of detection of Invalid Certificate, 90% of the DRP price will be fined as misbehaviour
-                                payment, and 30% of the DRP price will be fined as contract fund payment.
+                                <Typography variant="body1">
+                                    The Domain must provide a valid React Contract address when registering/updating details in the system.
+                                </Typography>
                             </li>
                             <li>
-                                In the event of detection of Invalid Certificate, the Domain's React Contract will be destroyed, making
-                                the contract inaccessible.
+                                <Typography variant="body1">
+                                    The React Contract must be a valid smart contract deployed in the blockchain.
+                                </Typography>
+                            </li>
+                            <li>
+                                <Typography variant="body1">
+                                    The React Contract must mandatorily inherit{' '} 
+                                    <a href = "https://github.com/Shehyaaz/Final-Year-Project-DDA/blob/shehyaaz/contracts/DRPInterface.sol">DRPInterface.sol</a>
+                                    {' '}and implement the abstract functions in that smart contract interface.
+                                </Typography>
+                            </li>
+                            <li>
+                                <Typography variant="body1">
+                                    The Domain must accept all payments made towards the DDA system.
+                                </Typography>    
+                            </li>
+                            <li>
+                                <Typography variant="body1">
+                                    When a Client purchases a DRP, <b>50%</b> of the purchase amount will be ecrowed by the smart contract.
+                                    The escrowed amount will be returned to the Domain when the Domain expires its DRP.
+                                </Typography>
+                            </li>
+                            <li>
+                                <Typography variant="body1">
+                                    In the event of detection of Invalid Certificate, <b>90%</b> of the DRP price will be fined as misbehaviour
+                                    payment, and <b>30%</b> of the DRP price will be fined as contract fund payment.
+                                </Typography>
+                            </li>
+                            <li>
+                                <Typography variant="body1">
+                                    In the event of detection of Invalid Certificate, the Domain's React Contract will be destroyed, making
+                                    the contract inaccessible.
+                                </Typography>
                             </li>
                         </ol>
                     </Grid>

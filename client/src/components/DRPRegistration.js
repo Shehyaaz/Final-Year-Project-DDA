@@ -9,7 +9,8 @@ import {
   Dialog,
   DialogContent,
   DialogActions,
-  DialogTitle
+  DialogTitle,
+  CircularProgress
 } from '@material-ui/core';
 import {
   Alert

@@ -106,12 +106,12 @@ class DomainDashboard extends Component {
             }
         }
         else{
+            // get rregistration fee from blockchain
+            const registerFee = await this.context.contract.domain_registration_fee;
             // check if domain is available on the Internet
             fetch("/verify?domainName="+domainDetails.domainName)
             .then((res) => {
                 if(res.ok){
-                    // get rregistration fee from blockchain
-                    const registerFee = await this.context.contract.domain_registration_fee;
                     // register domain details
                     try{
                         this.context.contract.methods.registerDomain(
@@ -146,7 +146,7 @@ class DomainDashboard extends Component {
                     }
                 }
                 else{
-                    alert(doaminDetails.domainName+" was not found on the Internet !");
+                    alert(domainDetails.domainName+" was not found on the Internet !");
                     this.setState({
                         isLoading: false
                     });
@@ -198,12 +198,12 @@ class DomainDashboard extends Component {
         this.setState({
             isLoading: true
         });
-        if(confirm("Expiring the DRP will delete your DRP from the blockchain, do you wish to continue")){
+        if(window.confirm("Expiring the DRP will delete your DRP from the blockchain, do you wish to continue")){
             try{
-                const result = await this.context.contract.methods.expireDRP().send({
+                await this.context.contract.methods.expireDRP().send({
                     from: this.state.account
                 })
-                .on("receipt", (receipt) => {
+                .on("receipt", async(receipt) => {
                     if(receipt.events.DRPExpired && receipt.events.DRPExpired.returnValues._domainAddr){
                         alert("DRP expired successfully");
                         await this.getDomainRegistrationStatus();

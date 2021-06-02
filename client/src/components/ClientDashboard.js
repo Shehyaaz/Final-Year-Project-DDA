@@ -108,7 +108,7 @@ class ClientDashboard extends Component {
             ).send({
                 from: this.state.account
             })
-            .on("receipt", (receipt) => {
+            .on("receipt", async(receipt) => {
                 // certificate check was executed
                 if(receipt.events.CertChecked && receipt.events.CertChecked.returnValues._certValid){
                     alert(domainName+" certificate is Valid");
@@ -126,7 +126,7 @@ class ClientDashboard extends Component {
             })
             .on("error", () => {
                 // certificate check was not executed
-                if(confirm("Please check CCP and purchased DRP validity. If found valid, this DRP has been terminated. Delete this DRP ?")){
+                if(window.confirm("Please check CCP and purchased DRP validity. If found valid, this DRP has been terminated. Delete this DRP ?")){
                     this.context.contract.deleteDRPFromClientList(drpIndex).send({
                         from: this.state.account
                     })
