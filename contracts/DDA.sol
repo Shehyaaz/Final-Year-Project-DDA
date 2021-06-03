@@ -332,7 +332,6 @@ contract DDA {
     /* get CCP status */
     function getCCPStatus() external view returns(bool, bool){
         CCP memory ccp = clients[msg.sender].ccp;
-        require(ccp.clientName != "");
         return (ccp.validTo >= now, CheckInterface(ccp.checkContract).verifyCCPAddress(ccp.checkContract)) ;
     }
     

@@ -15,6 +15,7 @@ import {
   Autocomplete
 } from "@material-ui/lab";
 import { siteKey } from "../utils/constants";
+import AppContext from "../context/AppContext";
 
 class PurchaseDRP extends Component {
 	constructor(props){
@@ -78,61 +79,73 @@ class PurchaseDRP extends Component {
   render() {
     const buttonDisabled = !this.state.isVerified || !this.state.selectedDomain;
     return (
-      (this.state.isLoading) 
-        ?<CircularProgress color = "secondary" />
-        :(this.state.domains.length > 0)
-          ?<Dialog open={this.props.open} aria-labelledby="purchase-drp">
-            <DialogTitle id="purchase-drp">Purchase DRP</DialogTitle>
-            <DialogContent>
-              <Autocomplete 
-                id="domain-name"
-                value={this.state.selectedDomain.domainName}
-                onChange={(event, newValue) => {
-                  this.setState({
-                    selectedDomain: newValue
-                  });
-                }}
-                options={this.props.domains}
-                getOptionLabel={(option) => option.domainName+" ("+option.drpPrice+" ether)"}
-                renderInput={(params) => <TextField {...params} label="Domain Name" variant="outlined" required/>}
-              />
-              <Box m={2}  justifyContent="center">  
-                <Recaptcha
-                  sitekey={siteKey}
-                  render="explicit"
-                  verifyCallback={this.verifyCallback}
-                />
-              </Box>
-            </DialogContent>
-            <DialogActions>
-              <Button onClick={this.handleClose} color="secondary">
-                Cancel
-              </Button>
-              <Button
-                disabled={buttonDisabled} color="primary"
-                onClick={() => this.handlePurchase(this.state.selectedDomain)}
-              >
-                Purchase
-              </Button>
-            </DialogActions>		     	  			
-    	     </Dialog>
-          :<Dialog open={this.props.open} aria-labelledby="purchase-drp">
-              <DialogTitle id="purchase-drp">Purchase DRP</DialogTitle>
-              <DialogContent>
-                <DialogContentText>
-                  There are no DRPs to purchase, please try again later.
-                </DialogContentText>
-              </DialogContent>
-              <DialogActions>
-                <Button onClick={this.handleClose} color="secondary">
-                  Cancel
-                </Button>
-              </DialogActions>
-           </Dialog>
+      <Dialog open={this.props.open} aria-labelledby="purchase-drp">
+        <DialogTitle id="purchase-drp">Purchase DRP</DialogTitle>
+          {this.state.isLoading
+            ? <div>
+                <DialogContent>
+                  <CircularProgress color = "secondary" />
+                </DialogContent>
+                <DialogActions>
+                  <Button onClick={this.handleClose} color="secondary">
+                    Cancel
+                  </Button>
+                </DialogActions>
+              </div>
+            : (this.state.domains.length > 0)
+                ? <div>
+                    <DialogContent>
+                      <Autocomplete 
+                        id="domain-name"
+                        value={this.state.selectedDomain.domainName}
+                        onChange={(event, newValue) => {
+                          this.setState({
+                            selectedDomain: newValue
+                          });
+                        }}
+                        options={this.props.domains}
+                        getOptionLabel={(option) => option.domainName+" ("+option.drpPrice+" ether)"}
+                        renderInput={(params) => <TextField {...params} label="Domain Name" variant="outlined" required/>}
+                      />
+                      <Box m={2}  justifyContent="center">  
+                        <Recaptcha
+                          sitekey={siteKey}
+                          render="explicit"
+                          verifyCallback={this.verifyCallback}
+                        />
+                      </Box>
+                    </DialogContent>
+                    <DialogActions>
+                      <Button onClick={this.handleClose} color="secondary">
+                        Cancel
+                      </Button>
+                      <Button
+                        disabled={buttonDisabled} color="primary"
+                        onClick={() => this.handlePurchase(this.state.selectedDomain)}
+                      >
+                        Purchase
+                      </Button>
+                    </DialogActions>
+                  </div>
+                : <div>
+                    <DialogContent>
+                      <DialogContentText>
+                        There are no DRPs to purchase, please try again later.
+                      </DialogContentText>
+                    </DialogContent>
+                    <DialogActions>
+                      <Button onClick={this.handleClose} color="secondary">
+                        Cancel
+                      </Button>
+                    </DialogActions>
+                  </div>
+          } 
+      </Dialog>
   );
  }
 }
 
+PurchaseDRP.contextType = AppContext;
 export default PurchaseDRP;
 
 

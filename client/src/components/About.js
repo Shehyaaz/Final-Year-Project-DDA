@@ -61,7 +61,7 @@ class About extends Component {
                         <Typography variant="h6" gutterBottom className={classes.content}>
                             Clients
                         </Typography>
-                        <ol>
+                        <ol type="I">
                             <li>
                                 <Typography variant="body1">
                                     The Client must provide a valid Check Contract address when registering/updating details in the system.
@@ -75,7 +75,11 @@ class About extends Component {
                             <li>
                                 <Typography variant="body1">
                                     The Check Contract must mandatorily inherit{' '} 
-                                    <a href = "https://github.com/Shehyaaz/Final-Year-Project-DDA/blob/shehyaaz/contracts/CheckInterface.sol">CheckInterface.sol</a>
+                                    <a  href = "https://github.com/Shehyaaz/Final-Year-Project-DDA/blob/shehyaaz/contracts/CheckInterface.sol"
+                                        target="_blank" rel="noopener noreferrer"
+                                    >
+                                        CheckInterface.sol
+                                    </a>
                                     {' '}and implement the abstract functions in that smart contract interface.
                                     </Typography>
                             </li>
@@ -83,7 +87,7 @@ class About extends Component {
                         <Typography variant="h6" gutterBottom className={classes.content}>
                             Domains
                         </Typography>
-                        <ol>
+                        <ol type="I">
                             <li>
                                 <Typography variant="body1">
                                     The Domain must provide a valid domain name and issuer name. The domain name must be publicly accessible
@@ -108,7 +112,11 @@ class About extends Component {
                             <li>
                                 <Typography variant="body1">
                                     The React Contract must mandatorily inherit{' '} 
-                                    <a href = "https://github.com/Shehyaaz/Final-Year-Project-DDA/blob/shehyaaz/contracts/DRPInterface.sol">DRPInterface.sol</a>
+                                    <a  href = "https://github.com/Shehyaaz/Final-Year-Project-DDA/blob/shehyaaz/contracts/DRPInterface.sol"
+                                        target="_blank" rel="noopener noreferrer"
+                                    >
+                                        DRPInterface.sol
+                                    </a>
                                     {' '}and implement the abstract functions in that smart contract interface.
                                 </Typography>
                             </li>

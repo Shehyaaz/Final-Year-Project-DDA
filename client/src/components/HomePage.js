@@ -89,8 +89,10 @@ class HomePage extends Component {
 			}
 		} catch (error) {
 			// Catch any errors for any of the above operations.
-			this.setState({isLoading: false});
-			alert("Something unexpected occurred :(\n"+error);
+			alert("An unexpected error has occurred !\n"+error.message);
+			this.setState({
+				isLoading: false
+			});
 		}
 	}
 

@@ -436,8 +436,11 @@ class ClientDashboard extends Component {
                                 <TableHead>
                                     <TableRow>
                                         <TableCell>Domain Name</TableCell>
-                                        <TableCell>Action</TableCell>
-                                        <TableCell>Last Checked</TableCell>                                        
+                                        <TableCell>DRP Valid From</TableCell>
+                                        <TableCell>DRP Valid To</TableCell>
+                                        <TableCell>DRP Price(in ether)</TableCell>
+                                        <TableCell>Last Checked</TableCell>
+                                        <TableCell>Action</TableCell>                                        
                                     </TableRow>
                                 </TableHead>
                                 <TableBody>

@@ -8,14 +8,22 @@ const app = express();
 const port = process.env.PORT || 3001;
 app.use(express.static(path.join(__dirname, 'client/build')));
 
-const getCert = (domainName) => new Promise((resolve, reject)=>{
-	https.request("https://"+domainName, {rejectUnauthorized: true}, (res)=>{
-		resolve(res.socket.getPeerCertificate(true));
-	})
-  .on("error", (err) => {
-    reject(err);
-  })
-  .end();
+const getCert = (domainName) => new Promise((resolve, reject) => {
+  const options = {
+    rejectUnauthorized: true,
+    agent: new https.Agent({ //disable session caching
+      maxCachedSessions: 0
+    })
+  };
+	const req = https.request("https://"+domainName, options, (res)=>{
+		const cert = res.socket.getPeerCertificate(false);
+    res.socket.destroy();
+    resolve(cert);
+	});
+  req.on("error", (err) => {
+    reject(new Error(err));
+  });
+  req.end();
 });
 
 function getCertDetails(certDer) {

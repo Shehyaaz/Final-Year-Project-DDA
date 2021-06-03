@@ -142,110 +142,122 @@ class DRPRegistration extends Component {
                               && domainDetails.drpAddress && domainDetails.price);
     domainDetails.domainPay = this.context.account;
   	return (
-      (isLoading) 
-        ?<CircularProgress color = "secondary"/>
-        :<Dialog open={this.props.open} aria-labelledby="register-drp">
-          <DialogTitle id="register-drp">Domain Reaction Policy Registration</DialogTitle>
-          <DialogContent>
-            {error && 
-              <Alert severity="error">{errorMessage}</Alert>
-            }
-            <TextField
-              variant="outlined" margin="normal" required fullWidth
-              label="Domain Name" name="domainName" autoFocus 
-              value={domainDetails.domainName}
-              onChange={this.updateFormState}
-              InputProps={{
-                readOnly: this.props.update
-              }}
-            />
-            <TextField
-              variant="outlined" margin="normal" required fullWidth
-              label="DRP Issuer" name="issuer" 
-              value={domainDetails.issuer}
-              onChange={this.updateFormState}
-            />
-            <TextField
-              variant="outlined" margin="normal" required fullWidth
-              label="Domain Pay Adress" name="domain_pay"  
-              value={domainDetails.domainPay}
-              InputProps={{
-                readOnly: true
-              }}  
-            />
-            <TextField
-              variant="outlined" margin="normal" required fullWidth
-              label="Version" name="version"
-              value={domainDetails.version}
-              InputProps={{
-                readOnly: true
-              }}
-            />
-            <Grid container direction="row" spacing={2}>
-              <Grid item xs={12} sm={6}>
+      <Dialog open={this.props.open} aria-labelledby="register-drp">
+        <DialogTitle id="register-drp">Domain Reaction Policy Registration</DialogTitle>
+          {isLoading
+            ? <div>
+                <DialogContent>
+                  <CircularProgress color = "secondary"/>
+                </DialogContent>
+                <DialogActions>
+                  <Button onClick={this.handleClose} color="secondary">
+                    Cancel
+                  </Button>
+                </DialogActions>
+              </div>
+            : <div>
+                <DialogContent>
+                {error && 
+                  <Alert severity="error">{errorMessage}</Alert>
+                }
                 <TextField
-                    name="validFrom"
-                    label="Valid From"
-                    type="date"
-                    value={domainDetails.validFrom}
-                    onChange={this.updateFormState}
-                    fullWidth 
-                    required
-                    InputProps={{
-                      readOnly: this.props.update
-                    }}
-                  />
-              </Grid>
-              <Grid item xs={12} sm={6}>
-                <TextField
-                  name="validTo"
-                  label="Valid To"
-                  type="date"
-                  value={domainDetails.validTo}
+                  variant="outlined" margin="normal" required fullWidth
+                  label="Domain Name" name="domainName" autoFocus 
+                  value={domainDetails.domainName}
                   onChange={this.updateFormState}
-                  fullWidth
-                  required
+                  InputProps={{
+                    readOnly: this.props.update
+                  }}
                 />
-              </Grid>
-            </Grid>
-            <TextField
-              variant="outlined" margin="normal" required fullWidth
-              label="Contract Adress" name="drpAddress"
-              value={domainDetails.drpAddress}
-              onChange={this.updateFormState}  
-            />
-            <TextField
-              variant="outlined" margin="normal" required fullWidth
-              label="DRP Price(in ether)" name="price"
-              value={domainDetails.price ? domainDetails.price : ''}
-              onChange={this.updateFormState}  
-            />
-            <div>
-              <input type="checkbox" name="agree" checked={agree} onChange={this.checkboxHandler} />
-              <label > I agree to</label>
-              <Tooltip title="Check out the About page" arrow>
-                <Button><b>Terms and Conditions.</b></Button>
-              </Tooltip>
+                <TextField
+                  variant="outlined" margin="normal" required fullWidth
+                  label="DRP Issuer" name="issuer" 
+                  value={domainDetails.issuer}
+                  onChange={this.updateFormState}
+                />
+                <TextField
+                  variant="outlined" margin="normal" required fullWidth
+                  label="Domain Pay Adress" name="domain_pay"  
+                  value={domainDetails.domainPay}
+                  InputProps={{
+                    readOnly: true
+                  }}  
+                />
+                <TextField
+                  variant="outlined" margin="normal" required fullWidth
+                  label="Version" name="version"
+                  value={domainDetails.version}
+                  InputProps={{
+                    readOnly: true
+                  }}
+                />
+                <Grid container direction="row" spacing={2}>
+                  <Grid item xs={12} sm={6}>
+                    <TextField
+                        name="validFrom"
+                        label="Valid From"
+                        type="date"
+                        value={domainDetails.validFrom}
+                        onChange={this.updateFormState}
+                        fullWidth 
+                        required
+                        InputProps={{
+                          readOnly: this.props.update
+                        }}
+                      />
+                  </Grid>
+                  <Grid item xs={12} sm={6}>
+                    <TextField
+                      name="validTo"
+                      label="Valid To"
+                      type="date"
+                      value={domainDetails.validTo}
+                      onChange={this.updateFormState}
+                      fullWidth
+                      required
+                    />
+                  </Grid>
+                </Grid>
+                <TextField
+                  variant="outlined" margin="normal" required fullWidth
+                  label="Contract Adress" name="drpAddress"
+                  value={domainDetails.drpAddress}
+                  onChange={this.updateFormState}  
+                />
+                <TextField
+                  variant="outlined" margin="normal" required fullWidth
+                  label="DRP Price(in ether)" name="price"
+                  value={domainDetails.price ? domainDetails.price : ''}
+                  onChange={this.updateFormState}  
+                />
+                <div>
+                  <input type="checkbox" name="agree" checked={agree} onChange={this.checkboxHandler} />
+                  <label > I agree to</label>
+                  <Tooltip title="Check out the About page" arrow>
+                    <Button><b>Terms and Conditions.</b></Button>
+                  </Tooltip>
+                </div>
+                <Box m={2}  display="flex" alignItems="center" justifyContent="center">  
+                  <Recaptcha
+                    ref={e => this.captcha = e}
+                    sitekey={siteKey}
+                    render="explicit"
+                    verifyCallback={this.verifyCallback}
+                  />
+                </Box>
+              </DialogContent>
+              <DialogActions>
+                <Button onClick={this.handleClose} color="secondary">
+                  Cancel
+                </Button>
+                <Button disabled={buttonDisabled}
+                    color="primary"
+                    onClick={() => this.handleRegister(domainDetails)}>
+                  {this.props.update ? "Update":"Register"}
+                </Button>
+              </DialogActions>
             </div>
-            <Box m={2}  display="flex" alignItems="center" justifyContent="center">  
-              <Recaptcha
-                ref={e => this.captcha = e}
-                sitekey={siteKey}
-                render="explicit"
-                verifyCallback={this.verifyCallback}
-              />
-            </Box>
-          </DialogContent>
-          <DialogActions>
-            <Button onClick={this.handleClose} color="secondary">
-              Cancel
-            </Button>
-            <Button disabled={buttonDisabled}
-                color="primary"
-                onClick={() => this.handleRegister(domainDetails)}>
-              {this.props.update ? "Update":"Register"}
-            </Button>
-          </DialogActions>
+          }
         </Dialog>
     );
   }

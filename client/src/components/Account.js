@@ -17,8 +17,14 @@ import {
     Person,
     ExpandMore,
     AccountCircle,
-    AccountBalanceWallet
+    AccountBalanceWallet,
+    CheckCircle,
+    Cancel
 } from "@material-ui/icons";
+import { 
+    green,
+    red 
+} from '@material-ui/core/colors';
 import { withStyles } from "@material-ui/core/styles";
 import AppContext from "../context/AppContext";
 
@@ -45,8 +51,27 @@ class Account extends Component {
             isLoading: false,
             clientRegistered: false,
             domainRegistered: false,
-            clientDetails: null,
-            domainDetails: null
+            clientDetails: {
+                clientName: "",
+                validFrom: "",
+                validTo: "",
+                clientAddress: "",
+                ccpAddress: "",
+                ccpStatus: false,
+                ccpStatusMssg: ""
+            },
+            domainDetails: {
+                domainName: "",
+                issuer: "",
+                validFrom: "",
+                validTo: "",
+                domainAddress: "",
+                drpAddress: "",
+                price: 0,
+                escrowAmount: 0,
+                drpStatus: false,
+                drpStatusMssg: ""
+            }
         }
         this.getClientData = this.getClientData.bind(this);
         this.getDomainData = this.getDomainData.bind(this);
@@ -55,35 +80,74 @@ class Account extends Component {
 	}
 
     async getBalance(){
-        await this.context.web3.eth.getBalance(this.state.account, (err, balance) => {
-            if(balance){
-                this.setState({
-                    balance: this.context.web3.utils.fromWei(balance, "ether")
-                });
-            }
-            else{
-                alert("Error getting balance :"+err);
-            }
-        });
+        try{
+            await this.context.web3.eth.getBalance(this.state.account, (err, balance) => {
+                if(balance){
+                    this.setState({
+                        balance: this.context.web3.utils.fromWei(balance, "ether")
+                    });
+                }
+                else{
+                    alert("Error getting balance: "+err.message);
+                }
+            });
+        }
+        catch(err){
+            alert("Error getting balance: "+err.message);
+        }
     }
     
     async getClientData(){
         // get client CCP data
+        const [ccpValidityStatus, ccpContractStatus] = await this.context.contract.methods.getCCPStatus().call();
         const [clientName, validFrom, validTo, clientAddress, checkContract] = await this.context.contract.getClientDetails().call();
+        let ccpStatusMssg = "";
+        if(ccpValidityStatus && ccpContractStatus){
+            ccpStatusMssg = "CCP valid";
+        }
+        else if(ccpValidityStatus && !ccpContractStatus){
+            ccpStatusMssg = "CCP Check Contract is invalid";
+        }
+        else if(!ccpValidityStatus && ccpContractStatus){
+            ccpStatusMssg = "CCP validity has expired";
+        }
+        else{
+            ccpStatusMssg = "CCP validity has expired and CCP Check Contract is invalid";
+        }
         this.setState({
           clientDetails: {
             clientName: this.context.web3.utils.hexToUtf8(clientName),
             validFrom: new Date(validFrom).toISOString().split("T")[0],
             validTo: new Date(validTo).toISOString().split("T")[0],
             clientAddress,
-            ccpAddress: checkContract
+            ccpAddress: checkContract,
+            ccpStatus: ccpValidityStatus && ccpContractStatus,
+            ccpStatusMssg
           }
         });
     }
 
     async getDomainData(){
+        // get escrow amount
+        const escrowAmount = await this.context.contract.methods.getEscrowAmount().call();
         // get domain DRP data
+        const [drpValidityStatus, drpContractStatus] = await this.context.contract.methods.getDRPPStatus().call();
         const [domainName, issuerName, validFrom, validTo, drpPrice, domainAddress, reactContract] = await this.context.contract.getClientDetails().call();
+        
+        let drpStatusMssg = "";
+        if(drpValidityStatus && drpContractStatus){
+            drpStatusMssg = "DRP valid";
+        }
+        else if(drpValidityStatus && !drpContractStatus){
+            drpStatusMssg = "DRP React Contract is invalid";
+        }
+        else if(!drpValidityStatus && drpContractStatus){
+            drpStatusMssg = "DRP validity has expired";
+        }
+        else{
+            drpStatusMssg = "DRP validity has expired and DRP React Contract is either invalid or has been terminated";
+        }
+        
         this.setState({
             domainDetails: {
                 domainName: this.context.web3.utils.hexToUtf8(domainName),
@@ -92,7 +156,10 @@ class Account extends Component {
                 validTo: new Date(validTo).toISOString().split("T")[0],
                 domainAddress,
                 drpAddress: reactContract,
-                price: parseFloat(this.context.web3.utils.fromWei(drpPrice, "ether"))
+                price: parseFloat(this.context.web3.utils.fromWei(drpPrice, "ether")),
+                escrowAmount: parseFloat(this.context.web3.utils.fromWei(escrowAmount, "ether")),
+                drpStatus: drpValidityStatus && drpContractStatus,
+                drpStatusMssg
             }
         });
     }
@@ -159,7 +226,7 @@ class Account extends Component {
                         item 
                         xs={12}
                         justify="center"
-                        alignItems="center"
+                        alignItems="stretch"
                         spacing = {2}
                     >
                         <Accordion>
@@ -188,7 +255,7 @@ class Account extends Component {
                         item 
                         xs={12}
                         justify="center"
-                        alignItems="center"
+                        alignItems="stretch"
                         spacing = {2}
                     >
                         <Accordion disabled = {! this.state.clientRegistered}>
@@ -229,10 +296,26 @@ class Account extends Component {
                                     <Typography>Version: </Typography>
                                     <Typography>{1}</Typography>
                                 </Grid>
+                                <Grid item xs={12}>
+                                    { this.state.clientDetails.ccpStatus 
+                                        ? <CheckCircle style={{ color: green[500] }} />
+                                        : <Cancel style={{ color: red[500] }} />
+
+                                    }
+                                    <Typography>CCP Status: </Typography>
+                                    <Typography>{this.state.ccpStatusMssg}</Typography>
+                                </Grid>
                             </AccordionDetails>
                         </Accordion>
                     </Grid>
-                    <Grid item xs={12}>
+                    <Grid 
+                        container 
+                        item 
+                        xs={12}
+                        justify="center"
+                        alignItems="stretch"
+                        spacing = {2}
+                    >
                         <Accordion disabled = {! this.state.domainRegistered}>
                             <AccordionSummary
                                 expandIcon={<ExpandMore />}
@@ -280,6 +363,20 @@ class Account extends Component {
                                     <AccountTree />
                                     <Typography>Version: </Typography>
                                     <Typography>{1}</Typography>
+                                </Grid>
+                                <Grid item xs={12}>
+                                    <AttachMoney />
+                                    <Typography>Escrowed Amount: </Typography>
+                                    <Typography>{this.state.domainDetails.escrowAmount}{' '}Ether</Typography>
+                                </Grid>
+                                <Grid item xs={12}>
+                                    { this.state.domainDetails.drpStatus 
+                                        ? <CheckCircle style={{ color: green[500] }} />
+                                        : <Cancel style={{ color: red[500] }} />
+
+                                    }
+                                    <Typography>DRP Status: </Typography>
+                                    <Typography>{this.state.drpStatusMssg}</Typography>
                                 </Grid>
                             </AccordionDetails>
                         </Accordion>

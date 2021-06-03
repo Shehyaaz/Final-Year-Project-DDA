@@ -55,7 +55,7 @@ class DomainDashboard extends Component {
         }
 		this.handleRegisterDRP = this.handleRegisterDRP.bind(this);
         this.getDomainRegistrationStatus = this.getDomainRegistrationStatus.bind(this); 
-        this.getDRPStatus = this.getDRPStatus.bind(this);
+        this.checkDRPStatus = this.checkDRPStatus.bind(this);
         this.getEscrowAmount = this.getEscrowAmount.bind(this);
         this.expireDRP = this.expireDRP.bind(this);   
 	}

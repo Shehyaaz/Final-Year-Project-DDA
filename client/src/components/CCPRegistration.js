@@ -129,95 +129,107 @@ class CCPRegistration extends Component {
                             && clientDetails.ccpAddress);
     clientDetails.clientPay = this.context.account;
   	return (
-      (isLoading) 
-        ?<CircularProgress color = "secondary"/>
-        :<Dialog open={this.props.open} aria-labelledby="register-ccp">
-          <DialogTitle id="register-ccp">Client Check Policy Registration</DialogTitle>
-          <DialogContent>
-            {error && 
-                <Alert severity="error">{errorMessage}</Alert>
-            }
-            <TextField
-              variant="outlined" margin="normal" required fullWidth
-              label="Client Name" name="clientName" autoFocus 
-              value={clientDetails.clientName}
-              onChange={this.updateFormState}
-              InputProps={{
-                readOnly: this.props.update
-              }}
-            />
-            <TextField
-              variant="outlined" margin="normal" required fullWidth
-              label="Client Pay Adress" name="clientPay" 
-              value={clientDetails.clientPay}
-              InputProps={{
-                readOnly: true
-              }}
-            />
-            <TextField
-              variant="outlined" margin="normal" required fullWidth
-              label="Version" name="version"  
-              value={clientDetails.version}
-              InputProps={{
-                readOnly: true
-              }}
-            />
-            <Grid container direction="row" spacing={2}>
-              <Grid item xs={12} sm={6}>
+      <Dialog open={this.props.open} aria-labelledby="register-ccp">
+        <DialogTitle id="register-ccp">Client Check Policy Registration</DialogTitle>
+          {isLoading
+          ? <div>
+              <DialogContent>
+                <CircularProgress color = "secondary"/>
+              </DialogContent>
+              <DialogActions>
+                <Button onClick={this.handleClose} color="secondary">
+                  Cancel
+                </Button>
+              </DialogActions>
+            </div>
+          : <div>
+              <DialogContent>
+                {error && 
+                    <Alert severity="error">{errorMessage}</Alert>
+                }
                 <TextField
-                    name="validFrom"
-                    label="Valid From"
-                    type="date"
-                    value={clientDetails.validFrom}
-                    onChange={this.updateFormState}
-                    fullWidth 
-                    required
-                    InputProps={{
-                      readOnly: this.props.update
-                    }}
-                  />
-              </Grid>
-              <Grid item xs={12} sm={6}>
-                <TextField
-                  name="validTo"
-                  label="Valid To"
-                  type="date"
-                  value={clientDetails.validTo}
+                  variant="outlined" margin="normal" required fullWidth
+                  label="Client Name" name="clientName" autoFocus 
+                  value={clientDetails.clientName}
                   onChange={this.updateFormState}
-                  fullWidth
-                  required
+                  InputProps={{
+                    readOnly: this.props.update
+                  }}
                 />
-              </Grid>
-            </Grid>
-            <TextField
-              variant="outlined" margin="normal" required fullWidth
-              label="Contract Adress" name="ccpAddress"
-              value={clientDetails.ccpAddress}
-              onChange={this.updateFormState} 
-            />
-            <input type="checkbox" name="agree" onChange={this.checkboxHandler} />
-            <label > I agree to</label>
-            <Tooltip title="Check out the About page" arrow>
-              <Button><b>Terms and Conditions.</b></Button>
-            </Tooltip>
-            <Box m={2}  display="flex" alignItems="center" justifyContent="center">  
-              <Recaptcha
-                sitekey={siteKey}
-                render="explicit"
-                verifyCallback={this.verifyCallback}
-              />
-            </Box>
-          </DialogContent>  
-          <DialogActions>
-            <Button onClick={this.handleClose} color="secondary">
-              Cancel
-            </Button>
-            <Button disabled={buttonDisabled}
-              color="primary"
-              onClick={() => this.handleRegister(clientDetails)}>
-              {this.props.update ? "Update":"Register"}
-            </Button>
-          </DialogActions>    
+                <TextField
+                  variant="outlined" margin="normal" required fullWidth
+                  label="Client Pay Adress" name="clientPay" 
+                  value={clientDetails.clientPay}
+                  InputProps={{
+                    readOnly: true
+                  }}
+                />
+                <TextField
+                  variant="outlined" margin="normal" required fullWidth
+                  label="Version" name="version"  
+                  value={clientDetails.version}
+                  InputProps={{
+                    readOnly: true
+                  }}
+                />
+                <Grid container direction="row" spacing={2}>
+                  <Grid item xs={12} sm={6}>
+                    <TextField
+                        name="validFrom"
+                        label="Valid From"
+                        type="date"
+                        value={clientDetails.validFrom}
+                        onChange={this.updateFormState}
+                        fullWidth 
+                        required
+                        InputProps={{
+                          readOnly: this.props.update
+                        }}
+                      />
+                  </Grid>
+                  <Grid item xs={12} sm={6}>
+                    <TextField
+                      name="validTo"
+                      label="Valid To"
+                      type="date"
+                      value={clientDetails.validTo}
+                      onChange={this.updateFormState}
+                      fullWidth
+                      required
+                    />
+                  </Grid>
+                </Grid>
+                <TextField
+                  variant="outlined" margin="normal" required fullWidth
+                  label="Contract Adress" name="ccpAddress"
+                  value={clientDetails.ccpAddress}
+                  onChange={this.updateFormState} 
+                />
+                <input type="checkbox" name="agree" onChange={this.checkboxHandler} />
+                <label > I agree to</label>
+                <Tooltip title="Check out the About page" arrow>
+                  <Button><b>Terms and Conditions.</b></Button>
+                </Tooltip>
+                <Box m={2}  display="flex" alignItems="center" justifyContent="center">  
+                  <Recaptcha
+                    sitekey={siteKey}
+                    render="explicit"
+                    verifyCallback={this.verifyCallback}
+                  />
+                </Box>
+              </DialogContent>
+              <DialogActions>
+                <Button onClick={this.handleClose} color="secondary">
+                  Cancel
+                </Button>
+                <Button disabled={buttonDisabled}
+                  color="primary"
+                  onClick={() => this.handleRegister(clientDetails)}>
+                  {this.props.update ? "Update":"Register"}
+                </Button>
+              </DialogActions>
+            </div>
+          }    
         </Dialog>
     );
   }
