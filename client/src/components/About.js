@@ -37,7 +37,7 @@ class About extends Component {
                         <Typography variant="h3" gutterBottom>
                             About Decentralised Domain Authentication
                         </Typography>
-                        <Typography variant="body1" gutterBottom className={classes.content}>
+                        <Typography variant="body1" gutterBottom className={classes.content} align="justify">
                             Decentralised Domain Authentication is a system for detecting and automatically responding to Domain misbehavior with smart contracts on
                             Ethereum Blockchain. This provides an approach for enhancing the security of
                             TLS handshake authentication protocols. In general, DDA system extends the traditional TLS ecosystem where domains
@@ -47,7 +47,7 @@ class About extends Component {
                         <Typography variant="h4" gutterBottom>
                             How to use this system
                         </Typography>
-                        <Typography variant="body1" gutterBottom className={classes.content}>
+                        <Typography variant="body1" gutterBottom className={classes.content} align="justify">
                             To use the system, the user must first register in the system. The user can register either as a
                             client or as a domain or both. To register as a client, the user must navigate to the Client Dashboard
                             and click "Register CCP". To register as a domain, the user must navigate to the Domain Dashboard and

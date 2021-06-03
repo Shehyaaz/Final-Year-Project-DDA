@@ -1,10 +1,10 @@
-To deploy smart contracts:
-On a separate cmd: ganache-cli
-On this cmd:
+# Start Local Blockchain, type the following command in a cmd
+ganache-cli
+
+# To deploy smart contracts, type the following command in a second cmd
 truffle migrate --reset
 
-To run the project:
-cd server
-node index.js
-cd ..\client
+# To run the project, type the below commands
+cd client
+node server.js
 npm start

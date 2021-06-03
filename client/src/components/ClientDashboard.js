@@ -27,6 +27,7 @@ import { withStyles } from "@material-ui/core/styles";
 import { red } from "@material-ui/core/colors";
 import CCPRegistration from "./CCPRegistration";
 import PurchaseDRP from "./PurchaseDRP";
+import AlertDialog from "../widgets/AlertDialog";
 import AppContext from "../context/AppContext";
 
 const useStyles = theme => ({
@@ -53,6 +54,13 @@ class ClientDashboard extends Component {
 		super(props);
         this.state={
             account: '',
+            alert: {
+                open: false,
+                title: '',
+                message: ''
+            },
+            showConfirm: false,
+            deleteDRPIndex: "",
             isLoading: false,
             isRegistered: false,
             openRegistrationForm: false,
@@ -64,6 +72,7 @@ class ClientDashboard extends Component {
         this.handleDRPCheck = this.handleDRPCheck.bind(this);
         this.getClientData = this.getClientData.bind(this);
         this.checkCCPStatus = this.checkCCPStatus.bind(this);
+        this.deleteDRP = this.deleteDRP.bind(this);
 	}
 
     DataRow = row => (
@@ -111,56 +120,95 @@ class ClientDashboard extends Component {
             .on("receipt", async(receipt) => {
                 // certificate check was executed
                 if(receipt.events.CertChecked && receipt.events.CertChecked.returnValues._certValid){
-                    alert(domainName+" certificate is Valid");
                     this.setState({
+                        alert: {
+                            open: true,
+                            title: "Valid",
+                            message: domainName+" certificate is Valid"
+                        },
                         isLoading: false
                     });
                 }
                 else{
-                    alert(domainName+" has an INVALID certificate !");
                     await this.getClientData();
                     this.setState({
+                        alert: {
+                            open: true,
+                            title: "Invalid",
+                            message: domainName+" has an INVALID certificate !"
+                        },
                         isLoading: false
                     });
                 }
             })
             .on("error", () => {
                 // certificate check was not executed
-                if(window.confirm("Please check CCP and purchased DRP validity. If found valid, this DRP has been terminated. Delete this DRP ?")){
-                    this.context.contract.deleteDRPFromClientList(drpIndex).send({
-                        from: this.state.account
-                    })
-                    .on("receipt", (receipt) => {
-                        if(receipt.events.DRPDeleted && receipt.events.DRPDeleted.returnValues._domainAddr){
-                            alert(domainName+" DRP deleted successfully");
-                            this.setState({
-                                isLoading: false
-                            });
-                        }
-                        else {
-                            alert("Could not delete DRP :(");
-                            this.setState({
-                                isLoading: false
-                            });
-                        }
-                    })
-                    .on("error", ()=>{
-                        alert("An error has occurred :(");
-                        this.setState({
-                            isLoading: false
-                        });
-                    });
-                }
+                this.setState({
+                    alert: {
+                        open: true,
+                        title: "Delete DRP",
+                        message: "Please check CCP and purchased DRP validity. If CCP valid, this DRP has been terminated. Delete this DRP ?"
+                    },
+                    showConfirm: true,
+                    deleteDRPIndex: drpIndex,
+                    isLoading: false
+                });
             });
         })
         .catch((err) => {
-            alert("An error occurred: "+err);
             this.setState({
+                alert: {
+                    open: true,
+                    title: "Error",
+                    message: "An error has occurred :("+err.message
+                },
                 isLoading: false
             });
         });
     }
     
+    async deleteDRP(drpIndex){
+        this.setState({
+            isLoading: true
+        });
+        // delete DRP from client DRP list
+        await this.context.contract.deleteDRPFromClientList(drpIndex).send({
+            from: this.state.account
+        })
+        .on("receipt", (receipt) => {
+            if(receipt.events.DRPDeleted && receipt.events.DRPDeleted.returnValues._domainAddr){
+                this.setState({
+                    alert: {
+                        open: true,
+                        title: "Success",
+                        message: "DRP deleted successfully"
+                    },
+                    isLoading: false
+                });
+            }
+            else {
+                this.setState({
+                    alert: {
+                        open: true,
+                        title: "Error",
+                        message: "Could not delete DRP :("
+                    },
+                    isLoading: false
+                });
+            }
+        })
+        .on("error", ()=>{
+            this.setState({
+                alert: {
+                    open: true,
+                    title: "Error",
+                    message: "An error has occurred :("
+                },
+                isLoading: false
+            });
+        });
+    }
+
     async handleRegisterCCP(clientDetails){
         this.setState({
             isLoading: true,
@@ -168,7 +216,7 @@ class ClientDashboard extends Component {
         });
         if(this.state.isRegistered){
             // get update fee from blockchain
-            const updateFee = await this.context.contract.client_update_fee;
+            const updateFee = await this.context.contract.methods.client_update_fee().call();
             // update client details
             try{
                 this.context.contract.methods.updateClient(
@@ -179,27 +227,39 @@ class ClientDashboard extends Component {
                     value: updateFee
                 })
                 .on("receipt", () => {
-                    alert(clientDetails.clientName+" details updated successfully !");
                     this.setState({
+                        alert: {
+                            open: true,
+                            title: "Success",
+                            message: clientDetails.clientName+" details updated successfully !",
+                        },
                         isLoading: false
                     });
                 })
                 .on("error", () => {
-                    alert(clientDetails.clientName+" updation failed !");
                     this.setState({
+                        alert: {
+                            open: true,
+                            title: "Error",
+                            message: clientDetails.clientName+" updation failed !"
+                        },
                         isLoading: false
                     });
                 });
             }catch(err){
-                alert(clientDetails.clientName+" updation failed !");
                 this.setState({
+                    alert: {
+                        open: true,
+                        title: "Error",
+                        message: clientDetails.clientName+" updation failed !"+err.message
+                    },
                     isLoading: false
                 });
             }
         }
         else{
             // get registration fee from blockchain
-            const registerFee = await this.context.contract.client_registration_fee;
+            const registerFee = await this.context.contract.methods.client_registration_fee().call();
             // register client details
             try{
                 this.context.contract.methods.registerClient(
@@ -213,20 +273,32 @@ class ClientDashboard extends Component {
                     value: registerFee
                 })
                 .on("receipt", () => {
-                    alert(clientDetails.clientName+" registered successfully !");
                     this.setState({
+                        alert: {
+                            open: true,
+                            title: "Success",
+                            message: clientDetails.clientName+" registered successfully !"
+                        },
                         isLoading: false
                     });
                 })
                 .on("error", () => {
-                    alert(clientDetails.clientName+" registration failed !");
                     this.setState({
+                        alert: {
+                            open: true,
+                            title: "Error",
+                            message: clientDetails.clientName+" registration failed !"
+                        },
                         isLoading: false
                     });
                 });
             }catch(err){
-                alert(clientDetails.clientName+" registration failed !");
                 this.setState({
+                    alert: {
+                        open: true,
+                        title: "Error",
+                        message: clientDetails.clientName+" registration failed !"
+                    },
                     isLoading: false
                 }); 
             }
@@ -244,20 +316,32 @@ class ClientDashboard extends Component {
                 value: parseInt(this.context.web3.utils.toWei(domain.drpPrice, "ether"))
             })
             .on("receipt", () => {
-                alert("Successfully purchased "+domain.domainName+" DRP");
                 this.setState({
+                    alert: {
+                        open: true,
+                        title: "Success",
+                        message: "Successfully purchased "+domain.domainName+" DRP"
+                    },
                     isLoading: false
                 });
             })
             .on("error", () => {
-                alert("Purchase failed :(");
                 this.setState({
+                    alert: {
+                        open: true,
+                        title: "Error",
+                        message: "Purchase failed :("
+                    },
                     isLoading: false
                 });
             });
         }catch(err){
-            alert("Purchase failed :( "+err);
             this.setState({
+                alert: {
+                    open: true,
+                    title: "Error",
+                    message: "Purchase failed :("+err.message
+                },
                 isLoading: false
             }); 
         }
@@ -268,19 +352,30 @@ class ClientDashboard extends Component {
             isLoading: true
         });
         const [ccpValidityStatus, ccpContractStatus] = await this.context.contract.methods.getCCPStatus().call();
+        let mssg = "";
+        let title = "";
         if(ccpValidityStatus && ccpContractStatus){
-            alert("CCP valid :)");
+            title = "Valid";
+            mssg = "CCP valid :)";
         }
         else if(ccpValidityStatus && !ccpContractStatus){
-            alert("CCP Check Contract is invalid :(");
+            title = "Invalid";
+            mssg = "CCP Check Contract is invalid :(";
         }
         else if(!ccpValidityStatus && ccpContractStatus){
-            alert("CCP validity has expired :(");
+            title = "Invalid";
+            mssg = "CCP validity has expired :(";
         }
         else{
-            alert("CCP validity has expired and CCP Check Contract is invalid :(");
+            title = "Invalid";
+            mssg = "CCP validity has expired and CCP Check Contract is invalid :(";
         }
         this.setState({
+            alert: {
+                open: true,
+                title,
+                message: mssg
+            },
             isLoading: false
         });
     }
@@ -446,7 +541,7 @@ class ClientDashboard extends Component {
                                 <TableBody>
                                     {(this.state.drpList.length === 0)
                                     ? <TableRow>
-                                        <TableCell align="center" colSpan="3">
+                                        <TableCell align="center" colSpan="6">
                                             <Typography variant ="h6" component="h6">
                                                 No data to display
                                             </Typography>
@@ -470,6 +565,25 @@ class ClientDashboard extends Component {
                     open={this.state.openPurchaseForm} 
                     onClose={() => this.setState({openPurchaseForm: false})}
                     onPurchase={(domain) => this.handlePurchaseDRP(domain)}
+                />
+
+                <AlertDialog 
+                    open={this.state.alert.open}
+                    title={this.state.alert.title}
+                    message={this.state.alert.message}
+                    isConfirm={this.state.showConfirm}
+                    onClose={() => this.setState({
+                        alert: {
+                            open: false,
+                            title: "",
+                            message: ""
+                        },
+                        showConfirm: false
+                    })}
+                    onConfirm={this.state.showConfirm 
+                        ?   () => this.deleteDRP(this.state.deleteDRPIndex)
+                        :   undefined
+                    }
                 />
             </div>
         );

@@ -12,6 +12,7 @@ import { withStyles } from "@material-ui/core/styles";
 import logo from "../assets/metamask.svg";
 import getWeb3 from "../utils/getWeb3";
 import AppContext from "../context/AppContext";
+import AlertDialog from "../widgets/AlertDialog";
 import DDA from "../contracts/DDA.json";
 
 const useStyles = theme => ({
@@ -45,6 +46,11 @@ class HomePage extends Component {
 		super(props);
 		this.state = {
 			isLoading: false,
+			alert: {
+				open: false,
+				title: "",
+				message: ""
+			},
 			isLoggedIn: (sessionStorage.getItem("isLoggedIn") === "true") || false
 		};
 		// binding this
@@ -89,8 +95,12 @@ class HomePage extends Component {
 			}
 		} catch (error) {
 			// Catch any errors for any of the above operations.
-			alert("An unexpected error has occurred !\n"+error.message);
 			this.setState({
+				alert: {
+					open: true,
+					title: "Error",
+					message: "An unexpected error has occurred !\n"+error.message
+				},
 				isLoading: false
 			});
 		}
@@ -151,6 +161,20 @@ class HomePage extends Component {
 						{/* Empty Grid element for spacing */}
 					</Grid>
 				</Grid>
+
+				<AlertDialog 
+                    open={this.state.alert.open}
+                    title={this.state.alert.title}
+                    message={this.state.alert.message}
+                    isConfirm={false}
+                    onClose={() => this.setState({
+                        alert: {
+                            open: false,
+                            title: "",
+                            message: ""
+                        }
+                    })}
+                />
 			</div>
 		);
 	}
