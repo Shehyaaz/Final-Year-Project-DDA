@@ -4,7 +4,7 @@ const DRPReact = artifacts.require("./DRPReaction.sol");
 
 
 contract("DDA", accounts => {  
-    describe("CheckDomainRegisteration", () => {
+    describe("CheckDomainRegistration", () => {
         it("...should return false", async () => {
                 const ddaInstance = await DDA.deployed();
                 const isCRegistered = await ddaInstance.isClientRegistered.call();
@@ -36,7 +36,7 @@ contract("DDA", accounts => {
     });  
     
     //test for domain registeration
-    describe("CheckDomainRegisteration", () => {
+    describe("CheckDomainRegistration", () => {
  
         it("...should return false", async () => {
             const ddaInstance = await DDA.deployed();
