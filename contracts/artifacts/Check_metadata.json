@@ -1,0 +1,121 @@
+{
+	"compiler": {
+		"version": "0.5.17+commit.d19bba13"
+	},
+	"language": "Solidity",
+	"output": {
+		"abi": [
+			{
+				"constant": true,
+				"inputs": [
+					{
+						"internalType": "bytes32[]",
+						"name": "_ctLogIDs",
+						"type": "bytes32[]"
+					},
+					{
+						"internalType": "bytes32[]",
+						"name": "_sctLogID",
+						"type": "bytes32[]"
+					},
+					{
+						"internalType": "uint256[]",
+						"name": "_sctTimestamp",
+						"type": "uint256[]"
+					},
+					{
+						"internalType": "uint256",
+						"name": "_maximum_merge_delay",
+						"type": "uint256"
+					},
+					{
+						"internalType": "uint256",
+						"name": "_certValidFrom",
+						"type": "uint256"
+					},
+					{
+						"internalType": "uint256",
+						"name": "_certValidTo",
+						"type": "uint256"
+					}
+				],
+				"name": "check",
+				"outputs": [
+					{
+						"internalType": "bool",
+						"name": "",
+						"type": "bool"
+					}
+				],
+				"payable": false,
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"constant": false,
+				"inputs": [],
+				"name": "terminateCCP",
+				"outputs": [],
+				"payable": false,
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"constant": true,
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "_addr",
+						"type": "address"
+					}
+				],
+				"name": "verifyCCPAddress",
+				"outputs": [
+					{
+						"internalType": "bool",
+						"name": "",
+						"type": "bool"
+					}
+				],
+				"payable": false,
+				"stateMutability": "view",
+				"type": "function"
+			}
+		],
+		"devdoc": {
+			"methods": {}
+		},
+		"userdoc": {
+			"methods": {}
+		}
+	},
+	"settings": {
+		"compilationTarget": {
+			"Check.sol": "Check"
+		},
+		"evmVersion": "istanbul",
+		"libraries": {},
+		"optimizer": {
+			"enabled": false,
+			"runs": 200
+		},
+		"remappings": []
+	},
+	"sources": {
+		"Check.sol": {
+			"keccak256": "0x509c6da76c17975106e0d0fe10ffc054d7469c9a34bed9ddf641b77870b8f9f2",
+			"urls": [
+				"bzz-raw://cdc8f56d6c21f1aa000a670984dba907ea03411fdfe324794bb48780566a10bf",
+				"dweb:/ipfs/QmfCsEzJ2RG3ws4eoprs28rHDTh9UgLcB1W2hCauYvncYt"
+			]
+		},
+		"CheckInterface.sol": {
+			"keccak256": "0x199529de84e3bc11276fd1776b5d3e8020cd3ba09cf74e1b0ffc877123c882c6",
+			"urls": [
+				"bzz-raw://06b85ad6bbef9b11dcebc2cff903a6775e646955a9fee900963e55c11f02a6cc",
+				"dweb:/ipfs/QmaLRmtUeYfaCVtBQEFDd9rWA7bLctekcLuF4abEVmLko6"
+			]
+		}
+	},
+	"version": 1
+}

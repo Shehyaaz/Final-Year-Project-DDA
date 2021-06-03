@@ -1,0 +1,10 @@
+To deploy smart contracts:
+On a separate cmd: ganache-cli
+On this cmd:
+truffle migrate --reset
+
+To run the project:
+cd server
+node index.js
+cd ..\client
+npm start

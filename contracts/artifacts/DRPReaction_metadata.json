@@ -1,0 +1,100 @@
+{
+	"compiler": {
+		"version": "0.5.17+commit.d19bba13"
+	},
+	"language": "Solidity",
+	"output": {
+		"abi": [
+			{
+				"constant": false,
+				"inputs": [],
+				"name": "terminate",
+				"outputs": [],
+				"payable": false,
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"constant": false,
+				"inputs": [
+					{
+						"internalType": "uint256",
+						"name": "_drpPrice",
+						"type": "uint256"
+					},
+					{
+						"internalType": "uint8",
+						"name": "internal_misbehaviour",
+						"type": "uint8"
+					},
+					{
+						"internalType": "uint8",
+						"name": "contract_fund_payment",
+						"type": "uint8"
+					}
+				],
+				"name": "trigger",
+				"outputs": [],
+				"payable": false,
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"constant": true,
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "_addr",
+						"type": "address"
+					}
+				],
+				"name": "verifyAddress",
+				"outputs": [
+					{
+						"internalType": "bool",
+						"name": "",
+						"type": "bool"
+					}
+				],
+				"payable": false,
+				"stateMutability": "view",
+				"type": "function"
+			}
+		],
+		"devdoc": {
+			"methods": {}
+		},
+		"userdoc": {
+			"methods": {}
+		}
+	},
+	"settings": {
+		"compilationTarget": {
+			"DRPReaction.sol": "DRPReaction"
+		},
+		"evmVersion": "istanbul",
+		"libraries": {},
+		"optimizer": {
+			"enabled": false,
+			"runs": 200
+		},
+		"remappings": []
+	},
+	"sources": {
+		"DRPInterface.sol": {
+			"keccak256": "0x3567c917bea553415e38da92ee50db7553c0df399a61d7f3979046b62ac3c139",
+			"urls": [
+				"bzz-raw://799fa525c30bf543641c669fa8ce072aa15e4f5ebe8db8853c4d008703c3db4b",
+				"dweb:/ipfs/QmWddVL2EQjNrFJ1DjjWdxBU4CTfjcjQ8Rr4TpAMwMS3qc"
+			]
+		},
+		"DRPReaction.sol": {
+			"keccak256": "0x8f0b634e4597c724a7b24f8b4894bc283a023920f367b33b1b5936768e3f17e4",
+			"urls": [
+				"bzz-raw://75d185c8be1ae5cce607e69a765ea2e3e6d0d34ee4825469f17ec78355e2f7a7",
+				"dweb:/ipfs/Qmcyi6KAjPn9p7dLHhbvXHdTpeMNZZ6uB8EfZoKC38dgu6"
+			]
+		}
+	},
+	"version": 1
+}

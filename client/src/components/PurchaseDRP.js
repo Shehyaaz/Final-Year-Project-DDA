@@ -1,135 +1,151 @@
-import React, {Component} from 'react';
-import Popover from '@material-ui/core/Popover';
+import React, { Component } from 'react';
 import Recaptcha from 'react-recaptcha';
-import "./formstyle.module.css";
 import { 
 	Button,
 	TextField,
-	Link,
 	Box,
-	Typography 	
+	Dialog,
+  DialogContent,
+  DialogContentText,
+  DialogActions,
+  DialogTitle, 	
+  CircularProgress
 } from '@material-ui/core';
-import { makeStyles } from '@material-ui/core/styles';
-// import user-defined components
-
-
-function FooterText() {
-  return (
-    <Typography variant="body2" color="textSecondary" align="center">
-      <Link color="inherit" href="">
-      © Decentralised Domain Auth.
-      </Link>{' '}
-      {new Date().getFullYear()}
-      {'.'}
-    </Typography>
-  );
-}
-
-
-
-
-const useStyles = makeStyles((theme) => ({
-  paper: {
-    margin: theme.spacing(10, 20),
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
-  },
-  form: {
-    width: '100%', // Fix IE 11 issue.
-    marginTop: theme.spacing(8),
-   
-  },
-  submit: {
-    margin: theme.spacing(6, 0, 2),
-  },
-}));
-
+import {
+  Autocomplete
+} from "@material-ui/lab";
+import { siteKey } from "../utils/constants";
+import AppContext from "../context/AppContext";
 
 class PurchaseDRP extends Component {
 	constructor(props){
-    super(props)
-
-    this.handleSubscribe=this.handleSubscribe.bind(this);
-    this.recaptchaLoaded=this.recaptchaLoaded.bind(this);
-    this.verifyCallback=this.verifyCallback.bind(this);
+    super(props);
     this.state={
-      isVerified: false
-    }
+      isVerified: false,
+      isLoading: false,
+      domains: [],
+      selectedDomain: null
+    };
+    this.initialState = {...this.state};
+    this.verifyCallback = this.verifyCallback.bind(this);
+    this.handleClose = this.handleClose.bind(this);
+    this.handlePurchase = this.handlePurchase.bind(this);
   }
-  recaptchaLoaded(){
-    console.log('Captch is loaded.');
+
+  handleClose(){
+    this.setState({
+      ...this.initialState
+    });
+    this.props.onClose();
   }
-   handleSubscribe(){
-     if(this.state.isVerified){
-       alert('You have successfully verified!');
-     }else{
-      alert('Please verify you are a human!');
 
-     }
+  handlePurchase(domain){
+    this.setState({
+      ...this.initialState
+    });
+    this.props.onPurchase(domain);
+  }
 
-   }   
-   verifyCallback(response){
+  verifyCallback(response){
     if(response){
       this.setState({
         isVerified: true
       });
     }
-   }
+  }
+
+  componentDidMount = async() => {
+      this.setState({
+        isLoading: true
+      });
+      // load domain DRPs data
+      const domains = [];
+      const drpNum = await this.context.contract.methods.getNumDRP().call();
+      for(let i = 0; i < drpNum; i++){
+          const [domainName, drpPrice, domainAddress] = await this.context.contract.methods.getDRPDetails(i).call(); // an array of values is returned
+          domains.push({
+              domainName: this.context.web3.utils.hexToUtf8(domainName),
+              drpPrice: parseFloat(this.context.web3.utils.fromWei(drpPrice, "ether")),
+              domainAddress
+          });
+      }
+      this.setState({
+          isLoading: false,
+          domains,
+          selectedDomain: domains[0]
+      });
+  }
+
   render() {
-  	const classes = this.props.classes;
- 
-// executed once the captcha has been verified
-// can be used to post forms, redirect, etc.
-const verifyCallback = function (response) {
-  console.log(response);
-  document.getElementById("someForm").submit();
-};
-
-    
-  	return (
-    	<div className={classes.paper}>
-     
-	  		<Typography component="h1" variant="h5" align="center">
-	    		Purchase DRP
-	  		</Typography>
-	  		<form className={classes.form} id="client_sign_in" noValidate>
-	    		    <TextField
-	      			variant="outlined" margin="normal" required fullWidth
-	      			id="Domain_name" label="Domaint Name"
-	      			name="Domain_name" autoFocus />
- 
-            <Button
-              type="submit" fullWidth disabled={!this.state.isVerified} variant="contained" color="secondary"
-              className={classes.submit}>
-              purchase
-              </Button>
-            </form>			
-           
-     
-          <Box m={2} display= "inline">  
-          <Recaptcha
-            sitekey="6Ldn85EaAAAAAHbh1dh0nD7FWQ8pt6BQvF_LbwIy"
-            render="explicit"
-            onloadCallback={this.recaptchaLoaded}
-            verifyCallback={this.verifyCallback}
-          /></Box>
-     	  			
-				<Box mt={5}>  <FooterText />	</Box>
-
-    	</div>
+    const buttonDisabled = !this.state.isVerified || !this.state.selectedDomain;
+    return (
+      <Dialog open={this.props.open} aria-labelledby="purchase-drp">
+        <DialogTitle id="purchase-drp">Purchase DRP</DialogTitle>
+          {this.state.isLoading
+            ? <div>
+                <DialogContent>
+                  <CircularProgress color = "secondary" />
+                </DialogContent>
+                <DialogActions>
+                  <Button onClick={this.handleClose} color="secondary">
+                    Cancel
+                  </Button>
+                </DialogActions>
+              </div>
+            : (this.state.domains.length > 0)
+                ? <div>
+                    <DialogContent>
+                      <Autocomplete 
+                        id="domain-name"
+                        value={this.state.selectedDomain.domainName}
+                        onChange={(event, newValue) => {
+                          this.setState({
+                            selectedDomain: newValue
+                          });
+                        }}
+                        options={this.props.domains}
+                        getOptionLabel={(option) => option.domainName+" ("+option.drpPrice+" ether)"}
+                        renderInput={(params) => <TextField {...params} label="Domain Name" variant="outlined" required/>}
+                      />
+                      <Box m={2}  justifyContent="center">  
+                        <Recaptcha
+                          sitekey={siteKey}
+                          render="explicit"
+                          verifyCallback={this.verifyCallback}
+                        />
+                      </Box>
+                    </DialogContent>
+                    <DialogActions>
+                      <Button onClick={this.handleClose} color="secondary">
+                        Cancel
+                      </Button>
+                      <Button
+                        disabled={buttonDisabled} color="primary"
+                        onClick={() => this.handlePurchase(this.state.selectedDomain)}
+                      >
+                        Purchase
+                      </Button>
+                    </DialogActions>
+                  </div>
+                : <div>
+                    <DialogContent>
+                      <DialogContentText>
+                        There are no DRPs to purchase, please try again later.
+                      </DialogContentText>
+                    </DialogContent>
+                    <DialogActions>
+                      <Button onClick={this.handleClose} color="secondary">
+                        Cancel
+                      </Button>
+                    </DialogActions>
+                  </div>
+          } 
+      </Dialog>
   );
  }
 }
 
-export default () => {
-    const classes = useStyles();
-
-    return (
-     
-        <PurchaseDRP classes={classes} />
-       
-    )
-}
+PurchaseDRP.contextType = AppContext;
+export default PurchaseDRP;
 
 

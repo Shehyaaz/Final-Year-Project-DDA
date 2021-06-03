@@ -6,24 +6,36 @@ Authors : Mohammed Sufiyan Aman, Riyanchhi Agrawal, Shakshi Pandey, Shehyaaz Kha
 pragma solidity ^0.5.0;
 
 contract CheckInterface {
-    address owner;
+    address payable owner;
     
-    function constructor() public {
+    constructor() public {
         owner = msg.sender;
     }
     
     modifier onlyOwner() {
-        require(owner == msg.sender, "Only contract owner can access this function");
+        require(owner == msg.sender);
         _;
     }
     
-    function check(
-        string memory cert, 
-        string memory ctLog, 
-        string memory revLog, 
-        string memory signature
-    ) public onlyOwner returns(bool, bool);
-    /* This function must be implemented by a child contract.
-    *  First return value indicates if the certificate is valid, second value indicates if the signature is valid
+    function verifyCCPAddress(address _addr) external view returns(bool){
+        return _addr == address(this);
+    }
+    
+    /* this function destroys the contract */
+    function terminateCCP() external onlyOwner{
+        selfdestruct(owner);
+    }
+    
+    /* 
+    * This function must be implemented by a child contract.
+    * Return value indicates if the certificate is valid.
     */
+    function check(
+        bytes32[] calldata _ctLogIDs, 
+        bytes32[] calldata _sctLogID,
+        uint256[] calldata _sctTimestamp,
+        uint256 _maximum_merge_delay,
+        uint256 _certValidFrom,
+        uint256 _certValidTo
+    ) external view returns(bool);
 }
