@@ -218,7 +218,7 @@ class Account extends Component {
                 >
                     <Grid item xs={12}>
                         <Typography variant="h5" component="h5">
-                            View Your Account Details
+                            Your Details
                         </Typography>
                     </Grid>
                     <Grid 

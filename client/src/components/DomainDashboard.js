@@ -103,7 +103,7 @@ class DomainDashboard extends Component {
                         alert: {
                             open: true,
                             title: "Success",
-                            message: domainDetails.domainName+" details updated successfully !"
+                            message: domainDetails.domainName+" details were updated successfully !"
                         },
                         isLoading: false
                     });
@@ -218,7 +218,7 @@ class DomainDashboard extends Component {
         let mssg = "";
         if(status[0] && status[1]){
             title = "Valid";
-            mssg = "DRP valid :)";
+            mssg = "Your Domain Reaction Policy is valid :)";
         }
         else if(status[0] && !status[1]){
             title = "Invalid";
@@ -226,11 +226,11 @@ class DomainDashboard extends Component {
         }
         else if(!status[0] && status[1]){
             title = "Invalid";
-            mssg = "DRP validity has expired :(";
+            mssg = "The validity of your Domain Reaction Policy has expired :(";
         }
         else{
             title = "Invalid";
-            mssg = "DRP validity has expired and DRP React Contract is either invalid or has been terminated :(";
+            mssg = "The validity of your Domain Reaction Policy has expired and the React Contract is either invalid or has been terminated :(";
         }
         this.setState({
             alert: {

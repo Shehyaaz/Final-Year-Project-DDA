@@ -237,7 +237,7 @@ class ClientDashboard extends Component {
                         alert: {
                             open: true,
                             title: "Success",
-                            message: clientDetails.clientName+" details updated successfully !",
+                            message: clientDetails.clientName+" details were updated successfully !",
                         },
                         isLoading: false
                     });
@@ -247,7 +247,7 @@ class ClientDashboard extends Component {
                         alert: {
                             open: true,
                             title: "Error",
-                            message: clientDetails.clientName+" updation failed !"
+                            message: clientDetails.clientName+" details could not be updated !"
                         },
                         isLoading: false
                     });
@@ -257,7 +257,7 @@ class ClientDashboard extends Component {
                     alert: {
                         open: true,
                         title: "Error",
-                        message: clientDetails.clientName+" updation failed !"+err.message
+                        message: clientDetails.clientName+" details could not be updated ! "+err.message
                     },
                     isLoading: false
                 });
@@ -305,7 +305,7 @@ class ClientDashboard extends Component {
                     alert: {
                         open: true,
                         title: "Error",
-                        message: clientDetails.clientName+" registration failed !"
+                        message: clientDetails.clientName+" registration failed ! "+err.message
                     },
                     isLoading: false
                 }); 
@@ -330,7 +330,7 @@ class ClientDashboard extends Component {
                     alert: {
                         open: true,
                         title: "Success",
-                        message: "Successfully purchased "+domain.domainName+" DRP"
+                        message: "Successfully purchased the DRP of "+domain.domainName
                     },
                     isLoading: false
                 });
@@ -340,7 +340,7 @@ class ClientDashboard extends Component {
                     alert: {
                         open: true,
                         title: "Error",
-                        message: "Purchase failed :("
+                        message: "DRP purchase failed :("
                     },
                     isLoading: false
                 });
@@ -350,7 +350,7 @@ class ClientDashboard extends Component {
                 alert: {
                     open: true,
                     title: "Error",
-                    message: "Purchase failed :("+err.message
+                    message: "DRP purchase failed :( "+err.message
                 },
                 isLoading: false
             }); 
@@ -368,19 +368,19 @@ class ClientDashboard extends Component {
         let title = "";
         if(status[0] && status[1]){
             title = "Valid";
-            mssg = "CCP valid :)";
+            mssg = "Your Client Check Policy is valid :)";
         }
         else if(status[0] && !status[1]){
             title = "Invalid";
-            mssg = "CCP Check Contract is invalid :(";
+            mssg = "Your Client Check Policy Check Contract is invalid :(";
         }
         else if(!status[0] && status[1]){
             title = "Invalid";
-            mssg = "CCP validity has expired :(";
+            mssg = "The validity of your Client Check Policy has expired :(";
         }
         else{
             title = "Invalid";
-            mssg = "CCP validity has expired and CCP Check Contract is invalid :(";
+            mssg = "The validity of your Client Check Policy has expired and the Check Contract is invalid :(";
         }
         this.setState({
             alert: {
