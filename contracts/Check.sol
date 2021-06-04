@@ -16,7 +16,7 @@ contract Check is CheckInterface {
         uint256 _maximum_merge_delay,
         uint256 _certValidFrom,
         uint256 _certValidTo
-    ) external view onlyOwner returns(bool){
+    ) external view returns(bool){
         /* checks the sct log id against the ct log ids, also checks certificate validity */
         uint8 minSCT = 2;
         bool status = true; // assume certificate is valid

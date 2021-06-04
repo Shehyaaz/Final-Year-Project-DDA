@@ -48,7 +48,7 @@
 						"type": "address"
 					}
 				],
-				"name": "verifyAddress",
+				"name": "verifyDRPAddress",
 				"outputs": [
 					{
 						"internalType": "bool",
@@ -82,10 +82,10 @@
 	},
 	"sources": {
 		"DRPInterface.sol": {
-			"keccak256": "0x3567c917bea553415e38da92ee50db7553c0df399a61d7f3979046b62ac3c139",
+			"keccak256": "0x217052096217432b713470be2ba90583d96b867a9c63be3862a3e7c2c767ac0c",
 			"urls": [
-				"bzz-raw://799fa525c30bf543641c669fa8ce072aa15e4f5ebe8db8853c4d008703c3db4b",
-				"dweb:/ipfs/QmWddVL2EQjNrFJ1DjjWdxBU4CTfjcjQ8Rr4TpAMwMS3qc"
+				"bzz-raw://25ddd6353f04eb3c3cf4c7e14340e1200138683c45a09d84cdc9d440dd65c373",
+				"dweb:/ipfs/QmUaXHwcgPWksZr7pVLTjUFQ73JjU3696JC4g2hgDADjB7"
 			]
 		},
 		"DRPReaction.sol": {

@@ -292,6 +292,11 @@
 						"internalType": "bool",
 						"name": "",
 						"type": "bool"
+					},
+					{
+						"internalType": "bool",
+						"name": "",
+						"type": "bool"
 					}
 				],
 				"payable": false,
@@ -383,11 +388,6 @@
 						"internalType": "address",
 						"name": "",
 						"type": "address"
-					},
-					{
-						"internalType": "uint8",
-						"name": "",
-						"type": "uint8"
 					}
 				],
 				"payable": false,
@@ -430,6 +430,11 @@
 				"inputs": [],
 				"name": "getDRPStatus",
 				"outputs": [
+					{
+						"internalType": "bool",
+						"name": "",
+						"type": "bool"
+					},
 					{
 						"internalType": "bool",
 						"name": "",
@@ -479,11 +484,6 @@
 						"internalType": "address",
 						"name": "",
 						"type": "address"
-					},
-					{
-						"internalType": "uint8",
-						"name": "",
-						"type": "uint8"
 					}
 				],
 				"payable": false,
@@ -494,6 +494,21 @@
 				"constant": true,
 				"inputs": [],
 				"name": "getEscrowAmount",
+				"outputs": [
+					{
+						"internalType": "uint256",
+						"name": "",
+						"type": "uint256"
+					}
+				],
+				"payable": false,
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"constant": true,
+				"inputs": [],
+				"name": "getNumDRP",
 				"outputs": [
 					{
 						"internalType": "uint256",
@@ -745,10 +760,10 @@
 			]
 		},
 		"DDA.sol": {
-			"keccak256": "0xa302890661838367d893149c11f788a35e2e47c5b6329270804e7a3286dbc753",
+			"keccak256": "0xeccdcce604fd2cbaa6c6f6a751e1946e96fa5daff79460bf77fdd9bcd5f3a9a2",
 			"urls": [
-				"bzz-raw://64c26b1d005d3ee089f68649c2f41c9689ba564cdf8ba1621bd074dba920e4e7",
-				"dweb:/ipfs/QmeszpkvMyQKMALzQWNGmzuHVq2mHGTdwCL76AvXpiKBWk"
+				"bzz-raw://f738995cf84d94457330e5d5bdefccd4110b607f2142be5b4b770d3f1873eeda",
+				"dweb:/ipfs/QmdsVXKTg6gVhMs1uNbtpPsXQtkhnbiKtiRjZEiLtsXcgK"
 			]
 		},
 		"DRPInterface.sol": {
