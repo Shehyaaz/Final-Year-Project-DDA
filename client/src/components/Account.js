@@ -82,16 +82,20 @@ class Account extends Component {
     
     async getClientData(){
         // get client CCP data
-        const [ccpValidityStatus, ccpContractStatus] = await this.context.contract.methods.getCCPStatus().call();
-        const [clientName, validFrom, validTo, clientAddress, checkContract] = await this.context.contract.getClientDetails().call();
+        const status = await this.context.contract.methods.getCCPStatus().call({
+            from: this.state.account
+        });
+        const clientData = await this.context.contract.methods.getClientDetails().call({
+            from: this.state.account
+        });
         let ccpStatusMssg = "";
-        if(ccpValidityStatus && ccpContractStatus){
+        if(status[0] && status[1]){
             ccpStatusMssg = "CCP valid";
         }
-        else if(ccpValidityStatus && !ccpContractStatus){
+        else if(status[0] && !status[1]){
             ccpStatusMssg = "CCP Check Contract is invalid";
         }
-        else if(!ccpValidityStatus && ccpContractStatus){
+        else if(!status[0] && status[1]){
             ccpStatusMssg = "CCP validity has expired";
         }
         else{
@@ -99,12 +103,12 @@ class Account extends Component {
         }
         this.setState({
           clientDetails: {
-            clientName: this.context.web3.utils.hexToUtf8(clientName),
-            validFrom: new Date(validFrom).toISOString().split("T")[0],
-            validTo: new Date(validTo).toISOString().split("T")[0],
-            clientAddress,
-            ccpAddress: checkContract,
-            ccpStatus: ccpValidityStatus && ccpContractStatus,
+            clientName: this.context.web3.utils.hexToUtf8(clientData[0]),
+            validFrom: new Date(parseInt(clientData[1])*1000).toISOString().split("T")[0],
+            validTo: new Date(parseInt(clientData[2])*1000).toISOString().split("T")[0],
+            clientAddress: clientData[3],
+            ccpAddress: clientData[4],
+            ccpStatus: status[0] && status[1],
             ccpStatusMssg
           }
         });
@@ -112,19 +116,25 @@ class Account extends Component {
 
     async getDomainData(){
         // get escrow amount
-        const escrowAmount = await this.context.contract.methods.getEscrowAmount().call();
+        const escrowAmount = await this.context.contract.methods.getEscrowAmount().call({
+            from: this.state.account
+        });
         // get domain DRP data
-        const [drpValidityStatus, drpContractStatus] = await this.context.contract.methods.getDRPPStatus().call();
-        const [domainName, issuerName, validFrom, validTo, drpPrice, domainAddress, reactContract] = await this.context.contract.getClientDetails().call();
+        const status = await this.context.contract.methods.getDRPPStatus().call({
+            from: this.state.account
+        });
+        const domainData = await this.context.contract.getDomainDetails().call({
+            from: this.state.account
+        });
         
         let drpStatusMssg = "";
-        if(drpValidityStatus && drpContractStatus){
+        if(status[0] && status[1]){
             drpStatusMssg = "DRP valid";
         }
-        else if(drpValidityStatus && !drpContractStatus){
+        else if(status[0] && !status[1]){
             drpStatusMssg = "DRP React Contract is invalid";
         }
-        else if(!drpValidityStatus && drpContractStatus){
+        else if(!status[0] && status[1]){
             drpStatusMssg = "DRP validity has expired";
         }
         else{
@@ -133,23 +143,27 @@ class Account extends Component {
         
         this.setState({
             domainDetails: {
-                domainName: this.context.web3.utils.hexToUtf8(domainName),
-                issuer: this.context.web3.utils.hexToUtf8(issuerName),
-                validFrom: new Date(validFrom).toISOString().split("T")[0],
-                validTo: new Date(validTo).toISOString().split("T")[0],
-                domainAddress,
-                drpAddress: reactContract,
-                price: parseFloat(this.context.web3.utils.fromWei(drpPrice, "ether")),
-                escrowAmount: parseFloat(this.context.web3.utils.fromWei(escrowAmount, "ether")),
-                drpStatus: drpValidityStatus && drpContractStatus,
+                domainName: this.context.web3.utils.hexToUtf8(domainData[0]),
+                issuer: this.context.web3.utils.hexToUtf8(domainData[1]),
+                validFrom: new Date(parseInt(domainData[2])*1000).toISOString().split("T")[0],
+                validTo: new Date(parseInt(domainData[3])*1000).toISOString().split("T")[0],
+                domainAddress: domainData[4],
+                drpAddress: domainData[5],
+                price: this.context.web3.utils.fromWei(domainData[6].toString(), "ether"),
+                escrowAmount: this.context.web3.utils.fromWei(escrowAmount, "ether"),
+                drpStatus: status[0] && status[1],
                 drpStatusMssg
             }
         });
     }
 
     async getDataFromBlockchain(){
-        const clientRegistered = await this.context.contract.methods.isClientRegistered().call();
-        const domainRegistered = await this.context.contract.methods.isDomainRegistered().call();
+        const clientRegistered = await this.context.contract.methods.isClientRegistered().call({
+            from: this.state.account
+        });
+        const domainRegistered = await this.context.contract.methods.isDomainRegistered().call({
+            from: this.state.account
+        });
         if(clientRegistered){
             await this.getClientData();
         }
@@ -199,10 +213,14 @@ class Account extends Component {
                     container 
 					component="main" 
                     direction="column"
-                    justify="center"
                     alignItems="stretch"
                     spacing = {8}
                 >
+                    <Grid item xs={12}>
+                        <Typography variant="h5" component="h5">
+                            View Your Account Details
+                        </Typography>
+                    </Grid>
                     <Grid 
                         container 
                         item 

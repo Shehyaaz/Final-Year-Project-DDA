@@ -29,6 +29,7 @@ import CCPRegistration from "./CCPRegistration";
 import PurchaseDRP from "./PurchaseDRP";
 import AlertDialog from "../widgets/AlertDialog";
 import AppContext from "../context/AppContext";
+import { gasLimit } from "../utils/constants";
 
 const useStyles = theme => ({
     root: {
@@ -104,18 +105,19 @@ class ClientDashboard extends Component {
             }
             throw new Error(res);
         })
-        .then((res) => {
+        .then(async(res) => {
             // call check certificate function from contract
             const sctLogID = res.sctList.map(sct => sct.logID);
             const sctTimestamp = res.sctList.map(sct => sct.timestamp);
-            this.context.contract.checkCertificate(
+            await this.context.contract.methods.checkCertificate(
                 drpIndex,
                 sctLogID,
                 sctTimestamp,
                 res.certValidFrom,
                 res.certValidTo
             ).send({
-                from: this.state.account
+                from: this.state.account,
+                gas: gasLimit
             })
             .on("receipt", async(receipt) => {
                 // certificate check was executed
@@ -172,11 +174,13 @@ class ClientDashboard extends Component {
             isLoading: true
         });
         // delete DRP from client DRP list
-        await this.context.contract.deleteDRPFromClientList(drpIndex).send({
-            from: this.state.account
+        await this.context.contract.methods.deleteDRPFromClientList(drpIndex).send({
+            from: this.state.account,
+            gas: gasLimit
         })
-        .on("receipt", (receipt) => {
+        .on("receipt", async(receipt) => {
             if(receipt.events.DRPDeleted && receipt.events.DRPDeleted.returnValues._domainAddr){
+                await this.getClientData();
                 this.setState({
                     alert: {
                         open: true,
@@ -224,9 +228,11 @@ class ClientDashboard extends Component {
                     clientDetails.ccpAddress
                 ).send({
                     from: this.state.account,
-                    value: updateFee
+                    value: updateFee,
+                    gas: gasLimit
                 })
-                .on("receipt", () => {
+                .on("receipt", async() => {
+                    await this.getClientData();
                     this.setState({
                         alert: {
                             open: true,
@@ -262,7 +268,7 @@ class ClientDashboard extends Component {
             const registerFee = await this.context.contract.methods.client_registration_fee().call();
             // register client details
             try{
-                this.context.contract.methods.registerClient(
+                await this.context.contract.methods.registerClient(
                     this.context.web3.utils.utf8ToHex(clientDetails.clientName),
                     Math.floor(new Date(clientDetails.validFrom).getTime()/1000),
                     Math.floor(new Date(clientDetails.validTo).getTime()/1000),
@@ -270,9 +276,11 @@ class ClientDashboard extends Component {
                     clientDetails.version
                 ).send({
                     from: this.state.account,
-                    value: registerFee
+                    value: registerFee,
+                    gas: gasLimit
                 })
-                .on("receipt", () => {
+                .on("receipt", async() => {
+                    await this.getClientData();
                     this.setState({
                         alert: {
                             open: true,
@@ -311,11 +319,13 @@ class ClientDashboard extends Component {
             openPurchaseForm: false
         });
         try{
-            this.context.contract.methods.purchaseDRP(domain.domainAddress).send({
+            await this.context.contract.methods.purchaseDRP(domain.domainAddress).send({
                 from: this.state.account,
-                value: parseInt(this.context.web3.utils.toWei(domain.drpPrice, "ether"))
+                value: this.context.web3.utils.toWei(domain.drpPrice, "ether"),
+                gas: gasLimit
             })
-            .on("receipt", () => {
+            .on("receipt", async() => {
+                await this.getClientData();
                 this.setState({
                     alert: {
                         open: true,
@@ -351,18 +361,20 @@ class ClientDashboard extends Component {
         this.setState({
             isLoading: true
         });
-        const [ccpValidityStatus, ccpContractStatus] = await this.context.contract.methods.getCCPStatus().call();
+        const status = await this.context.contract.methods.getCCPStatus().call({
+            from: this.state.account
+        });
         let mssg = "";
         let title = "";
-        if(ccpValidityStatus && ccpContractStatus){
+        if(status[0] && status[1]){
             title = "Valid";
             mssg = "CCP valid :)";
         }
-        else if(ccpValidityStatus && !ccpContractStatus){
+        else if(status[0] && !status[1]){
             title = "Invalid";
             mssg = "CCP Check Contract is invalid :(";
         }
-        else if(!ccpValidityStatus && ccpContractStatus){
+        else if(!status[0] && status[1]){
             title = "Invalid";
             mssg = "CCP validity has expired :(";
         }
@@ -381,18 +393,24 @@ class ClientDashboard extends Component {
     }
 
     async getClientData(){
-        const isRegistered = await this.context.contract.methods.isClientRegistered().call();
+        const isRegistered = await this.context.contract.methods.isClientRegistered().call({
+            from: this.state.account
+        });
         const drpList = [];
         if(isRegistered){
-            const drpListLength = await this.context.contract.methods.getClientDRPListLength().call();
-            for(let i=0; i < drpListLength; i++){
-                const [domainName, validFrom, validTo, drpPrice, lastChecked] = await this.context.contract.methods.getClientDRPList(i).call(); // an array of values is returned
+            const drpListLength = await this.context.contract.methods.getClientDRPListLength().call({
+                from: this.state.account
+            });
+            for(let i=0; i < parseInt(drpListLength); i++){
+                const drpData = await this.context.contract.methods.getClientDRPList(i).call({
+                    from: this.state.account
+                }); // an array of values is returned
                 drpList.push({
-                    domainName: this.context.web3.utils.hexToUtf8(domainName),
-                    validFrom: new Date(validFrom).toISOString().split("T")[0],
-                    validTo: new Date(validTo).toISOString().split("T")[0],
-                    drpPrice: parseFloat(this.context.web3.utils.fromWei(drpPrice, "ether")),
-                    lastChecked: lastChecked > 0 ? new Date(lastChecked).toISOString().split("T")[0] : "-"
+                    domainName: this.context.web3.utils.hexToUtf8(drpData[0]),
+                    validFrom: new Date(parseInt(drpData[1])*1000).toISOString().split("T")[0],
+                    validTo: new Date(parseInt(drpData[2])*1000).toISOString().split("T")[0],
+                    drpPrice: this.context.web3.utils.fromWei(drpData[3], "ether"),
+                    lastChecked: parseInt(drpData[4]) > 0 ? new Date(parseInt(drpData[4])*1000).toISOString().split("T")[0] : "-"
                 });
             }
         }
@@ -557,7 +575,6 @@ class ClientDashboard extends Component {
                 <CCPRegistration 
                     open={this.state.openRegistrationForm}
                     onClose={() => this.setState({openRegistrationForm: false})}
-                    update={this.state.isRegistered}
                     onRegister={(clientDetails) => this.handleRegisterCCP(clientDetails)}
                 /> 
 

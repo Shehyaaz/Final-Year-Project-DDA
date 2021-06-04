@@ -24,10 +24,12 @@ class CCPRegistration extends Component {
     this.state={
       isLoading: false,
       isVerified: false,
+      isRegistered: false,
       agree: false,
       error: false,
       errorMessage: '',
       clientName: '',
+      clientPay: '',
       version: 1,
       validFrom: new Date().toISOString().split("T")[0],
       validTo: new Date().toISOString().split("T")[0],
@@ -101,33 +103,38 @@ class CCPRegistration extends Component {
 
   async getClientData(){
     // get client CCP data
-    const [clientName, validFrom, validTo, clientAddress, checkContract] = await this.context.contract.getClientDetails().call();
+    const clientData = await this.context.contract.methods.getClientDetails().call({
+      from: this.context.account
+    });
     this.setState({
-      clientName: this.context.web3.utils.hexToUtf8(clientName),
-      validFrom: new Date(validFrom).toISOString().split("T")[0],
-      validTo: new Date(validTo).toISOString().split("T")[0],
-      clientAddress,
-      ccpAddress: checkContract
+      clientName: this.context.web3.utils.hexToUtf8(clientData[0]),
+      validFrom: new Date(parseInt(clientData[1])*1000).toISOString().split("T")[0],
+      validTo: new Date(parseInt(clientData[2])*1000).toISOString().split("T")[0],
+      clientPay: clientData[3],
+      ccpAddress: clientData[4]
     });
   }
 
   componentDidMount = async() => {
-    if(this.props.update){
-      this.setState({
-        isLoading: true
-      });
+    this.setState({
+      isLoading: true
+    });
+    const isRegistered = await this.context.contract.methods.isClientRegistered().call({
+      from: this.context.account
+    });
+    if(isRegistered){
       await this.getClientData();
-      this.setState({
-        isLoading: false
-      });
     }
+    this.setState({
+      isLoading: false,
+      isRegistered
+    });
   }
 
   render() {
-    const {isLoading, isVerified, agree, error, errorMessage, ...clientDetails} = {...this.state};
+    const {isLoading, isRegistered, isVerified, agree, error, errorMessage, ...clientDetails} = {...this.state};
     const buttonDisabled = !(isVerified && agree && clientDetails.clientName
                             && clientDetails.ccpAddress);
-    clientDetails.clientPay = this.context.account;
   	return (
       <Dialog open={this.props.open} aria-labelledby="register-ccp">
         <DialogTitle id="register-ccp">Client Check Policy Registration</DialogTitle>
@@ -159,7 +166,7 @@ class CCPRegistration extends Component {
                 <TextField
                   variant="outlined" margin="normal" required fullWidth
                   label="Client Pay Adress" name="clientPay" 
-                  value={clientDetails.clientPay}
+                  value={clientDetails.clientPay || this.context.account}
                   InputProps={{
                     readOnly: true
                   }}
@@ -183,7 +190,7 @@ class CCPRegistration extends Component {
                         fullWidth 
                         required
                         InputProps={{
-                          readOnly: this.props.update
+                          readOnly: isRegistered
                         }}
                       />
                   </Grid>
@@ -225,7 +232,7 @@ class CCPRegistration extends Component {
                 <Button disabled={buttonDisabled}
                   color="primary"
                   onClick={() => this.handleRegister(clientDetails)}>
-                  {this.props.update ? "Update":"Register"}
+                  {isRegistered ? "Update":"Register"}
                 </Button>
               </DialogActions>
             </div>

@@ -24,6 +24,7 @@ import { red } from "@material-ui/core/colors";
 import DRPRegistration from "./DRPRegistration";
 import AlertDialog from "../widgets/AlertDialog";
 import AppContext from "../context/AppContext";
+import { gasLimit } from "../utils/constants";
 
 const useStyles = theme => ({
     root: {
@@ -68,7 +69,9 @@ class DomainDashboard extends Component {
 	}
 
     async getDomainRegistrationStatus(){
-        const isRegistered = await this.context.contract.methods.isDomainRegistered().call();
+        const isRegistered = await this.context.contract.methods.isDomainRegistered().call({
+            from: this.state.account
+        });
         this.setState({
             isRegistered
         });
@@ -84,16 +87,18 @@ class DomainDashboard extends Component {
             const updateFee = await this.context.contract.methods.domain_update_fee().call();
             // update domain details
             try{
-                this.context.contract.methods.updateDomain(
+                await this.context.contract.methods.updateDomain(
                     this.context.web3.utils.utf8ToHex(domainDetails.issuer),
                     Math.floor(new Date(domainDetails.validTo).getTime()/1000),
                     parseInt(this.context.web3.utils.toWei(domainDetails.price, "ether")),
                     domainDetails.drpAddress
                 ).send({
                     from: this.state.account,
-                    value: updateFee
+                    value: updateFee,
+                    gas: gasLimit
                 })
-                .on("receipt", () => {
+                .on("receipt", async() => {
+                    await this.getDomainRegistrationStatus();
                     this.setState({
                         alert: {
                             open: true,
@@ -129,11 +134,11 @@ class DomainDashboard extends Component {
             const registerFee = await this.context.contract.methods.domain_registration_fee().call();
             // check if domain is available on the Internet
             fetch("/verify?domainName="+domainDetails.domainName)
-            .then((res) => {
+            .then(async(res) => {
                 if(res.ok){
                     // register domain details
                     try{
-                        this.context.contract.methods.registerDomain(
+                        await this.context.contract.methods.registerDomain(
                             this.context.web3.utils.utf8ToHex(domainDetails.domainName),
                             this.context.web3.utils.utf8ToHex(domainDetails.issuer),
                             Math.floor(new Date(domainDetails.validFrom).getTime()/1000),
@@ -143,9 +148,11 @@ class DomainDashboard extends Component {
                             domainDetails.version
                         ).send({
                             from: this.state.account,
-                            value: registerFee
+                            value: registerFee,
+                            gas: gasLimit
                         })
-                        .on("receipt", () => {
+                        .on("receipt", async() => {
+                            await this.getDomainRegistrationStatus();
                             this.setState({
                                 alert: {
                                     open: true,
@@ -204,18 +211,20 @@ class DomainDashboard extends Component {
         this.setState({
             isLoading: true
         });
-        const [drpValidityStatus, drpContractStatus] = await this.context.contract.methods.getDRPPStatus().call();
+        const status = await this.context.contract.methods.getDRPPStatus().call({
+            from: this.state.account
+        });
         let title = "";
         let mssg = "";
-        if(drpValidityStatus && drpContractStatus){
+        if(status[0] && status[1]){
             title = "Valid";
             mssg = "DRP valid :)";
         }
-        else if(drpValidityStatus && !drpContractStatus){
+        else if(status[0] && !status[1]){
             title = "Invalid";
             mssg = "DRP React Contract is either invalid or has been terminated :(";
         }
-        else if(!drpValidityStatus && drpContractStatus){
+        else if(!status[0] && status[1]){
             title = "Invalid";
             mssg = "DRP validity has expired :(";
         }
@@ -237,7 +246,9 @@ class DomainDashboard extends Component {
         this.setState({
             isLoading: true
         });
-        const escrowAmount = await this.context.contract.methods.getEscrowAmount().call();
+        const escrowAmount = await this.context.contract.methods.getEscrowAmount().call({
+            from: this.state.account
+        });
         this.setState({
             alert: {
                 open: true,
@@ -254,7 +265,8 @@ class DomainDashboard extends Component {
         });
         try{
             await this.context.contract.methods.expireDRP().send({
-                from: this.state.account
+                from: this.state.account,
+                gas: gasLimit
             })
             .on("receipt", async(receipt) => {
                 if(receipt.events.DRPExpired && receipt.events.DRPExpired.returnValues._domainAddr){
@@ -493,7 +505,6 @@ class DomainDashboard extends Component {
                 <DRPRegistration 
                     open={this.state.openRegistrationForm}
                     onClose={() => this.setState({openRegistrationForm: false})}
-                    update={this.state.isRegistered}
                     onRegister={(domainDetails) => this.handleRegisterDRP(domainDetails)}
                 />
 

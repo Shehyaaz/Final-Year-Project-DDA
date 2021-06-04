@@ -24,16 +24,18 @@ class DRPRegistration extends Component {
     this.state={
       isLoading: false,
       isVerified: false,
+      isRegistered: false,
       agree: false,
       error: false,
       errorMessage: '',
       domainName: '',
       issuer: '',
+      domainPay: '',
       version: 1,
       validFrom: new Date().toISOString().split("T")[0],
       validTo: new Date().toISOString().split("T")[0],
       drpAddress: '',
-      price: 0
+      price: ''
     };
     this.initialState = {...this.state};
     this.handleClose = this.handleClose.bind(this);
@@ -52,15 +54,17 @@ class DRPRegistration extends Component {
 
   async getDomainData(){
     // get domain DRP data
-    const [domainName, issuerName, validFrom, validTo, drpPrice, domainAddress, reactContract] = await this.context.contract.getClientDetails().call();
+    const domainData = await this.context.contract.methods.getDomainDetails().call({
+      from: this.context.account
+    });
     this.setState({
-      domainName: this.context.web3.utils.hexToUtf8(domainName),
-      issuer: this.context.web3.utils.hexToUtf8(issuerName),
-      validFrom: new Date(validFrom).toISOString().split("T")[0],
-      validTo: new Date(validTo).toISOString().split("T")[0],
-      domainAddress,
-      drpAddress: reactContract,
-      price: parseFloat(this.context.web3.utils.fromWei(drpPrice, "ether"))
+      domainName: this.context.web3.utils.hexToUtf8(domainData[0]),
+      issuer: this.context.web3.utils.hexToUtf8(domainData[1]),
+      validFrom: new Date(parseInt(domainData[2])*1000).toISOString().split("T")[0],
+      validTo: new Date(parseInt(domainData[3])*1000).toISOString().split("T")[0],
+      price: this.context.web3.utils.fromWei(domainData[4], "ether"),
+      domainPay: domainData[5],
+      drpAddress: domainData[6],
     });
   }
 
@@ -70,7 +74,6 @@ class DRPRegistration extends Component {
         ...this.initialState
       });
       domainDetails.version = parseInt(domainDetails.version);
-      domainDetails.price = parseFloat(domainDetails.price);
       this.props.onRegister(domainDetails);
     }
   }
@@ -125,22 +128,25 @@ class DRPRegistration extends Component {
   }
 
   componentDidMount = async() => {
-    if(this.props.update){
-      this.setState({
-        isLoading: true
-      });
+    this.setState({
+      isLoading: true
+    });
+    const isRegistered = await this.context.contract.methods.isDomainRegistered().call({
+      from: this.context.account
+    });
+    if(isRegistered){
       await this.getDomainData();
-      this.setState({
-        isLoading: false
-      });
     }
+    this.setState({
+      isLoading: false,
+      isRegistered
+    });
   }
 
   render() { 
-    const {isLoading, isVerified, agree, error, errorMessage, ...domainDetails} = {...this.state};
+    const {isLoading, isRegistered, isVerified, agree, error, errorMessage, ...domainDetails} = {...this.state};
     const buttonDisabled = !(isVerified && agree && domainDetails.domainName && domainDetails.issuer
                               && domainDetails.drpAddress && domainDetails.price);
-    domainDetails.domainPay = this.context.account;
   	return (
       <Dialog open={this.props.open} aria-labelledby="register-drp">
         <DialogTitle id="register-drp">Domain Reaction Policy Registration</DialogTitle>
@@ -178,7 +184,7 @@ class DRPRegistration extends Component {
                 <TextField
                   variant="outlined" margin="normal" required fullWidth
                   label="Domain Pay Adress" name="domain_pay"  
-                  value={domainDetails.domainPay}
+                  value={domainDetails.domainPay || this.context.account}
                   InputProps={{
                     readOnly: true
                   }}  
@@ -202,7 +208,7 @@ class DRPRegistration extends Component {
                         fullWidth 
                         required
                         InputProps={{
-                          readOnly: this.props.update
+                          readOnly: isRegistered
                         }}
                       />
                   </Grid>
@@ -227,7 +233,7 @@ class DRPRegistration extends Component {
                 <TextField
                   variant="outlined" margin="normal" required fullWidth
                   label="DRP Price(in ether)" name="price"
-                  value={domainDetails.price ? domainDetails.price : ''}
+                  value={domainDetails.price}
                   onChange={this.updateFormState}  
                 />
                 <div>
@@ -253,7 +259,7 @@ class DRPRegistration extends Component {
                 <Button disabled={buttonDisabled}
                     color="primary"
                     onClick={() => this.handleRegister(domainDetails)}>
-                  {this.props.update ? "Update":"Register"}
+                  {isRegistered ? "Update":"Register"}
                 </Button>
               </DialogActions>
             </div>

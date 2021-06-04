@@ -6,7 +6,6 @@ import {
 	Box,
 	Dialog,
   DialogContent,
-  DialogContentText,
   DialogActions,
   DialogTitle, 	
   CircularProgress
@@ -23,6 +22,7 @@ class PurchaseDRP extends Component {
     this.state={
       isVerified: false,
       isLoading: false,
+      autoCompleteOpen: false,
       domains: [],
       selectedDomain: null
     };
@@ -30,6 +30,7 @@ class PurchaseDRP extends Component {
     this.verifyCallback = this.verifyCallback.bind(this);
     this.handleClose = this.handleClose.bind(this);
     this.handlePurchase = this.handlePurchase.bind(this);
+    this.loadDomainData = this.loadDomainData.bind(this);
   }
 
   handleClose(){
@@ -54,26 +55,30 @@ class PurchaseDRP extends Component {
     }
   }
 
-  componentDidMount = async() => {
-      this.setState({
-        isLoading: true
-      });
-      // load domain DRPs data
-      const domains = [];
-      const drpNum = await this.context.contract.methods.getNumDRP().call();
-      for(let i = 0; i < drpNum; i++){
-          const [domainName, drpPrice, domainAddress] = await this.context.contract.methods.getDRPDetails(i).call(); // an array of values is returned
-          domains.push({
-              domainName: this.context.web3.utils.hexToUtf8(domainName),
-              drpPrice: parseFloat(this.context.web3.utils.fromWei(drpPrice, "ether")),
-              domainAddress
-          });
-      }
-      this.setState({
-          isLoading: false,
-          domains,
-          selectedDomain: domains[0]
-      });
+  async loadDomainData(){
+    this.setState({
+      isLoading: true,
+
+    });
+    // load domain DRPs data
+    const domains = [];
+    const drpNum = await this.context.contract.methods.getNumDRP().call({
+      from: this.context.account
+    });
+    for(let i = 0; i < parseInt(drpNum); i++){
+        const domainData = await this.context.contract.methods.getDRPDetails(i).call({
+          from: this.context.account
+        }); // an array of values is returned
+        domains.push({
+            domainName: this.context.web3.utils.hexToUtf8(domainData[0]),
+            drpPrice: this.context.web3.utils.fromWei(domainData[1], "ether"),
+            domainAddress: domainData[2]
+        });
+    }
+    this.setState({
+        isLoading: false,
+        domains
+    });
   }
 
   render() {
@@ -81,68 +86,67 @@ class PurchaseDRP extends Component {
     return (
       <Dialog open={this.props.open} aria-labelledby="purchase-drp">
         <DialogTitle id="purchase-drp">Purchase DRP</DialogTitle>
-          {this.state.isLoading
-            ? <div>
-                <DialogContent>
-                  <CircularProgress color = "secondary" />
-                </DialogContent>
-                <DialogActions>
-                  <Button onClick={this.handleClose} color="secondary">
-                    Cancel
-                  </Button>
-                </DialogActions>
-              </div>
-            : (this.state.domains.length > 0)
-                ? <div>
-                    <DialogContent>
-                      <Autocomplete 
-                        id="domain-name"
-                        value={this.state.selectedDomain.domainName}
-                        onChange={(event, newValue) => {
-                          this.setState({
-                            selectedDomain: newValue
-                          });
-                        }}
-                        options={this.props.domains}
-                        getOptionLabel={(option) => option.domainName+" ("+option.drpPrice+" ether)"}
-                        renderInput={(params) => <TextField {...params} label="Domain Name" variant="outlined" required/>}
-                      />
-                      <Box m={2}  justifyContent="center">  
-                        <Recaptcha
-                          sitekey={siteKey}
-                          render="explicit"
-                          verifyCallback={this.verifyCallback}
-                        />
-                      </Box>
-                    </DialogContent>
-                    <DialogActions>
-                      <Button onClick={this.handleClose} color="secondary">
-                        Cancel
-                      </Button>
-                      <Button
-                        disabled={buttonDisabled} color="primary"
-                        onClick={() => this.handlePurchase(this.state.selectedDomain)}
-                      >
-                        Purchase
-                      </Button>
-                    </DialogActions>
-                  </div>
-                : <div>
-                    <DialogContent>
-                      <DialogContentText>
-                        There are no DRPs to purchase, please try again later.
-                      </DialogContentText>
-                    </DialogContent>
-                    <DialogActions>
-                      <Button onClick={this.handleClose} color="secondary">
-                        Cancel
-                      </Button>
-                    </DialogActions>
-                  </div>
-          } 
+        <DialogContent>
+          <Autocomplete 
+            id="domain-name"
+            open={this.state.autoCompleteOpen}
+            onOpen={() => {
+              this.setState({
+                autoCompleteOpen: true
+              });
+              this.loadDomainData();
+            }}
+            onClose={() => this.setState({autoCompleteOpen: false})}
+            loading={this.state.isLoading}
+            onChange={(event, newValue) => {
+              this.setState({
+                selectedDomain: newValue
+              });
+            }}
+            options={this.state.domains}
+            getOptionLabel={(option) => option.domainName}
+            renderOption={(option) => (
+              <React.Fragment>
+                {option.domainName} @ {option.drpPrice} ether
+              </React.Fragment>
+            )}
+            renderInput={(params) => (
+              <TextField {...params} 
+                label="Select Domain" variant="outlined" required
+                InputProps={{
+                  ...params.InputProps,
+                  endAdornment: (
+                    <React.Fragment>
+                      {this.state.isLoading && <CircularProgress color="inherit" size={20} />}
+                      {params.InputProps.endAdornment}
+                    </React.Fragment>
+                  ),
+                }}  
+              />
+            )}
+          />
+          <Box m={2}  justifyContent="center">  
+            <Recaptcha
+              sitekey={siteKey}
+              render="explicit"
+              verifyCallback={this.verifyCallback}
+            />
+          </Box>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={this.handleClose} color="secondary">
+            Cancel
+          </Button>
+          <Button
+            disabled={buttonDisabled} color="primary"
+            onClick={() => this.handlePurchase(this.state.selectedDomain)}
+          >
+            Purchase
+          </Button>
+        </DialogActions>
       </Dialog>
-  );
- }
+    );
+  }
 }
 
 PurchaseDRP.contextType = AppContext;
