@@ -62,20 +62,10 @@ class DomainDashboard extends Component {
             openRegistrationForm: false
         }
 		this.handleRegisterDRP = this.handleRegisterDRP.bind(this);
-        this.getDomainRegistrationStatus = this.getDomainRegistrationStatus.bind(this); 
         this.checkDRPStatus = this.checkDRPStatus.bind(this);
         this.getEscrowAmount = this.getEscrowAmount.bind(this);
         this.expireDRP = this.expireDRP.bind(this);   
 	}
-
-    async getDomainRegistrationStatus(){
-        const isRegistered = await this.context.contract.methods.isDomainRegistered().call({
-            from: this.state.account
-        });
-        this.setState({
-            isRegistered
-        });
-    }
 
     async handleRegisterDRP(domainDetails){
         this.setState({
@@ -90,15 +80,14 @@ class DomainDashboard extends Component {
                 await this.context.contract.methods.updateDomain(
                     this.context.web3.utils.utf8ToHex(domainDetails.issuer),
                     Math.floor(new Date(domainDetails.validTo).getTime()/1000),
-                    parseInt(this.context.web3.utils.toWei(domainDetails.price, "ether")),
+                    this.context.web3.utils.toWei(domainDetails.price, "ether"),
                     domainDetails.drpAddress
                 ).send({
                     from: this.state.account,
                     value: updateFee,
                     gas: gasLimit
                 })
-                .on("receipt", async() => {
-                    await this.getDomainRegistrationStatus();
+                .on("receipt", () => {
                     this.setState({
                         alert: {
                             open: true,
@@ -143,7 +132,7 @@ class DomainDashboard extends Component {
                             this.context.web3.utils.utf8ToHex(domainDetails.issuer),
                             Math.floor(new Date(domainDetails.validFrom).getTime()/1000),
                             Math.floor(new Date(domainDetails.validTo).getTime()/1000),
-                            parseInt(this.context.web3.utils.toWei(domainDetails.price, "ether")),
+                            this.context.web3.utils.toWei(domainDetails.price, "ether"),
                             domainDetails.drpAddress,
                             domainDetails.version
                         ).send({
@@ -151,14 +140,14 @@ class DomainDashboard extends Component {
                             value: registerFee,
                             gas: gasLimit
                         })
-                        .on("receipt", async() => {
-                            await this.getDomainRegistrationStatus();
+                        .on("receipt", () => {
                             this.setState({
                                 alert: {
                                     open: true,
                                     title: "Success",
                                     message: domainDetails.domainName+" registered successfully !"
                                 },
+                                isRegistered: true,
                                 isLoading: false
                             });
                         })
@@ -211,7 +200,7 @@ class DomainDashboard extends Component {
         this.setState({
             isLoading: true
         });
-        const status = await this.context.contract.methods.getDRPPStatus().call({
+        const status = await this.context.contract.methods.getDRPStatus().call({
             from: this.state.account
         });
         let title = "";
@@ -253,7 +242,7 @@ class DomainDashboard extends Component {
             alert: {
                 open: true,
                 title: "Escrow Amount",
-                message: "Your escrowed amount is :"+parseFloat(this.context.web3.utils.fromWei(escrowAmount, "ether"))
+                message: "Your escrowed amount is :"+parseFloat(this.context.web3.utils.fromWei(escrowAmount, "ether"))+" ether"
             },
             isLoading: false
         });
@@ -261,22 +250,28 @@ class DomainDashboard extends Component {
 
     async expireDRP(){
         this.setState({
-            isLoading: true
+            isLoading: true,
+            showConfirm: false,
+            alert: {
+                open: false,
+                title: "",
+                message: ""
+            }
         });
         try{
             await this.context.contract.methods.expireDRP().send({
                 from: this.state.account,
                 gas: gasLimit
             })
-            .on("receipt", async(receipt) => {
+            .on("receipt", (receipt) => {
                 if(receipt.events.DRPExpired && receipt.events.DRPExpired.returnValues._domainAddr){
-                    await this.getDomainRegistrationStatus();
                     this.setState({
                         alert: {
                             open: true,
                             title: "Success",
                             message: "DRP expired successfully !"
                         },
+                        isRegistered: false,
                         isLoading: false
                     });
                 }
@@ -319,9 +314,12 @@ class DomainDashboard extends Component {
             account: this.context.account,
             isLoading: true
         });
-        await this.getDomainRegistrationStatus();
+        const isRegistered = await this.context.contract.methods.isDomainRegistered().call({
+            from: this.state.account
+        });
         this.setState({
-            isLoading: false
+            isLoading: false,
+            isRegistered
         });
     }
 
@@ -331,9 +329,12 @@ class DomainDashboard extends Component {
                 account: this.context.account,
                 isLoading: true
             });
-            await this.getDomainRegistrationStatus();
+            const isRegistered = await this.context.contract.methods.isDomainRegistered().call({
+                from: this.state.account
+            });
             this.setState({
-                isLoading: false
+                isLoading: false,
+                isRegistered
             });
         }
     }

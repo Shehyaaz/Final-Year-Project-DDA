@@ -53,18 +53,30 @@ class DRPRegistration extends Component {
   }
 
   async getDomainData(){
-    // get domain DRP data
-    const domainData = await this.context.contract.methods.getDomainDetails().call({
+    this.setState({
+      isLoading: true
+    });
+    const isRegistered = await this.context.contract.methods.isDomainRegistered().call({
       from: this.context.account
     });
+    if(isRegistered){
+      // get domain DRP data
+      const domainData = await this.context.contract.methods.getDomainDetails().call({
+        from: this.context.account
+      });
+      this.setState({
+        domainName: this.context.web3.utils.hexToUtf8(domainData[0]),
+        issuer: this.context.web3.utils.hexToUtf8(domainData[1]),
+        validFrom: new Date(parseInt(domainData[2])*1000).toISOString().split("T")[0],
+        validTo: new Date(parseInt(domainData[3])*1000).toISOString().split("T")[0],
+        price: this.context.web3.utils.fromWei(domainData[4], "ether"),
+        domainPay: domainData[5],
+        drpAddress: domainData[6],
+      });
+    }
     this.setState({
-      domainName: this.context.web3.utils.hexToUtf8(domainData[0]),
-      issuer: this.context.web3.utils.hexToUtf8(domainData[1]),
-      validFrom: new Date(parseInt(domainData[2])*1000).toISOString().split("T")[0],
-      validTo: new Date(parseInt(domainData[3])*1000).toISOString().split("T")[0],
-      price: this.context.web3.utils.fromWei(domainData[4], "ether"),
-      domainPay: domainData[5],
-      drpAddress: domainData[6],
+      isLoading: false,
+      isRegistered
     });
   }
 
@@ -86,7 +98,7 @@ class DRPRegistration extends Component {
       errorMessage = "Domain name is invalid!";
     else if(!domainRegEx.test(domainDetails.issuer))
       errorMessage = "Issuer name is invalid!";
-    else if(domainDetails.issuer.search(domainDetails.domainName) === -1)
+    else if(domainDetails.domainName.search(domainDetails.issuer) === -1)
       errorMessage = "Domain must be a sub-domain of DRP issuer!";
     else if(isNaN(domainDetails.price) || parseFloat(domainDetails.price) <= 0)
       errorMessage = "Invalid or negative price!";
@@ -127,28 +139,14 @@ class DRPRegistration extends Component {
     });
   }
 
-  componentDidMount = async() => {
-    this.setState({
-      isLoading: true
-    });
-    const isRegistered = await this.context.contract.methods.isDomainRegistered().call({
-      from: this.context.account
-    });
-    if(isRegistered){
-      await this.getDomainData();
-    }
-    this.setState({
-      isLoading: false,
-      isRegistered
-    });
-  }
-
   render() { 
     const {isLoading, isRegistered, isVerified, agree, error, errorMessage, ...domainDetails} = {...this.state};
     const buttonDisabled = !(isVerified && agree && domainDetails.domainName && domainDetails.issuer
                               && domainDetails.drpAddress && domainDetails.price);
   	return (
-      <Dialog open={this.props.open} aria-labelledby="register-drp">
+      <Dialog open={this.props.open} aria-labelledby="register-drp"
+        onEnter={() => this.getDomainData()}
+      >
         <DialogTitle id="register-drp">Domain Reaction Policy Registration</DialogTitle>
           {isLoading
             ? <div>

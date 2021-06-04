@@ -120,10 +120,10 @@ class Account extends Component {
             from: this.state.account
         });
         // get domain DRP data
-        const status = await this.context.contract.methods.getDRPPStatus().call({
+        const status = await this.context.contract.methods.getDRPStatus().call({
             from: this.state.account
         });
-        const domainData = await this.context.contract.getDomainDetails().call({
+        const domainData = await this.context.contract.methods.getDomainDetails().call({
             from: this.state.account
         });
         
@@ -147,9 +147,9 @@ class Account extends Component {
                 issuer: this.context.web3.utils.hexToUtf8(domainData[1]),
                 validFrom: new Date(parseInt(domainData[2])*1000).toISOString().split("T")[0],
                 validTo: new Date(parseInt(domainData[3])*1000).toISOString().split("T")[0],
-                domainAddress: domainData[4],
-                drpAddress: domainData[5],
-                price: this.context.web3.utils.fromWei(domainData[6].toString(), "ether"),
+                price: this.context.web3.utils.fromWei(domainData[4].toString(), "ether"),
+                domainAddress: domainData[5],
+                drpAddress: domainData[6],
                 escrowAmount: this.context.web3.utils.fromWei(escrowAmount, "ether"),
                 drpStatus: status[0] && status[1],
                 drpStatusMssg
@@ -216,11 +216,6 @@ class Account extends Component {
                     alignItems="stretch"
                     spacing = {8}
                 >
-                    <Grid item xs={12}>
-                        <Typography variant="h5" component="h5">
-                            Your Details
-                        </Typography>
-                    </Grid>
                     <Grid 
                         container 
                         item 
@@ -230,12 +225,16 @@ class Account extends Component {
                         direction="column"
                         spacing = {2}
                     >
+                        <Typography variant="h4" component="h4">
+                            View Account Details
+                        </Typography>
+                        <br />
                         <Accordion>
                         <AccordionSummary
                             expandIcon={<ExpandMore />}
                             aria-controls="account-content"
                         >
-                            <Typography className={classes.heading}>Your Account Details</Typography>
+                            <Typography className={classes.heading}>Account Details</Typography>
                         </AccordionSummary>
                         <AccordionDetails>
                             <List component="nav">

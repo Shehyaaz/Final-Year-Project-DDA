@@ -102,20 +102,6 @@ class CCPRegistration extends Component {
   }
 
   async getClientData(){
-    // get client CCP data
-    const clientData = await this.context.contract.methods.getClientDetails().call({
-      from: this.context.account
-    });
-    this.setState({
-      clientName: this.context.web3.utils.hexToUtf8(clientData[0]),
-      validFrom: new Date(parseInt(clientData[1])*1000).toISOString().split("T")[0],
-      validTo: new Date(parseInt(clientData[2])*1000).toISOString().split("T")[0],
-      clientPay: clientData[3],
-      ccpAddress: clientData[4]
-    });
-  }
-
-  componentDidMount = async() => {
     this.setState({
       isLoading: true
     });
@@ -123,7 +109,17 @@ class CCPRegistration extends Component {
       from: this.context.account
     });
     if(isRegistered){
-      await this.getClientData();
+      // get client CCP data
+      const clientData = await this.context.contract.methods.getClientDetails().call({
+        from: this.context.account
+      });
+      this.setState({
+        clientName: this.context.web3.utils.hexToUtf8(clientData[0]),
+        validFrom: new Date(parseInt(clientData[1])*1000).toISOString().split("T")[0],
+        validTo: new Date(parseInt(clientData[2])*1000).toISOString().split("T")[0],
+        clientPay: clientData[3],
+        ccpAddress: clientData[4]
+      });
     }
     this.setState({
       isLoading: false,
@@ -136,7 +132,9 @@ class CCPRegistration extends Component {
     const buttonDisabled = !(isVerified && agree && clientDetails.clientName
                             && clientDetails.ccpAddress);
   	return (
-      <Dialog open={this.props.open} aria-labelledby="register-ccp">
+      <Dialog open={this.props.open} aria-labelledby="register-ccp"
+        onEnter={() => this.getClientData()}
+      >
         <DialogTitle id="register-ccp">Client Check Policy Registration</DialogTitle>
           {isLoading
           ? <div>

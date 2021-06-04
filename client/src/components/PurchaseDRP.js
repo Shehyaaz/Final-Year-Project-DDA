@@ -69,11 +69,13 @@ class PurchaseDRP extends Component {
         const domainData = await this.context.contract.methods.getDRPDetails(i).call({
           from: this.context.account
         }); // an array of values is returned
-        domains.push({
+        if(domainData[1] !== "0"){
+          domains.push({
             domainName: this.context.web3.utils.hexToUtf8(domainData[0]),
             drpPrice: this.context.web3.utils.fromWei(domainData[1], "ether"),
             domainAddress: domainData[2]
-        });
+          });
+        }
     }
     this.setState({
         isLoading: false,

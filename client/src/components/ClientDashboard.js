@@ -109,6 +109,7 @@ class ClientDashboard extends Component {
             // call check certificate function from contract
             const sctLogID = res.sctList.map(sct => sct.logID);
             const sctTimestamp = res.sctList.map(sct => sct.timestamp);
+
             await this.context.contract.methods.checkCertificate(
                 drpIndex,
                 sctLogID,
@@ -143,7 +144,8 @@ class ClientDashboard extends Component {
                     });
                 }
             })
-            .on("error", () => {
+            .on("error", (err) => {
+                console.log(err);
                 // certificate check was not executed
                 this.setState({
                     alert: {
@@ -171,7 +173,13 @@ class ClientDashboard extends Component {
     
     async deleteDRP(drpIndex){
         this.setState({
-            isLoading: true
+            isLoading: true,
+            showConfirm: false,
+            alert: {
+                open: false,
+                title: "",
+                message: ""
+            }
         });
         // delete DRP from client DRP list
         await this.context.contract.methods.deleteDRPFromClientList(drpIndex).send({
@@ -187,7 +195,8 @@ class ClientDashboard extends Component {
                         title: "Success",
                         message: "DRP deleted successfully"
                     },
-                    isLoading: false
+                    isLoading: false,
+                    deleteDRPIndex: ""
                 });
             }
             else {
@@ -401,11 +410,12 @@ class ClientDashboard extends Component {
             const drpListLength = await this.context.contract.methods.getClientDRPListLength().call({
                 from: this.state.account
             });
-            for(let i=0; i < parseInt(drpListLength); i++){
+            for(let i = parseInt(drpListLength) - 1; i >= 0; i--){
                 const drpData = await this.context.contract.methods.getClientDRPList(i).call({
                     from: this.state.account
                 }); // an array of values is returned
                 drpList.push({
+                    drpIndex: i,
                     domainName: this.context.web3.utils.hexToUtf8(drpData[0]),
                     validFrom: new Date(parseInt(drpData[1])*1000).toISOString().split("T")[0],
                     validTo: new Date(parseInt(drpData[2])*1000).toISOString().split("T")[0],
