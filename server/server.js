@@ -76,7 +76,7 @@ app.get("/verify", (req, res) => {
       res.status(200).send({message: "Valid domain"});
     })
     .catch(() =>{
-      res.status(500).send({message: "Invalid domain"});
+      res.status(404).send({message: "Invalid domain"});
     });
   }
   else{
@@ -97,7 +97,7 @@ app.get("/getsct", (req, res) => {
       });
     })
     .catch((err) => {
-      res.status(500).send({message: "An error was encountered when processing certificate"+err});
+      res.status(404).send({message: "An error was encountered when processing certificate"+err});
     });
   }
   else{
@@ -117,4 +117,4 @@ app.get("/getctlogs", (req, res) => {
 });
 
 // This displays message that the server running and listening to specified port
-app.listen(port, () => console.log(`Listening on port ${port}`));
+module.exports = app.listen(port, () => console.log(`Listening on port ${port}`));
