@@ -4,9 +4,11 @@ import {
     Grid,
     Typography,
     Paper, 	
-    Avatar
+    Avatar,
+    Button
   } from '@material-ui/core';
 import { withStyles } from "@material-ui/core/styles";
+import CTLogsList from "./CTLogsList";
 import FooterText from "../widgets/FooterText";
 
 const useStyles = theme => ({
@@ -23,6 +25,13 @@ const useStyles = theme => ({
 });
 
 class About extends Component {
+    constructor(props){
+        super(props);
+        this.state={
+            isOpen: false
+        };
+    }
+
     render() {
         const classes = this.props.classes;
         return (
@@ -54,6 +63,11 @@ class About extends Component {
                             click "Register DRP". Once registered, the user can explore the Dashboards to access the various functions
                             offered by the system.
                         </Typography>
+                        <Button color="primary"
+                            onClick = {() => this.setState({isOpen: true})}
+                        >
+                            View list of CT logs trusted by DDA
+                        </Button>
                         <br /><br />
                         <Typography variant="h4" gutterBottom>
                             Terms and Conditions
@@ -63,17 +77,17 @@ class About extends Component {
                         </Typography>
                         <ol type="I">
                             <li>
-                                <Typography variant="body1">
+                                <Typography variant="body1" align="justify">
                                     The Client must provide a valid Check Contract address when registering/updating details in the system.
                                 </Typography>
                             </li>
                             <li>
-                                <Typography variant="body1">
+                                <Typography variant="body1" align="justify">
                                     The Check Contract must be a valid smart contract deployed in the blockchain.
                                 </Typography>
                             </li>
                             <li>
-                                <Typography variant="body1">
+                                <Typography variant="body1" align="justify">
                                     The Check Contract must mandatorily inherit{' '} 
                                     <a  href = "https://github.com/Shehyaaz/Final-Year-Project-DDA/blob/shehyaaz/contracts/CheckInterface.sol"
                                         target="_blank" rel="noopener noreferrer"
@@ -83,34 +97,39 @@ class About extends Component {
                                     {' '}and implement the abstract functions in that smart contract interface.
                                     </Typography>
                             </li>
+                            <li>
+                                <Typography variant="body1" align="justify">
+                                    To register or update registered details, the Client must pay a fee of <b>0.01 ether</b>.
+                                </Typography>
+                            </li>
                         </ol>
                         <Typography variant="h6" gutterBottom className={classes.content}>
                             Domains
                         </Typography>
                         <ol type="I">
                             <li>
-                                <Typography variant="body1">
+                                <Typography variant="body1" align="justify">
                                     The Domain must provide a valid domain name and issuer name. The domain name must be publicly accessible
                                     on the Internet and must belong solely to the domain owner.
                                 </Typography>
                             </li>
                             <li>
-                                <Typography variant="body1">
+                                <Typography variant="body1" align="justify">
                                     The certificate issued by the Domain during TLS handshake must follow the X.509v3 certificate standard.
                                 </Typography>
                             </li>
                             <li>
-                                <Typography variant="body1">
+                                <Typography variant="body1" align="justify">
                                     The Domain must provide a valid React Contract address when registering/updating details in the system.
                                 </Typography>
                             </li>
                             <li>
-                                <Typography variant="body1">
+                                <Typography variant="body1" align="justify">
                                     The React Contract must be a valid smart contract deployed in the blockchain.
                                 </Typography>
                             </li>
                             <li>
-                                <Typography variant="body1">
+                                <Typography variant="body1" align="justify">
                                     The React Contract must mandatorily inherit{' '} 
                                     <a  href = "https://github.com/Shehyaaz/Final-Year-Project-DDA/blob/shehyaaz/contracts/DRPInterface.sol"
                                         target="_blank" rel="noopener noreferrer"
@@ -121,24 +140,26 @@ class About extends Component {
                                 </Typography>
                             </li>
                             <li>
-                                <Typography variant="body1">
-                                    The Domain must accept all payments made towards the DDA system.
-                                </Typography>    
+                                <Typography variant="body1" align="justify">
+                                    To register, the Domain must pay a fee of <b>0.05 ether, plus 1.5 times the Domain's DRP price</b>, 
+                                    which will be transferred to the DRP's React Contract.
+                                    To update registered details, the Domain must pay a fee of <b>0.01 ether</b>.
+                                </Typography>
                             </li>
                             <li>
-                                <Typography variant="body1">
+                                <Typography variant="body1" align="justify">
                                     When a Client purchases a DRP, <b>50%</b> of the purchase amount will be ecrowed by the smart contract.
                                     The escrowed amount will be returned to the Domain when the Domain expires its DRP.
                                 </Typography>
                             </li>
                             <li>
-                                <Typography variant="body1">
+                                <Typography variant="body1" align="justify">
                                     In the event of detection of Invalid Certificate, <b>90%</b> of the DRP price will be fined as misbehaviour
                                     payment, and <b>30%</b> of the DRP price will be fined as contract fund payment.
                                 </Typography>
                             </li>
                             <li>
-                                <Typography variant="body1">
+                                <Typography variant="body1" align="justify">
                                     In the event of detection of Invalid Certificate, the Domain's React Contract will be destroyed, making
                                     the contract inaccessible.
                                 </Typography>
@@ -190,6 +211,11 @@ class About extends Component {
                         </Box>
                     </Grid>
                 </Grid>
+
+                <CTLogsList
+                    open={this.state.isOpen}
+                    handleOk={() => this.setState({isOpen: false})}
+                />
           </div>
         );
     }

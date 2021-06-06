@@ -1,21 +1,11 @@
 {
 	"compiler": {
-		"version": "0.5.17+commit.d19bba13"
+		"version": "0.6.1+commit.e6f7d5a4"
 	},
 	"language": "Solidity",
 	"output": {
 		"abi": [
 			{
-				"constant": false,
-				"inputs": [],
-				"name": "terminate",
-				"outputs": [],
-				"payable": false,
-				"stateMutability": "nonpayable",
-				"type": "function"
-			},
-			{
-				"constant": false,
 				"inputs": [
 					{
 						"internalType": "uint256",
@@ -35,20 +25,23 @@
 				],
 				"name": "trigger",
 				"outputs": [],
-				"payable": false,
 				"stateMutability": "nonpayable",
 				"type": "function"
 			},
 			{
-				"constant": true,
 				"inputs": [
 					{
 						"internalType": "address",
-						"name": "_addr",
+						"name": "_domainAddr",
+						"type": "address"
+					},
+					{
+						"internalType": "address",
+						"name": "_drpAddr",
 						"type": "address"
 					}
 				],
-				"name": "verifyDRPAddress",
+				"name": "verifyDRP",
 				"outputs": [
 					{
 						"internalType": "bool",
@@ -56,9 +49,12 @@
 						"type": "bool"
 					}
 				],
-				"payable": false,
 				"stateMutability": "view",
 				"type": "function"
+			},
+			{
+				"stateMutability": "payable",
+				"type": "receive"
 			}
 		],
 		"devdoc": {
@@ -74,6 +70,9 @@
 		},
 		"evmVersion": "istanbul",
 		"libraries": {},
+		"metadata": {
+			"bytecodeHash": "ipfs"
+		},
 		"optimizer": {
 			"enabled": false,
 			"runs": 200
@@ -81,18 +80,18 @@
 		"remappings": []
 	},
 	"sources": {
-		"DRPInterface.sol": {
-			"keccak256": "0x217052096217432b713470be2ba90583d96b867a9c63be3862a3e7c2c767ac0c",
+		"DRPAbstract.sol": {
+			"keccak256": "0x8dff3acd66eeb6deabe6730ecc18419ea93f1178aff275f21d119a52490f6bea",
 			"urls": [
-				"bzz-raw://25ddd6353f04eb3c3cf4c7e14340e1200138683c45a09d84cdc9d440dd65c373",
-				"dweb:/ipfs/QmUaXHwcgPWksZr7pVLTjUFQ73JjU3696JC4g2hgDADjB7"
+				"bzz-raw://1d31b7443a88ff082f0b2d00bde212f3501f4de43696733708ac9dd908b1aeb7",
+				"dweb:/ipfs/QmVC67bv485TDaSeM2V7UkTdxUg8pqxHk8ZhaUCuGbVqmV"
 			]
 		},
 		"DRPReaction.sol": {
-			"keccak256": "0x8f0b634e4597c724a7b24f8b4894bc283a023920f367b33b1b5936768e3f17e4",
+			"keccak256": "0xd4b050dc373cbf96ee541d77764a51fa65215f5e9e3ec44a36137799ed895245",
 			"urls": [
-				"bzz-raw://75d185c8be1ae5cce607e69a765ea2e3e6d0d34ee4825469f17ec78355e2f7a7",
-				"dweb:/ipfs/Qmcyi6KAjPn9p7dLHhbvXHdTpeMNZZ6uB8EfZoKC38dgu6"
+				"bzz-raw://1a25a905f070bf1df479df6dc927dcddf999167bcb27775505d7a88628c01925",
+				"dweb:/ipfs/QmbL92PTbDMubcXYNZVTpfqKyCasoWWurYdhFrmhzpijBJ"
 			]
 		}
 	},

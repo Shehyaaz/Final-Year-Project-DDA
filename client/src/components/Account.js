@@ -75,6 +75,7 @@ class Account extends Component {
                 drpStatusMssg: ""
             }
         }
+        this.initialState = {...this.state};
         this.getClientData = this.getClientData.bind(this);
         this.getDomainData = this.getDomainData.bind(this);
         this.getDataFromBlockchain = this.getDataFromBlockchain.bind(this);
@@ -167,8 +168,18 @@ class Account extends Component {
         if(clientRegistered){
             await this.getClientData();
         }
+        else{
+            this.setState({
+                clientDetails: this.initialState.clientDetails
+            });
+        }
         if(domainRegistered){
             await this.getDomainData();
+        }
+        else{
+            this.setState({
+                domainDetails: this.initialState.domainDetails
+            });
         }
         this.setState({
             clientRegistered,

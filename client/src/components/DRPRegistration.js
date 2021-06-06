@@ -146,6 +146,8 @@ class DRPRegistration extends Component {
   	return (
       <Dialog open={this.props.open} aria-labelledby="register-drp"
         onEnter={() => this.getDomainData()}
+        disableBackdropClick
+        disableEscapeKeyDown
       >
         <DialogTitle id="register-drp">Domain Reaction Policy Registration</DialogTitle>
           {isLoading
@@ -170,7 +172,7 @@ class DRPRegistration extends Component {
                   value={domainDetails.domainName}
                   onChange={this.updateFormState}
                   InputProps={{
-                    readOnly: this.props.update
+                    readOnly: isRegistered
                   }}
                 />
                 <TextField
@@ -206,7 +208,7 @@ class DRPRegistration extends Component {
                         fullWidth 
                         required
                         InputProps={{
-                          readOnly: isRegistered
+                          readOnly: true
                         }}
                       />
                   </Grid>
@@ -227,12 +229,18 @@ class DRPRegistration extends Component {
                   label="Contract Adress" name="drpAddress"
                   value={domainDetails.drpAddress}
                   onChange={this.updateFormState}  
+                  InputProps={{
+                    readOnly: isRegistered
+                  }}
                 />
                 <TextField
                   variant="outlined" margin="normal" required fullWidth
                   label="DRP Price(in ether)" name="price"
                   value={domainDetails.price}
-                  onChange={this.updateFormState}  
+                  onChange={this.updateFormState}
+                  InputProps={{
+                    readOnly: isRegistered
+                  }}  
                 />
                 <div>
                   <input type="checkbox" name="agree" checked={agree} onChange={this.checkboxHandler} />

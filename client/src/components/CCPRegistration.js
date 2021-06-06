@@ -134,6 +134,8 @@ class CCPRegistration extends Component {
   	return (
       <Dialog open={this.props.open} aria-labelledby="register-ccp"
         onEnter={() => this.getClientData()}
+        disableBackdropClick
+        disableEscapeKeyDown
       >
         <DialogTitle id="register-ccp">Client Check Policy Registration</DialogTitle>
           {isLoading
@@ -158,7 +160,7 @@ class CCPRegistration extends Component {
                   value={clientDetails.clientName}
                   onChange={this.updateFormState}
                   InputProps={{
-                    readOnly: this.props.update
+                    readOnly: isRegistered
                   }}
                 />
                 <TextField
@@ -208,7 +210,10 @@ class CCPRegistration extends Component {
                   variant="outlined" margin="normal" required fullWidth
                   label="Contract Adress" name="ccpAddress"
                   value={clientDetails.ccpAddress}
-                  onChange={this.updateFormState} 
+                  onChange={this.updateFormState}
+                  InputProps={{
+                    readOnly: isRegistered
+                  }} 
                 />
                 <input type="checkbox" name="agree" onChange={this.checkboxHandler} />
                 <label > I agree to</label>

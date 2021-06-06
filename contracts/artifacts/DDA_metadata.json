@@ -1,6 +1,6 @@
 {
 	"compiler": {
-		"version": "0.5.17+commit.d19bba13"
+		"version": "0.6.1+commit.e6f7d5a4"
 	},
 	"language": "Solidity",
 	"output": {
@@ -13,7 +13,6 @@
 						"type": "bytes32[]"
 					}
 				],
-				"payable": false,
 				"stateMutability": "nonpayable",
 				"type": "constructor"
 			},
@@ -120,7 +119,6 @@
 				"type": "event"
 			},
 			{
-				"constant": false,
 				"inputs": [
 					{
 						"internalType": "uint256",
@@ -129,33 +127,36 @@
 					},
 					{
 						"internalType": "bytes32[]",
-						"name": "sctLogID",
+						"name": "_sctLogID",
 						"type": "bytes32[]"
 					},
 					{
 						"internalType": "uint256[]",
-						"name": "sctTimestamp",
+						"name": "_sctTimestamp",
 						"type": "uint256[]"
 					},
 					{
 						"internalType": "uint256",
-						"name": "certValidFrom",
+						"name": "_certValidFrom",
 						"type": "uint256"
 					},
 					{
 						"internalType": "uint256",
-						"name": "certValidTo",
+						"name": "_certValidTo",
 						"type": "uint256"
+					},
+					{
+						"internalType": "string",
+						"name": "_ocspRes",
+						"type": "string"
 					}
 				],
 				"name": "checkCertificate",
 				"outputs": [],
-				"payable": false,
 				"stateMutability": "nonpayable",
 				"type": "function"
 			},
 			{
-				"constant": true,
 				"inputs": [],
 				"name": "client_registration_fee",
 				"outputs": [
@@ -165,27 +166,10 @@
 						"type": "uint256"
 					}
 				],
-				"payable": false,
 				"stateMutability": "view",
 				"type": "function"
 			},
 			{
-				"constant": true,
-				"inputs": [],
-				"name": "client_update_fee",
-				"outputs": [
-					{
-						"internalType": "uint256",
-						"name": "",
-						"type": "uint256"
-					}
-				],
-				"payable": false,
-				"stateMutability": "view",
-				"type": "function"
-			},
-			{
-				"constant": true,
 				"inputs": [],
 				"name": "contractOwner",
 				"outputs": [
@@ -195,12 +179,10 @@
 						"type": "address"
 					}
 				],
-				"payable": false,
 				"stateMutability": "view",
 				"type": "function"
 			},
 			{
-				"constant": true,
 				"inputs": [
 					{
 						"internalType": "uint256",
@@ -216,13 +198,16 @@
 						"type": "bytes32"
 					}
 				],
-				"payable": false,
 				"stateMutability": "view",
 				"type": "function"
 			},
 			{
-				"constant": false,
 				"inputs": [
+					{
+						"internalType": "address",
+						"name": "_clientAddr",
+						"type": "address"
+					},
 					{
 						"internalType": "uint256",
 						"name": "_drpIndex",
@@ -231,21 +216,17 @@
 				],
 				"name": "deleteDRPFromClientList",
 				"outputs": [],
-				"payable": false,
 				"stateMutability": "nonpayable",
 				"type": "function"
 			},
 			{
-				"constant": false,
 				"inputs": [],
 				"name": "destroyContract",
 				"outputs": [],
-				"payable": false,
 				"stateMutability": "nonpayable",
 				"type": "function"
 			},
 			{
-				"constant": true,
 				"inputs": [],
 				"name": "domain_registration_fee",
 				"outputs": [
@@ -255,36 +236,17 @@
 						"type": "uint256"
 					}
 				],
-				"payable": false,
 				"stateMutability": "view",
 				"type": "function"
 			},
 			{
-				"constant": true,
-				"inputs": [],
-				"name": "domain_update_fee",
-				"outputs": [
-					{
-						"internalType": "uint256",
-						"name": "",
-						"type": "uint256"
-					}
-				],
-				"payable": false,
-				"stateMutability": "view",
-				"type": "function"
-			},
-			{
-				"constant": false,
 				"inputs": [],
 				"name": "expireDRP",
 				"outputs": [],
-				"payable": false,
 				"stateMutability": "nonpayable",
 				"type": "function"
 			},
 			{
-				"constant": true,
 				"inputs": [],
 				"name": "getCCPStatus",
 				"outputs": [
@@ -299,12 +261,10 @@
 						"type": "bool"
 					}
 				],
-				"payable": false,
 				"stateMutability": "view",
 				"type": "function"
 			},
 			{
-				"constant": true,
 				"inputs": [
 					{
 						"internalType": "uint256",
@@ -340,12 +300,10 @@
 						"type": "uint256"
 					}
 				],
-				"payable": false,
 				"stateMutability": "view",
 				"type": "function"
 			},
 			{
-				"constant": true,
 				"inputs": [],
 				"name": "getClientDRPListLength",
 				"outputs": [
@@ -355,12 +313,10 @@
 						"type": "uint256"
 					}
 				],
-				"payable": false,
 				"stateMutability": "view",
 				"type": "function"
 			},
 			{
-				"constant": true,
 				"inputs": [],
 				"name": "getClientDetails",
 				"outputs": [
@@ -390,12 +346,10 @@
 						"type": "address"
 					}
 				],
-				"payable": false,
 				"stateMutability": "view",
 				"type": "function"
 			},
 			{
-				"constant": true,
 				"inputs": [
 					{
 						"internalType": "uint256",
@@ -421,12 +375,10 @@
 						"type": "address"
 					}
 				],
-				"payable": false,
 				"stateMutability": "view",
 				"type": "function"
 			},
 			{
-				"constant": true,
 				"inputs": [],
 				"name": "getDRPStatus",
 				"outputs": [
@@ -441,12 +393,10 @@
 						"type": "bool"
 					}
 				],
-				"payable": false,
 				"stateMutability": "view",
 				"type": "function"
 			},
 			{
-				"constant": true,
 				"inputs": [],
 				"name": "getDomainDetails",
 				"outputs": [
@@ -486,12 +436,10 @@
 						"type": "address"
 					}
 				],
-				"payable": false,
 				"stateMutability": "view",
 				"type": "function"
 			},
 			{
-				"constant": true,
 				"inputs": [],
 				"name": "getEscrowAmount",
 				"outputs": [
@@ -501,12 +449,10 @@
 						"type": "uint256"
 					}
 				],
-				"payable": false,
 				"stateMutability": "view",
 				"type": "function"
 			},
 			{
-				"constant": true,
 				"inputs": [],
 				"name": "getNumDRP",
 				"outputs": [
@@ -516,12 +462,10 @@
 						"type": "uint256"
 					}
 				],
-				"payable": false,
 				"stateMutability": "view",
 				"type": "function"
 			},
 			{
-				"constant": true,
 				"inputs": [],
 				"name": "isClientRegistered",
 				"outputs": [
@@ -531,12 +475,10 @@
 						"type": "bool"
 					}
 				],
-				"payable": false,
 				"stateMutability": "view",
 				"type": "function"
 			},
 			{
-				"constant": true,
 				"inputs": [],
 				"name": "isDomainRegistered",
 				"outputs": [
@@ -546,12 +488,10 @@
 						"type": "bool"
 					}
 				],
-				"payable": false,
 				"stateMutability": "view",
 				"type": "function"
 			},
 			{
-				"constant": true,
 				"inputs": [],
 				"name": "maximum_merge_delay",
 				"outputs": [
@@ -561,12 +501,10 @@
 						"type": "uint24"
 					}
 				],
-				"payable": false,
 				"stateMutability": "view",
 				"type": "function"
 			},
 			{
-				"constant": false,
 				"inputs": [
 					{
 						"internalType": "address payable",
@@ -576,12 +514,10 @@
 				],
 				"name": "purchaseDRP",
 				"outputs": [],
-				"payable": true,
 				"stateMutability": "payable",
 				"type": "function"
 			},
 			{
-				"constant": false,
 				"inputs": [
 					{
 						"internalType": "bytes32",
@@ -611,12 +547,10 @@
 				],
 				"name": "registerClient",
 				"outputs": [],
-				"payable": true,
 				"stateMutability": "payable",
 				"type": "function"
 			},
 			{
-				"constant": false,
 				"inputs": [
 					{
 						"internalType": "bytes32",
@@ -644,7 +578,7 @@
 						"type": "uint256"
 					},
 					{
-						"internalType": "address",
+						"internalType": "address payable",
 						"name": "_reactContract",
 						"type": "address"
 					},
@@ -656,12 +590,10 @@
 				],
 				"name": "registerDomain",
 				"outputs": [],
-				"payable": true,
 				"stateMutability": "payable",
 				"type": "function"
 			},
 			{
-				"constant": true,
 				"inputs": [
 					{
 						"internalType": "uint256",
@@ -677,32 +609,23 @@
 						"type": "address"
 					}
 				],
-				"payable": false,
 				"stateMutability": "view",
 				"type": "function"
 			},
 			{
-				"constant": false,
 				"inputs": [
 					{
 						"internalType": "uint256",
 						"name": "_validTo",
 						"type": "uint256"
-					},
-					{
-						"internalType": "address",
-						"name": "_checkContract",
-						"type": "address"
 					}
 				],
 				"name": "updateClient",
 				"outputs": [],
-				"payable": true,
 				"stateMutability": "payable",
 				"type": "function"
 			},
 			{
-				"constant": false,
 				"inputs": [
 					{
 						"internalType": "bytes32",
@@ -713,23 +636,29 @@
 						"internalType": "uint256",
 						"name": "_validTo",
 						"type": "uint256"
-					},
-					{
-						"internalType": "uint256",
-						"name": "_drpPrice",
-						"type": "uint256"
-					},
-					{
-						"internalType": "address",
-						"name": "_reactContract",
-						"type": "address"
 					}
 				],
 				"name": "updateDomain",
 				"outputs": [],
-				"payable": true,
 				"stateMutability": "payable",
 				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "update_fee",
+				"outputs": [
+					{
+						"internalType": "uint256",
+						"name": "",
+						"type": "uint256"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"stateMutability": "payable",
+				"type": "receive"
 			}
 		],
 		"devdoc": {
@@ -745,6 +674,9 @@
 		},
 		"evmVersion": "istanbul",
 		"libraries": {},
+		"metadata": {
+			"bytecodeHash": "ipfs"
+		},
 		"optimizer": {
 			"enabled": false,
 			"runs": 200
@@ -752,25 +684,25 @@
 		"remappings": []
 	},
 	"sources": {
-		"CheckInterface.sol": {
-			"keccak256": "0x199529de84e3bc11276fd1776b5d3e8020cd3ba09cf74e1b0ffc877123c882c6",
+		"CheckAbstract.sol": {
+			"keccak256": "0x90d0e11d6b61bf8cf7a6364a9df0dd9d60a42817a1b76e2692aa946c569054d5",
 			"urls": [
-				"bzz-raw://06b85ad6bbef9b11dcebc2cff903a6775e646955a9fee900963e55c11f02a6cc",
-				"dweb:/ipfs/QmaLRmtUeYfaCVtBQEFDd9rWA7bLctekcLuF4abEVmLko6"
+				"bzz-raw://54fb2253b041104be87525baa58abb37ccbb5b7760cd58ca6b07beff8b22f448",
+				"dweb:/ipfs/QmZtusmauyUuzphbCPWLwSuRwGKmVddYS1SjsJSAjHhGw1"
 			]
 		},
 		"DDA.sol": {
-			"keccak256": "0xeccdcce604fd2cbaa6c6f6a751e1946e96fa5daff79460bf77fdd9bcd5f3a9a2",
+			"keccak256": "0xf5daea72599ab189000baf65d29fcc7c9b03494b6bc11753fc16406618de428d",
 			"urls": [
-				"bzz-raw://f738995cf84d94457330e5d5bdefccd4110b607f2142be5b4b770d3f1873eeda",
-				"dweb:/ipfs/QmdsVXKTg6gVhMs1uNbtpPsXQtkhnbiKtiRjZEiLtsXcgK"
+				"bzz-raw://4a9d25b387c87dc482cf2b0ab134e1ee2fabe38955829895edc0ac559d19ed57",
+				"dweb:/ipfs/QmWQfCopiJYygKPD48MH4hMh8VBxcEBohQa1pq1boddcHE"
 			]
 		},
-		"DRPInterface.sol": {
-			"keccak256": "0x217052096217432b713470be2ba90583d96b867a9c63be3862a3e7c2c767ac0c",
+		"DRPAbstract.sol": {
+			"keccak256": "0x8dff3acd66eeb6deabe6730ecc18419ea93f1178aff275f21d119a52490f6bea",
 			"urls": [
-				"bzz-raw://25ddd6353f04eb3c3cf4c7e14340e1200138683c45a09d84cdc9d440dd65c373",
-				"dweb:/ipfs/QmUaXHwcgPWksZr7pVLTjUFQ73JjU3696JC4g2hgDADjB7"
+				"bzz-raw://1d31b7443a88ff082f0b2d00bde212f3501f4de43696733708ac9dd908b1aeb7",
+				"dweb:/ipfs/QmVC67bv485TDaSeM2V7UkTdxUg8pqxHk8ZhaUCuGbVqmV"
 			]
 		}
 	},

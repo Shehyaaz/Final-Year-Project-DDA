@@ -6,6 +6,11 @@
 	"output": {
 		"abi": [
 			{
+				"inputs": [],
+				"stateMutability": "nonpayable",
+				"type": "constructor"
+			},
+			{
 				"inputs": [
 					{
 						"internalType": "bytes32[]",
@@ -167,7 +172,7 @@
 	},
 	"settings": {
 		"compilationTarget": {
-			"Check.sol": "Check"
+			"CheckAbstract.sol": "CheckAbstract"
 		},
 		"evmVersion": "istanbul",
 		"libraries": {},
@@ -181,13 +186,6 @@
 		"remappings": []
 	},
 	"sources": {
-		"Check.sol": {
-			"keccak256": "0x4c639f9889d862c25bd4b77d103370021c9818e276623b69dcb5e9be4a1793c4",
-			"urls": [
-				"bzz-raw://c9be74cd67d258732c680408c422815591f4accb1f4c71d6cefa63b3f886cf1f",
-				"dweb:/ipfs/QmcnCj1uF6xufLHuVFoTdMD4VD4Yt3qMbepJxnEmJVjYqo"
-			]
-		},
 		"CheckAbstract.sol": {
 			"keccak256": "0x90d0e11d6b61bf8cf7a6364a9df0dd9d60a42817a1b76e2692aa946c569054d5",
 			"urls": [

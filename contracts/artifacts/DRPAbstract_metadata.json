@@ -1,27 +1,16 @@
 {
 	"compiler": {
-		"version": "0.5.17+commit.d19bba13"
+		"version": "0.6.1+commit.e6f7d5a4"
 	},
 	"language": "Solidity",
 	"output": {
 		"abi": [
 			{
 				"inputs": [],
-				"payable": false,
 				"stateMutability": "nonpayable",
 				"type": "constructor"
 			},
 			{
-				"constant": false,
-				"inputs": [],
-				"name": "terminate",
-				"outputs": [],
-				"payable": false,
-				"stateMutability": "nonpayable",
-				"type": "function"
-			},
-			{
-				"constant": false,
 				"inputs": [
 					{
 						"internalType": "uint256",
@@ -41,20 +30,23 @@
 				],
 				"name": "trigger",
 				"outputs": [],
-				"payable": false,
 				"stateMutability": "nonpayable",
 				"type": "function"
 			},
 			{
-				"constant": true,
 				"inputs": [
 					{
 						"internalType": "address",
-						"name": "_addr",
+						"name": "_domainAddr",
+						"type": "address"
+					},
+					{
+						"internalType": "address",
+						"name": "_drpAddr",
 						"type": "address"
 					}
 				],
-				"name": "verifyDRPAddress",
+				"name": "verifyDRP",
 				"outputs": [
 					{
 						"internalType": "bool",
@@ -62,9 +54,12 @@
 						"type": "bool"
 					}
 				],
-				"payable": false,
 				"stateMutability": "view",
 				"type": "function"
+			},
+			{
+				"stateMutability": "payable",
+				"type": "receive"
 			}
 		],
 		"devdoc": {
@@ -76,10 +71,13 @@
 	},
 	"settings": {
 		"compilationTarget": {
-			"DRPInterface.sol": "DRPInterface"
+			"DRPAbstract.sol": "DRPAbstract"
 		},
 		"evmVersion": "istanbul",
 		"libraries": {},
+		"metadata": {
+			"bytecodeHash": "ipfs"
+		},
 		"optimizer": {
 			"enabled": false,
 			"runs": 200
@@ -87,11 +85,11 @@
 		"remappings": []
 	},
 	"sources": {
-		"DRPInterface.sol": {
-			"keccak256": "0x217052096217432b713470be2ba90583d96b867a9c63be3862a3e7c2c767ac0c",
+		"DRPAbstract.sol": {
+			"keccak256": "0x8dff3acd66eeb6deabe6730ecc18419ea93f1178aff275f21d119a52490f6bea",
 			"urls": [
-				"bzz-raw://25ddd6353f04eb3c3cf4c7e14340e1200138683c45a09d84cdc9d440dd65c373",
-				"dweb:/ipfs/QmUaXHwcgPWksZr7pVLTjUFQ73JjU3696JC4g2hgDADjB7"
+				"bzz-raw://1d31b7443a88ff082f0b2d00bde212f3501f4de43696733708ac9dd908b1aeb7",
+				"dweb:/ipfs/QmVC67bv485TDaSeM2V7UkTdxUg8pqxHk8ZhaUCuGbVqmV"
 			]
 		}
 	},

@@ -30,6 +30,10 @@ import PurchaseDRP from "./PurchaseDRP";
 import AlertDialog from "../widgets/AlertDialog";
 import AppContext from "../context/AppContext";
 import { gasLimit } from "../utils/constants";
+import { 
+    green,
+    red 
+} from '@material-ui/core/colors';
 
 const useStyles = theme => ({
     root: {
@@ -84,7 +88,8 @@ class ClientDashboard extends Component {
           <TableCell>{row.drpPrice}</TableCell>
           <TableCell>{row.lastChecked}</TableCell>
           <TableCell>
-              <Button color="secondary" size="small" endIcon={<VerifiedUserOutlined/>}
+              <Button size="small" endIcon={<VerifiedUserOutlined/>}
+                style={{color: row.lastChecked === "-" ? red[500] : green[500]}}
                 disableElevation
                 onClick= {() => this.handleDRPCheck(row.domainName, row.drpIndex)}
               >
@@ -107,15 +112,20 @@ class ClientDashboard extends Component {
         })
         .then(async(res) => {
             // call check certificate function from contract
-            const sctLogID = res.sctList.map(sct => sct.logID);
-            const sctTimestamp = res.sctList.map(sct => sct.timestamp);
+            let sctLogID = [];
+            let sctTimestamp = [];
+            if(res.sctList.length > 0){
+                sctLogID = res.sctList.map(sct => sct.logID);
+                sctTimestamp = res.sctList.map(sct => sct.timestamp);
+            }
 
             await this.context.contract.methods.checkCertificate(
                 drpIndex,
                 sctLogID,
                 sctTimestamp,
                 res.certValidFrom,
-                res.certValidTo
+                res.certValidTo,
+                res.ocspRes
             ).send({
                 from: this.state.account,
                 gas: gasLimit
@@ -123,6 +133,7 @@ class ClientDashboard extends Component {
             .on("receipt", async(receipt) => {
                 // certificate check was executed
                 if(receipt.events.CertChecked && receipt.events.CertChecked.returnValues._certValid){
+                    await this.getClientData();
                     this.setState({
                         alert: {
                             open: true,
@@ -182,7 +193,7 @@ class ClientDashboard extends Component {
             }
         });
         // delete DRP from client DRP list
-        await this.context.contract.methods.deleteDRPFromClientList(drpIndex).send({
+        await this.context.contract.methods.deleteDRPFromClientList(this.state.account, drpIndex).send({
             from: this.state.account,
             gas: gasLimit
         })
@@ -229,7 +240,7 @@ class ClientDashboard extends Component {
         });
         if(this.state.isRegistered){
             // get update fee from blockchain
-            const updateFee = await this.context.contract.methods.client_update_fee().call();
+            const updateFee = await this.context.contract.methods.update_fee().call();
             // update client details
             try{
                 this.context.contract.methods.updateClient(

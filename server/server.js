@@ -3,6 +3,7 @@ const path = require('path');
 const https = require('https');
 const pkijs = require('pkijs');
 const asn1js = require('asn1js');
+const ocsp = require('ocsp');
 
 const app = express();
 const port = process.env.PORT || 3001;
@@ -10,16 +11,18 @@ app.use(express.static(path.join(__dirname, 'client/build')));
 
 const getCert = (domainName) => new Promise((resolve, reject) => {
   const options = {
-    rejectUnauthorized: true,
     agent: new https.Agent({ //disable session caching
-      maxCachedSessions: 0
+      maxCachedSessions: 0,
+      rejectUnauthorized: false
     })
   };
-	const req = https.request("https://"+domainName, options, (res)=>{
-		const cert = res.socket.getPeerCertificate(false);
+
+	const req = https.request("https://"+domainName, options, (res) => {
+    const cert = res.socket.getPeerCertificate(true);
     res.socket.destroy();
     resolve(cert);
-	});
+  });
+  
   req.on("error", (err) => {
     reject(new Error(err));
   });
@@ -65,6 +68,7 @@ app.get("/welcome", (req, res) => {
   res.send({ message: "YOUR EXPRESS BACKEND IS CONNECTED TO REACT" });
 });
 
+// checks if a domain is valid or not
 app.get("/verify", (req, res) => {
   if(req.query && req.query.domainName){
     getCert(req.query.domainName)
@@ -80,12 +84,17 @@ app.get("/verify", (req, res) => {
   }
 });
 
+// returns the SCT and OCSP details of a domain's certificate
 app.get("/getsct", (req, res) => {
   if(req.query && req.query.domainName){
     getCert(req.query.domainName)
-    .then((cert) => {
+    .then( (cert) => {
       certDetails = getCertDetails(cert.raw);
-      res.status(200).send(certDetails);
+      // get OCSP response
+      ocsp.check({cert: cert.raw, issuer: cert.issuerCertificate.raw}, (err, ocspRes) => {
+        certDetails.ocspRes = ocspRes ? ocspRes.type: "unknown";
+        res.status(200).send(certDetails);
+      });
     })
     .catch((err) => {
       res.status(500).send({message: "An error was encountered when processing certificate"+err});
@@ -94,6 +103,17 @@ app.get("/getsct", (req, res) => {
   else{
     res.status(400).send({message: "Invalid request, please specify domain name"});
   } 
+});
+
+// returns the set of CT logs trusted and used by the system
+app.get("/getctlogs", (req, res) => {
+  try{
+    const trustedCTLogs = require("../server/ctlogs/trustedCTLogs.json");
+    res.status(200).send(trustedCTLogs);
+  }
+  catch(err){
+    res.status(500).send({message: "Unable to fetch CT logs !\n"+err.message});
+  }
 });
 
 // This displays message that the server running and listening to specified port

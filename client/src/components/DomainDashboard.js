@@ -74,14 +74,12 @@ class DomainDashboard extends Component {
         });
         if(this.state.isRegistered){
             // get update fee from blockchain
-            const updateFee = await this.context.contract.methods.domain_update_fee().call();
+            const updateFee = await this.context.contract.methods.update_fee().call();
             // update domain details
             try{
                 await this.context.contract.methods.updateDomain(
                     this.context.web3.utils.utf8ToHex(domainDetails.issuer),
-                    Math.floor(new Date(domainDetails.validTo).getTime()/1000),
-                    this.context.web3.utils.toWei(domainDetails.price, "ether"),
-                    domainDetails.drpAddress
+                    Math.floor(new Date(domainDetails.validTo).getTime()/1000)
                 ).send({
                     from: this.state.account,
                     value: updateFee,
@@ -126,6 +124,7 @@ class DomainDashboard extends Component {
             .then(async(res) => {
                 if(res.ok){
                     // register domain details
+                    const totalRegFee = parseFloat(this.context.web3.utils.fromWei(registerFee, "ether")) + 1.5*parseFloat(domainDetails.price);
                     try{
                         await this.context.contract.methods.registerDomain(
                             this.context.web3.utils.utf8ToHex(domainDetails.domainName),
@@ -137,7 +136,7 @@ class DomainDashboard extends Component {
                             domainDetails.version
                         ).send({
                             from: this.state.account,
-                            value: registerFee,
+                            value: this.context.web3.utils.toWei(totalRegFee.toString(), "ether"),
                             gas: gasLimit
                         })
                         .on("receipt", () => {

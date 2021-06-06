@@ -44,29 +44,17 @@
 		},
 		"gasEstimates": null,
 		"methodIdentifiers": {
-			"terminate()": "0c08bf88",
 			"trigger(uint256,uint8,uint8)": "5a84490f",
-			"verifyDRPAddress(address)": "b4ea49b3"
+			"verifyDRP(address,address)": "a4618a99"
 		}
 	},
 	"abi": [
 		{
 			"inputs": [],
-			"payable": false,
 			"stateMutability": "nonpayable",
 			"type": "constructor"
 		},
 		{
-			"constant": false,
-			"inputs": [],
-			"name": "terminate",
-			"outputs": [],
-			"payable": false,
-			"stateMutability": "nonpayable",
-			"type": "function"
-		},
-		{
-			"constant": false,
 			"inputs": [
 				{
 					"internalType": "uint256",
@@ -86,20 +74,23 @@
 			],
 			"name": "trigger",
 			"outputs": [],
-			"payable": false,
 			"stateMutability": "nonpayable",
 			"type": "function"
 		},
 		{
-			"constant": true,
 			"inputs": [
 				{
 					"internalType": "address",
-					"name": "_addr",
+					"name": "_domainAddr",
+					"type": "address"
+				},
+				{
+					"internalType": "address",
+					"name": "_drpAddr",
 					"type": "address"
 				}
 			],
-			"name": "verifyDRPAddress",
+			"name": "verifyDRP",
 			"outputs": [
 				{
 					"internalType": "bool",
@@ -107,9 +98,12 @@
 					"type": "bool"
 				}
 			],
-			"payable": false,
 			"stateMutability": "view",
 			"type": "function"
+		},
+		{
+			"stateMutability": "payable",
+			"type": "receive"
 		}
 	]
 }

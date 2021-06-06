@@ -69,7 +69,7 @@ class PurchaseDRP extends Component {
         const domainData = await this.context.contract.methods.getDRPDetails(i).call({
           from: this.context.account
         }); // an array of values is returned
-        if(domainData[1] !== "0"){
+        if(domainData !== undefined){
           domains.push({
             domainName: this.context.web3.utils.hexToUtf8(domainData[0]),
             drpPrice: this.context.web3.utils.fromWei(domainData[1], "ether"),
@@ -86,7 +86,10 @@ class PurchaseDRP extends Component {
   render() {
     const buttonDisabled = !this.state.isVerified || !this.state.selectedDomain;
     return (
-      <Dialog open={this.props.open} aria-labelledby="purchase-drp">
+      <Dialog open={this.props.open} aria-labelledby="purchase-drp"
+        disableBackdropClick
+        disableEscapeKeyDown
+      >
         <DialogTitle id="purchase-drp">Purchase DRP</DialogTitle>
         <DialogContent>
           <Autocomplete 
