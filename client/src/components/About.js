@@ -63,7 +63,7 @@ class About extends Component {
                             click "Register DRP". Once registered, the user can explore the Dashboards to access the various functions
                             offered by the system.
                         </Typography>
-                        <Button color="primary"
+                        <Button color="secondary"
                             onClick = {() => this.setState({isOpen: true})}
                         >
                             View list of CT logs trusted by DDA
@@ -99,7 +99,8 @@ class About extends Component {
                             </li>
                             <li>
                                 <Typography variant="body1" align="justify">
-                                    To register or update registered details, the Client must pay a fee of <b>0.01 ether</b>.
+                                    To register, the Client must pay a fee of <b>0.01 ether</b>, whereas to update the
+                                    details, the fee is <b>0.001 ether</b>.
                                 </Typography>
                             </li>
                         </ol>
@@ -141,9 +142,11 @@ class About extends Component {
                             </li>
                             <li>
                                 <Typography variant="body1" align="justify">
-                                    To register, the Domain must pay a fee of <b>0.05 ether, plus 1.5 times the Domain's DRP price</b>, 
-                                    which will be transferred to the DRP's React Contract.
-                                    To update registered details, the Domain must pay a fee of <b>0.01 ether</b>.
+                                    To register, the Domain must pay a fee of <b>0.05 ether, plus 1.2 times the Domain's DRP price</b>, 
+                                    which will be transferred to the DRP's React Contract. The amount transferred to the React Contract
+                                    will be returned to the Domain when the Domain expires its DRP <b>if the Domain's DRP has not been
+                                    triggered by any client.</b>
+                                    To update registered details, the Domain must pay a fee of <b>0.001 ether</b>.
                                 </Typography>
                             </li>
                             <li>

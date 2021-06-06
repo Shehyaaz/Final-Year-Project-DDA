@@ -239,7 +239,7 @@ contract DDA {
         uint256 drpListLength = clients[_clientAddr].purchasedDRP.length;
         address domainAddr = clients[_clientAddr].purchasedDRP[_drpIndex];
         clients[_clientAddr].purchasedDRP[_drpIndex] = clients[_clientAddr].purchasedDRP[drpListLength - 1];
-        delete clients[_clientAddr].purchasedDRP[drpListLength - 1];
+        clients[_clientAddr].purchasedDRP.pop(); // pop last element of array
         delete clients[_clientAddr].lastChecked[domainAddr];
         
         emit DRPDeleted(domainAddr);
@@ -252,7 +252,7 @@ contract DDA {
         // transfer escrowed amount to domain
         uint256 escrowAmount = escrowedAmount[msg.sender];
 
-        if(escrowAmount >= (drp.drpPrice/100) * escrow * total_funds){
+        if(drp.reactContract != address(0)){
             // domains DRP has not been triggered by client
             DRPAbstract(drp.reactContract).trigger(
                 drp.drpPrice,

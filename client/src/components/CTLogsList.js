@@ -7,8 +7,13 @@ import {
     Button,
     List,
     ListItem,
-    ListItemText
+    ListItemText,
+    ListItemIcon,
+    CircularProgress
 } from "@material-ui/core";
+import{
+    green
+} from "@material-ui/core/colors";
 import {
     VerifiedUser
 } from "@material-ui/icons";
@@ -17,6 +22,7 @@ class CTLogsList extends Component {
     constructor(props){
         super(props);
         this.state={
+            isLoading: true,
             ctLogs: []
         };
         this.loadCTLogs = this.loadCTLogs.bind(this);
@@ -27,6 +33,14 @@ class CTLogsList extends Component {
             isLoading: true
         });
         fetch("/getctlogs")
+        .then((res) => {
+            if(res.ok){
+                return res.json();
+            }
+            else{
+                throw new Error();
+            }
+        })
         .then((res) => {
             this.setState({
                 ctLogs: res,
@@ -42,9 +56,9 @@ class CTLogsList extends Component {
     }
 
     ctListItem = ctLog => (
-        <ListItem>
+        <ListItem key={ctLog.description}>
             <ListItemIcon>
-                <VerifiedUser />
+                <VerifiedUser style={{ color: green[500] }}/>
             </ListItemIcon>
             <ListItemText primary={ctLog.description} />
         </ListItem>

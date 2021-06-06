@@ -6,7 +6,7 @@ const DRPReact = artifacts.require("./DRPReaction.sol");
 contract("DDA", accounts => {  
     it("...check CT log IDs", async () => {
         // load trustedCTLogs file
-        const trustedCTLogs = require("../ctlogs/trustedCTLogs.json");
+        const trustedCTLogs = require("../server/ctlogs/trustedCTLogs.json");
         let logIDs = [];
         for(const log of trustedCTLogs){
             logIDs.push(log["log_id"]);
@@ -100,7 +100,7 @@ contract("DDA", accounts => {
             });
             const drpInstance = await DRPReact.deployed();
             const drpPrice = 1;
-            const regFee = parseFloat(web3.utils.fromWei(domainRegFee, "ether")) + 1.5*drpPrice;
+            const regFee = parseFloat(web3.utils.fromWei(domainRegFee, "ether")) + 1.2*drpPrice;
             await ddaInstance.registerDomain(
                 web3.utils.utf8ToHex("google.com"),
                 web3.utils.utf8ToHex("google.com"),
@@ -133,7 +133,7 @@ contract("DDA", accounts => {
             });
             const drpInstance = await DRPReact.deployed();
             const drpPrice = 1;
-            const regFee = parseFloat(web3.utils.fromWei(domainRegFee, "ether")) + 1.5*drpPrice;
+            const regFee = parseFloat(web3.utils.fromWei(domainRegFee, "ether")) + 1.2*drpPrice;
             await ddaInstance.registerDomain(
                 web3.utils.utf8ToHex("facebook.com"),
                 web3.utils.utf8ToHex("facebook.com"),
@@ -181,7 +181,7 @@ contract("DDA", accounts => {
                 from: accounts[4]
             });
             const drpPrice = 1;
-            const regFee = parseFloat(web3.utils.fromWei(domainRegFee, "ether")) + 1.5*drpPrice;
+            const regFee = parseFloat(web3.utils.fromWei(domainRegFee, "ether")) + 1.2*drpPrice;
             await ddaInstance.registerDomain(
                 web3.utils.utf8ToHex("github.com"),
                 web3.utils.utf8ToHex("github.com"),

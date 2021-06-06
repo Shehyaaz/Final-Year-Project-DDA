@@ -24,7 +24,6 @@ import {
     VerifiedUserOutlined
 } from "@material-ui/icons";
 import { withStyles } from "@material-ui/core/styles";
-import { red } from "@material-ui/core/colors";
 import CCPRegistration from "./CCPRegistration";
 import PurchaseDRP from "./PurchaseDRP";
 import AlertDialog from "../widgets/AlertDialog";
@@ -183,13 +182,13 @@ class ClientDashboard extends Component {
     }
     
     async deleteDRP(drpIndex){
+        const alert = this.state.alert;
         this.setState({
             isLoading: true,
             showConfirm: false,
             alert: {
-                open: false,
-                title: "",
-                message: ""
+                ...alert,
+                open: false
             }
         });
         // delete DRP from client DRP list
@@ -297,7 +296,7 @@ class ClientDashboard extends Component {
                 ).send({
                     from: this.state.account,
                     value: registerFee,
-                    gas: gasLimit
+                    gas: gasLimit*2
                 })
                 .on("receipt", async() => {
                     await this.getClientData();
@@ -315,7 +314,7 @@ class ClientDashboard extends Component {
                         alert: {
                             open: true,
                             title: "Error",
-                            message: clientDetails.clientName+" registration failed !"
+                            message: clientDetails.clientName+" registration failed ! Please check your Check contract address !"
                         },
                         isLoading: false
                     });
@@ -431,7 +430,7 @@ class ClientDashboard extends Component {
                     validFrom: new Date(parseInt(drpData[1])*1000).toISOString().split("T")[0],
                     validTo: new Date(parseInt(drpData[2])*1000).toISOString().split("T")[0],
                     drpPrice: this.context.web3.utils.fromWei(drpData[3], "ether"),
-                    lastChecked: parseInt(drpData[4]) > 0 ? new Date(parseInt(drpData[4])*1000).toISOString().split("T")[0] : "-"
+                    lastChecked: parseInt(drpData[4]) > 1 ? new Date(parseInt(drpData[4])*1000).toISOString().split("T")[0] : "-"
                 });
             }
         }
@@ -467,6 +466,7 @@ class ClientDashboard extends Component {
 
     render() {
         const classes = this.props.classes;
+        const alert = this.state.alert;
         return (
             <div className={classes.root}>
                 <Backdrop className={classes.backdrop} open={this.state.isLoading}>
@@ -612,9 +612,8 @@ class ClientDashboard extends Component {
                     isConfirm={this.state.showConfirm}
                     onClose={() => this.setState({
                         alert: {
-                            open: false,
-                            title: "",
-                            message: ""
+                            ...alert,
+                            open: false
                         },
                         showConfirm: false
                     })}

@@ -124,7 +124,7 @@ class DomainDashboard extends Component {
             .then(async(res) => {
                 if(res.ok){
                     // register domain details
-                    const totalRegFee = parseFloat(this.context.web3.utils.fromWei(registerFee, "ether")) + 1.5*parseFloat(domainDetails.price);
+                    const totalRegFee = parseFloat(this.context.web3.utils.fromWei(registerFee, "ether")) + 1.2*parseFloat(domainDetails.price);
                     try{
                         await this.context.contract.methods.registerDomain(
                             this.context.web3.utils.utf8ToHex(domainDetails.domainName),
@@ -155,7 +155,7 @@ class DomainDashboard extends Component {
                                 alert: {
                                     open: true,
                                     title: "Error",
-                                    message: domainDetails.domainName+" registration failed !"
+                                    message: domainDetails.domainName+" registration failed ! Please check your React contract address"
                                 },
                                 isLoading: false
                             });
@@ -248,13 +248,13 @@ class DomainDashboard extends Component {
     }
 
     async expireDRP(){
+        const alert = this.state.alert;
         this.setState({
             isLoading: true,
             showConfirm: false,
             alert: {
-                open: false,
-                title: "",
-                message: ""
+                ...alert,
+                open: false
             }
         });
         try{
@@ -340,6 +340,7 @@ class DomainDashboard extends Component {
 
     render() {
         const classes = this.props.classes;
+        const alert = this.state.alert;
         return (
             <div className={classes.root}>
                 <Backdrop className={classes.backdrop} open={this.state.isLoading}>
@@ -515,9 +516,8 @@ class DomainDashboard extends Component {
                     isConfirm={this.state.showConfirm}
                     onClose={() => this.setState({
                         alert: {
-                            open: false,
-                            title: "",
-                            message: ""
+                            ...alert,
+                            open: false
                         },
                         showConfirm: false
                     })}
