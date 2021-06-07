@@ -37,6 +37,7 @@
 			"sourceMap": ""
 		},
 		"deployedBytecode": {
+			"immutableReferences": {},
 			"linkReferences": {},
 			"object": "",
 			"opcodes": "",
@@ -50,7 +51,6 @@
 			"ocspRes()": "4b3fccdc",
 			"ocspResType(string)": "2e585753",
 			"setCTLogs(bytes32[],uint256)": "6124849f",
-			"terminateCCP()": "b903d21a",
 			"verifyCCP(address,address)": "88d8840b"
 		}
 	},
@@ -177,13 +177,6 @@
 				}
 			],
 			"name": "setCTLogs",
-			"outputs": [],
-			"stateMutability": "nonpayable",
-			"type": "function"
-		},
-		{
-			"inputs": [],
-			"name": "terminateCCP",
 			"outputs": [],
 			"stateMutability": "nonpayable",
 			"type": "function"

@@ -126,7 +126,7 @@ class ClientDashboard extends Component {
                 res.certValidTo,
                 res.ocspRes
             ).send({
-                from: this.state.account,
+                from: this.context.account,
                 gas: gasLimit
             })
             .on("receipt", async(receipt) => {
@@ -192,8 +192,8 @@ class ClientDashboard extends Component {
             }
         });
         // delete DRP from client DRP list
-        await this.context.contract.methods.deleteDRPFromClientList(this.state.account, drpIndex).send({
-            from: this.state.account,
+        await this.context.contract.methods.deleteDRPFromClientList(this.context.account, drpIndex).send({
+            from: this.context.account,
             gas: gasLimit
         })
         .on("receipt", async(receipt) => {
@@ -246,7 +246,7 @@ class ClientDashboard extends Component {
                     Math.floor(new Date(clientDetails.validTo).getTime()/1000),
                     clientDetails.ccpAddress
                 ).send({
-                    from: this.state.account,
+                    from: this.context.account,
                     value: updateFee,
                     gas: gasLimit
                 })
@@ -294,9 +294,9 @@ class ClientDashboard extends Component {
                     clientDetails.ccpAddress,
                     clientDetails.version
                 ).send({
-                    from: this.state.account,
+                    from: this.context.account,
                     value: registerFee,
-                    gas: gasLimit*2
+                    gas: gasLimit*3
                 })
                 .on("receipt", async() => {
                     await this.getClientData();
@@ -339,7 +339,7 @@ class ClientDashboard extends Component {
         });
         try{
             await this.context.contract.methods.purchaseDRP(domain.domainAddress).send({
-                from: this.state.account,
+                from: this.context.account,
                 value: this.context.web3.utils.toWei(domain.drpPrice, "ether"),
                 gas: gasLimit
             })
@@ -381,7 +381,7 @@ class ClientDashboard extends Component {
             isLoading: true
         });
         const status = await this.context.contract.methods.getCCPStatus().call({
-            from: this.state.account
+            from: this.context.account
         });
         let mssg = "";
         let title = "";
@@ -412,17 +412,17 @@ class ClientDashboard extends Component {
     }
 
     async getClientData(){
-        const isRegistered = await this.context.contract.methods.isClientRegistered().call({
-            from: this.state.account
-        });
         const drpList = [];
+        const isRegistered = await this.context.contract.methods.isClientRegistered().call({
+            from: this.context.account
+        });
         if(isRegistered){
             const drpListLength = await this.context.contract.methods.getClientDRPListLength().call({
-                from: this.state.account
+                from: this.context.account
             });
             for(let i = parseInt(drpListLength) - 1; i >= 0; i--){
                 const drpData = await this.context.contract.methods.getClientDRPList(i).call({
-                    from: this.state.account
+                    from: this.context.account
                 }); // an array of values is returned
                 drpList.push({
                     drpIndex: i,
@@ -446,6 +446,15 @@ class ClientDashboard extends Component {
             isLoading: true
         });
         await this.getClientData();
+        const DRPExpired = this.context.contract.Won()
+          Won.watch((err, result) => {
+            if (err) {
+              console.log('could not get event Won()')
+            } else {
+              this.winEvent = result.args
+              this.pending = false
+            }
+          })
         this.setState({
             isLoading: false
         });    

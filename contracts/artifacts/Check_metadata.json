@@ -1,6 +1,6 @@
 {
 	"compiler": {
-		"version": "0.6.1+commit.e6f7d5a4"
+		"version": "0.6.12+commit.27d51765"
 	},
 	"language": "Solidity",
 	"output": {
@@ -159,10 +159,14 @@
 			}
 		],
 		"devdoc": {
-			"methods": {}
+			"kind": "dev",
+			"methods": {},
+			"version": 1
 		},
 		"userdoc": {
-			"methods": {}
+			"kind": "user",
+			"methods": {},
+			"version": 1
 		}
 	},
 	"settings": {
@@ -182,17 +186,19 @@
 	},
 	"sources": {
 		"Check.sol": {
-			"keccak256": "0x4c639f9889d862c25bd4b77d103370021c9818e276623b69dcb5e9be4a1793c4",
+			"keccak256": "0xa1596d0c39df1fd17b165272d749641c0dc29ff69d5bc42b4250f4ceb8766f6d",
+			"license": "MIT",
 			"urls": [
-				"bzz-raw://c9be74cd67d258732c680408c422815591f4accb1f4c71d6cefa63b3f886cf1f",
-				"dweb:/ipfs/QmcnCj1uF6xufLHuVFoTdMD4VD4Yt3qMbepJxnEmJVjYqo"
+				"bzz-raw://027dcdd6d2b37f4f884aa12a41f87c1af3f0c05e34fbb3d02700e4f4ba0829a0",
+				"dweb:/ipfs/QmNv4C7JFMGG7PLipA5qvADEc3cxsWnR9vab7ZsDim9Cwd"
 			]
 		},
 		"CheckAbstract.sol": {
-			"keccak256": "0x90d0e11d6b61bf8cf7a6364a9df0dd9d60a42817a1b76e2692aa946c569054d5",
+			"keccak256": "0x0425f6ae223979a0f81d9af4a21e9af4796f5de10cfc38bcba70e2edf1b88f92",
+			"license": "MIT",
 			"urls": [
-				"bzz-raw://54fb2253b041104be87525baa58abb37ccbb5b7760cd58ca6b07beff8b22f448",
-				"dweb:/ipfs/QmZtusmauyUuzphbCPWLwSuRwGKmVddYS1SjsJSAjHhGw1"
+				"bzz-raw://e28d7dcaf7aef15382058690f115158963e2efdb97d9137689ffe06a8fefc203",
+				"dweb:/ipfs/Qmbm2qPHnhPt86yZUW17dQBw3xiEMj9spxQDtQ4pqs2Qo1"
 			]
 		}
 	},

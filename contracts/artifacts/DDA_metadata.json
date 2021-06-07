@@ -27,9 +27,9 @@
 					},
 					{
 						"indexed": false,
-						"internalType": "address",
-						"name": "_domainAddr",
-						"type": "address"
+						"internalType": "bytes32",
+						"name": "_domainName",
+						"type": "bytes32"
 					},
 					{
 						"indexed": false,
@@ -59,9 +59,9 @@
 				"inputs": [
 					{
 						"indexed": false,
-						"internalType": "address",
-						"name": "_domainAddr",
-						"type": "address"
+						"internalType": "bytes32",
+						"name": "_domainName",
+						"type": "bytes32"
 					}
 				],
 				"name": "DRPExpired",
@@ -78,15 +78,9 @@
 					},
 					{
 						"indexed": false,
-						"internalType": "address",
-						"name": "_domainAddr",
-						"type": "address"
-					},
-					{
-						"indexed": false,
-						"internalType": "uint256",
-						"name": "_amount",
-						"type": "uint256"
+						"internalType": "bytes32",
+						"name": "_domainName",
+						"type": "bytes32"
 					}
 				],
 				"name": "DRPpurchased",
@@ -100,6 +94,12 @@
 						"internalType": "address",
 						"name": "_addr",
 						"type": "address"
+					},
+					{
+						"indexed": false,
+						"internalType": "bytes32",
+						"name": "_name",
+						"type": "bytes32"
 					}
 				],
 				"name": "Registered",
@@ -215,13 +215,6 @@
 					}
 				],
 				"name": "deleteDRPFromClientList",
-				"outputs": [],
-				"stateMutability": "nonpayable",
-				"type": "function"
-			},
-			{
-				"inputs": [],
-				"name": "destroyContract",
 				"outputs": [],
 				"stateMutability": "nonpayable",
 				"type": "function"
@@ -434,15 +427,7 @@
 						"internalType": "address",
 						"name": "",
 						"type": "address"
-					}
-				],
-				"stateMutability": "view",
-				"type": "function"
-			},
-			{
-				"inputs": [],
-				"name": "getEscrowAmount",
-				"outputs": [
+					},
 					{
 						"internalType": "uint256",
 						"name": "",
@@ -596,6 +581,25 @@
 			{
 				"inputs": [
 					{
+						"internalType": "bytes32",
+						"name": "",
+						"type": "bytes32"
+					}
+				],
+				"name": "registeredDomainNames",
+				"outputs": [
+					{
+						"internalType": "uint256",
+						"name": "",
+						"type": "uint256"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
 						"internalType": "uint256",
 						"name": "",
 						"type": "uint256"
@@ -685,24 +689,24 @@
 	},
 	"sources": {
 		"CheckAbstract.sol": {
-			"keccak256": "0x90d0e11d6b61bf8cf7a6364a9df0dd9d60a42817a1b76e2692aa946c569054d5",
+			"keccak256": "0xbef2ddb5f44bdf44b937dda44b214a57ff338fa798e63d425144a73846778083",
 			"urls": [
-				"bzz-raw://54fb2253b041104be87525baa58abb37ccbb5b7760cd58ca6b07beff8b22f448",
-				"dweb:/ipfs/QmZtusmauyUuzphbCPWLwSuRwGKmVddYS1SjsJSAjHhGw1"
+				"bzz-raw://40a419fda9ba71a39a053b1d8f7ac45a911a0df81818f4e8cbaab6e7f69df739",
+				"dweb:/ipfs/QmRWCHNPAxcnbSeh891pQZdCkhYKpwsc6BEsUb3rbgf4ZQ"
 			]
 		},
 		"DDA.sol": {
-			"keccak256": "0xf5daea72599ab189000baf65d29fcc7c9b03494b6bc11753fc16406618de428d",
+			"keccak256": "0xa3c4f05602c0d7f476191026dedff91c3bf66f8b3327f47f730fdae3a748340e",
 			"urls": [
-				"bzz-raw://4a9d25b387c87dc482cf2b0ab134e1ee2fabe38955829895edc0ac559d19ed57",
-				"dweb:/ipfs/QmWQfCopiJYygKPD48MH4hMh8VBxcEBohQa1pq1boddcHE"
+				"bzz-raw://916aff95710509ae0016109f33c25049dc08515600964aeab55e7981735a8010",
+				"dweb:/ipfs/Qmdqb2HDKj2n4yNcSxbDfifnKCVcZi3n33Uqy51udqQbFZ"
 			]
 		},
 		"DRPAbstract.sol": {
-			"keccak256": "0x8dff3acd66eeb6deabe6730ecc18419ea93f1178aff275f21d119a52490f6bea",
+			"keccak256": "0xb3b03be35179f3d7c2e4efc0c12813a1cc9b01a740dbf53eb6359c0228a79c2d",
 			"urls": [
-				"bzz-raw://1d31b7443a88ff082f0b2d00bde212f3501f4de43696733708ac9dd908b1aeb7",
-				"dweb:/ipfs/QmVC67bv485TDaSeM2V7UkTdxUg8pqxHk8ZhaUCuGbVqmV"
+				"bzz-raw://665655d87ae45493ff547c654b74d852c6438f5de1bfb8d5b67e3f1a931a20b2",
+				"dweb:/ipfs/QmSrZB9uKQX18z1BxtuBHKJmCgQG2dC8aGCk5DMvsWvoCj"
 			]
 		}
 	},

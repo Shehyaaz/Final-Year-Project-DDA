@@ -2,8 +2,7 @@ import React, { Component } from "react";
 import { 
     Box,
     Grid,
-    Typography,
-    Paper, 	
+    Typography, 	
     Avatar,
     Button
   } from '@material-ui/core';
@@ -99,8 +98,7 @@ class About extends Component {
                             </li>
                             <li>
                                 <Typography variant="body1" align="justify">
-                                    To register, the Client must pay a fee of <b>0.01 ether</b>, whereas to update the
-                                    details, the fee is <b>0.001 ether</b>.
+                                    To register or update registered details, the Client must pay a fee of <b>0.001 ether</b>. 
                                 </Typography>
                             </li>
                         </ol>
@@ -180,7 +178,7 @@ class About extends Component {
                                 <Avatar src="/images/sufiyan.png" alt="Sufiyan" className={classes.large}/>
                             </Grid>
                             <Grid item>
-                                <Paper elevation={0}>Mohammed Sufiyan Aman</Paper>
+                                <Typography variant="overline"><b>Mohammed Sufiyan Aman</b></Typography>
                             </Grid>
                         </Grid>
                         <Grid container direction="column" alignItems="center" item justify="center" xs={3}>
@@ -188,7 +186,7 @@ class About extends Component {
                                 <Avatar src="/images/riyanchhi.png" alt="Riyanchhi" className={classes.large}/>
                             </Grid>
                             <Grid item>
-                                <Paper elevation={0}>Riyanchhi Agrawal</Paper>
+                                <Typography variant="overline"><b>Riyanchhi Agrawal</b></Typography>
                             </Grid>
                         </Grid>
                         <Grid container direction="column" alignItems="center" item justify="center" xs={3}>
@@ -196,7 +194,7 @@ class About extends Component {
                                 <Avatar src="/images/sakshi.png" alt="Shakshi" className={classes.large}/>
                             </Grid>
                             <Grid item>
-                                <Paper elevation={0}>Shakshi Pandey</Paper>
+                                <Typography variant="overline"><b>Shakshi Pandey</b></Typography>
                             </Grid>
                         </Grid>
                         <Grid container direction="column" alignItems="center" item justify="center" xs={3}>
@@ -204,7 +202,7 @@ class About extends Component {
                                 <Avatar src="/images/shehyaaz.png" alt="Nayazi" className={classes.large}/>
                             </Grid>
                             <Grid item>
-                                <Paper elevation={0}>Shehyaaz Khan Nayazi</Paper>
+                                <Typography variant="overline"><b>Shehyaaz Khan Nayazi</b></Typography>
                             </Grid>
                         </Grid>
                     </Grid>

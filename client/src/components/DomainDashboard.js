@@ -81,7 +81,7 @@ class DomainDashboard extends Component {
                     this.context.web3.utils.utf8ToHex(domainDetails.issuer),
                     Math.floor(new Date(domainDetails.validTo).getTime()/1000)
                 ).send({
-                    from: this.state.account,
+                    from: this.context.account,
                     value: updateFee,
                     gas: gasLimit
                 })
@@ -135,7 +135,7 @@ class DomainDashboard extends Component {
                             domainDetails.drpAddress,
                             domainDetails.version
                         ).send({
-                            from: this.state.account,
+                            from: this.context.account,
                             value: this.context.web3.utils.toWei(totalRegFee.toString(), "ether"),
                             gas: gasLimit
                         })
@@ -155,7 +155,8 @@ class DomainDashboard extends Component {
                                 alert: {
                                     open: true,
                                     title: "Error",
-                                    message: domainDetails.domainName+" registration failed ! Please check your React contract address"
+                                    message: domainDetails.domainName+
+                                        " registration failed ! Please check your React contract address!\nIf the React contract is valid, then this domain has already registered."
                                 },
                                 isLoading: false
                             });
@@ -200,7 +201,7 @@ class DomainDashboard extends Component {
             isLoading: true
         });
         const status = await this.context.contract.methods.getDRPStatus().call({
-            from: this.state.account
+            from: this.context.account
         });
         let title = "";
         let mssg = "";
@@ -234,14 +235,14 @@ class DomainDashboard extends Component {
         this.setState({
             isLoading: true
         });
-        const escrowAmount = await this.context.contract.methods.getEscrowAmount().call({
-            from: this.state.account
+        const domainData = await this.context.contract.methods.getDomainDetails().call({
+            from: this.context.account
         });
         this.setState({
             alert: {
                 open: true,
                 title: "Escrow Amount",
-                message: "Your escrowed amount is :"+parseFloat(this.context.web3.utils.fromWei(escrowAmount, "ether"))+" ether"
+                message: "Your escrowed amount is : "+parseFloat(this.context.web3.utils.fromWei(domainData[7], "ether"))+" ether"
             },
             isLoading: false
         });
@@ -259,11 +260,11 @@ class DomainDashboard extends Component {
         });
         try{
             await this.context.contract.methods.expireDRP().send({
-                from: this.state.account,
+                from: this.context.account,
                 gas: gasLimit
             })
             .on("receipt", (receipt) => {
-                if(receipt.events.DRPExpired && receipt.events.DRPExpired.returnValues._domainAddr){
+                if(receipt.events.DRPExpired && receipt.events.DRPExpired.returnValues._domainName){
                     this.setState({
                         alert: {
                             open: true,
@@ -314,7 +315,7 @@ class DomainDashboard extends Component {
             isLoading: true
         });
         const isRegistered = await this.context.contract.methods.isDomainRegistered().call({
-            from: this.state.account
+            from: this.context.account
         });
         this.setState({
             isLoading: false,
@@ -329,7 +330,7 @@ class DomainDashboard extends Component {
                 isLoading: true
             });
             const isRegistered = await this.context.contract.methods.isDomainRegistered().call({
-                from: this.state.account
+                from: this.context.account
             });
             this.setState({
                 isLoading: false,

@@ -195,10 +195,11 @@ contract("DDA", accounts => {
                     value: web3.utils.toWei(regFee.toString(),"ether")
                 }
             );
-            const domainData = await ddaInstance.getDomainDetails.call({
+
+            let domainData = await ddaInstance.getDomainDetails.call({
                 from: accounts[4]
             });
-            
+
             // purchase DRP
             await ddaInstance.purchaseDRP(
                 domainData[5],
@@ -208,7 +209,7 @@ contract("DDA", accounts => {
                 }
             );
             // get domain escrowed amount
-            const escrowAmount = await ddaInstance.getEscrowAmount.call({
+            domainData = await ddaInstance.getDomainDetails.call({
                 from: accounts[4]
             });
             // get purchased DRP details
@@ -219,7 +220,7 @@ contract("DDA", accounts => {
                 }
             );
     
-            assert.equal(escrowAmount, web3.utils.toWei("0.8","ether"), "Escrow amount should be 0.8 ether");
+            assert.equal(domainData[7], web3.utils.toWei("0.8","ether"), "Escrow amount should be 0.8 ether");
             assert.equal(purchasedDRP[0], domainData[0], "Domain name should be github.com");
             assert.equal(purchasedDRP[1].toString(), domainData[2].toString(), "DRP validFrom should match");
             assert.equal(purchasedDRP[2].toString(), domainData[3].toString(), "DRP validTo should match");

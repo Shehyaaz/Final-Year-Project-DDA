@@ -108,6 +108,7 @@ class HomePage extends Component {
 
 	render() {
 		const classes = this.props.classes;
+		const alert = this.state.alert;
 		if(this.state.isLoggedIn){
 			return (
 				<Redirect 
@@ -169,9 +170,8 @@ class HomePage extends Component {
                     isConfirm={false}
                     onClose={() => this.setState({
                         alert: {
-                            open: false,
-                            title: "",
-                            message: ""
+							...alert,
+                            open: false
                         }
                     })}
                 />

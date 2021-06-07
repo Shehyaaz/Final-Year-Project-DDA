@@ -1,6 +1,6 @@
 {
 	"compiler": {
-		"version": "0.6.1+commit.e6f7d5a4"
+		"version": "0.6.12+commit.27d51765"
 	},
 	"language": "Solidity",
 	"output": {
@@ -132,13 +132,6 @@
 				"type": "function"
 			},
 			{
-				"inputs": [],
-				"name": "terminateCCP",
-				"outputs": [],
-				"stateMutability": "nonpayable",
-				"type": "function"
-			},
-			{
 				"inputs": [
 					{
 						"internalType": "address",
@@ -164,10 +157,14 @@
 			}
 		],
 		"devdoc": {
-			"methods": {}
+			"kind": "dev",
+			"methods": {},
+			"version": 1
 		},
 		"userdoc": {
-			"methods": {}
+			"kind": "user",
+			"methods": {},
+			"version": 1
 		}
 	},
 	"settings": {
@@ -187,10 +184,11 @@
 	},
 	"sources": {
 		"CheckAbstract.sol": {
-			"keccak256": "0x90d0e11d6b61bf8cf7a6364a9df0dd9d60a42817a1b76e2692aa946c569054d5",
+			"keccak256": "0xbef2ddb5f44bdf44b937dda44b214a57ff338fa798e63d425144a73846778083",
+			"license": "MIT",
 			"urls": [
-				"bzz-raw://54fb2253b041104be87525baa58abb37ccbb5b7760cd58ca6b07beff8b22f448",
-				"dweb:/ipfs/QmZtusmauyUuzphbCPWLwSuRwGKmVddYS1SjsJSAjHhGw1"
+				"bzz-raw://40a419fda9ba71a39a053b1d8f7ac45a911a0df81818f4e8cbaab6e7f69df739",
+				"dweb:/ipfs/QmRWCHNPAxcnbSeh891pQZdCkhYKpwsc6BEsUb3rbgf4ZQ"
 			]
 		}
 	},

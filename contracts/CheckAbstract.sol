@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: MIT
 /*
 This is an abstract smart contract that provides an interface to the Check contract in Decentralised Domain Authentication on Ethereum blockchain.
 Authors : Mohammed Sufiyan Aman, Riyanchhi Agrawal, Shakshi Pandey, Shehyaaz Khan Nayazi
@@ -36,11 +37,6 @@ abstract contract CheckAbstract {
         for(uint256 i = 0; i < _ctLogIDs.length; i++){
             ctLogIDs[_ctLogIDs[i]] = true;
         }
-    }
-    
-    /* this function destroys the contract */
-    function terminateCCP() external onlyOwner{
-        selfdestruct(owner);
     }
     
     /* 

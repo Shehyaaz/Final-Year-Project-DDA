@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: MIT
 /*
 This is an abstract smart contract that provides an interface to the Trigger contract in Decentralised Domain Authentication on Ethereum blockchain.
 Authors : Mohammed Sufiyan Aman, Riyanchhi Agrawal, Shakshi Pandey, Shehyaaz Khan Nayazi
