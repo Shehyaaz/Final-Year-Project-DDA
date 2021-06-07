@@ -7,13 +7,17 @@
     "test": "test"
   },
   "dependencies": {
-    "@material-ui/lab": "^4.0.0-alpha.58",
-    "pkijs": "^2.1.95",
-    "request": "^2.88.2"
+    "express": "^4.17.1",
+    "ocsp": "^1.2.0",
+    "pkijs": "^2.1.95"
   },
-  "devDependencies": {},
+  "devDependencies": {
+    "chai": "^4.3.4",
+    "chai-http": "^4.3.0",
+    "mocha": "^8.4.0"
+  },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "mocha --timeout 10000 server/test"
   },
   "repository": {
     "type": "git",

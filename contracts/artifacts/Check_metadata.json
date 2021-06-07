@@ -1,0 +1,206 @@
+{
+	"compiler": {
+		"version": "0.6.12+commit.27d51765"
+	},
+	"language": "Solidity",
+	"output": {
+		"abi": [
+			{
+				"inputs": [
+					{
+						"internalType": "bytes32[]",
+						"name": "_sctLogID",
+						"type": "bytes32[]"
+					},
+					{
+						"internalType": "uint256[]",
+						"name": "_sctTimestamp",
+						"type": "uint256[]"
+					},
+					{
+						"internalType": "uint256",
+						"name": "_certValidFrom",
+						"type": "uint256"
+					},
+					{
+						"internalType": "uint256",
+						"name": "_certValidTo",
+						"type": "uint256"
+					},
+					{
+						"internalType": "string",
+						"name": "_ocspRes",
+						"type": "string"
+					}
+				],
+				"name": "check",
+				"outputs": [
+					{
+						"internalType": "bool",
+						"name": "",
+						"type": "bool"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "bytes32",
+						"name": "",
+						"type": "bytes32"
+					}
+				],
+				"name": "ctLogIDs",
+				"outputs": [
+					{
+						"internalType": "bool",
+						"name": "",
+						"type": "bool"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "maximum_merge_delay",
+				"outputs": [
+					{
+						"internalType": "uint256",
+						"name": "",
+						"type": "uint256"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "ocspRes",
+				"outputs": [
+					{
+						"internalType": "enum CheckAbstract.OCSPResponse",
+						"name": "",
+						"type": "uint8"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "string",
+						"name": "",
+						"type": "string"
+					}
+				],
+				"name": "ocspResType",
+				"outputs": [
+					{
+						"internalType": "uint8",
+						"name": "",
+						"type": "uint8"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "bytes32[]",
+						"name": "_ctLogIDs",
+						"type": "bytes32[]"
+					},
+					{
+						"internalType": "uint256",
+						"name": "_maximum_merge_delay",
+						"type": "uint256"
+					}
+				],
+				"name": "setCTLogs",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "terminateCCP",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "_clientAddr",
+						"type": "address"
+					},
+					{
+						"internalType": "address",
+						"name": "_ccpAddr",
+						"type": "address"
+					}
+				],
+				"name": "verifyCCP",
+				"outputs": [
+					{
+						"internalType": "bool",
+						"name": "",
+						"type": "bool"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			}
+		],
+		"devdoc": {
+			"kind": "dev",
+			"methods": {},
+			"version": 1
+		},
+		"userdoc": {
+			"kind": "user",
+			"methods": {},
+			"version": 1
+		}
+	},
+	"settings": {
+		"compilationTarget": {
+			"Check.sol": "Check"
+		},
+		"evmVersion": "istanbul",
+		"libraries": {},
+		"metadata": {
+			"bytecodeHash": "ipfs"
+		},
+		"optimizer": {
+			"enabled": false,
+			"runs": 200
+		},
+		"remappings": []
+	},
+	"sources": {
+		"Check.sol": {
+			"keccak256": "0xa1596d0c39df1fd17b165272d749641c0dc29ff69d5bc42b4250f4ceb8766f6d",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://027dcdd6d2b37f4f884aa12a41f87c1af3f0c05e34fbb3d02700e4f4ba0829a0",
+				"dweb:/ipfs/QmNv4C7JFMGG7PLipA5qvADEc3cxsWnR9vab7ZsDim9Cwd"
+			]
+		},
+		"CheckAbstract.sol": {
+			"keccak256": "0x0425f6ae223979a0f81d9af4a21e9af4796f5de10cfc38bcba70e2edf1b88f92",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://e28d7dcaf7aef15382058690f115158963e2efdb97d9137689ffe06a8fefc203",
+				"dweb:/ipfs/Qmbm2qPHnhPt86yZUW17dQBw3xiEMj9spxQDtQ4pqs2Qo1"
+			]
+		}
+	},
+	"version": 1
+}

@@ -12,7 +12,7 @@ const getWeb3 = async() => {
           // Accounts now exposed
           return web3;
         } catch (error) {
-          throw new Error(error);
+          throw error;
         }
       }
       // Legacy dapp browsers...

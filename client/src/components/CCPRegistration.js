@@ -4,11 +4,13 @@ import {
 	Button,
 	TextField,
 	Box,
+  Grid,
   Tooltip,
   Dialog,
   DialogContent,
   DialogActions,
-  DialogTitle
+  DialogTitle,
+  CircularProgress
 } from '@material-ui/core';
 import {
   Alert
@@ -20,12 +22,15 @@ class CCPRegistration extends Component {
   constructor(props, context){
     super(props);
     this.state={
+      isLoading: false,
       isVerified: false,
+      isRegistered: false,
       agree: false,
       error: false,
       errorMessage: '',
       clientName: '',
-      version: 0,
+      clientPay: '',
+      version: 1,
       validFrom: new Date().toISOString().split("T")[0],
       validTo: new Date().toISOString().split("T")[0],
       ccpAddress: ''
@@ -36,6 +41,7 @@ class CCPRegistration extends Component {
     this.verifyCallback = this.verifyCallback.bind(this);
     this.checkboxHandler = this.checkboxHandler.bind(this);
     this.validateFiels = this.validateFiels.bind(this);
+    this.getClientData = this.getClientData.bind(this);
   }
   
   handleClose(){
@@ -58,9 +64,7 @@ class CCPRegistration extends Component {
   validateFiels(clientDetails){
     const addressRegEx = /^(0[xX])[A-Fa-f0-9]{40}$/;
     let errorMessage = "";
-    if(isNaN(clientDetails.version) || parseFloat(clientDetails.version) % 1 !== 0 || parseFloat(clientDetails.version) <= 0)
-      errorMessage = "Version must be a positive number such as 1, 2, etc. !";
-    else if(new Date(clientDetails.validFrom).getTime() >= new Date(clientDetails.validTo).getTime())
+    if(new Date(clientDetails.validFrom).getTime() >= new Date(clientDetails.validTo).getTime())
       errorMessage = "CCP Validity must be more than a day";
     else if(!addressRegEx.test(clientDetails.ccpAddress))
       errorMessage = "Invalid CCP address";
@@ -97,103 +101,138 @@ class CCPRegistration extends Component {
     });
   }
 
-  componentDidMount(){
-    if(this.props.update){
-      // TODO: load CCP values from blockchain
+  async getClientData(){
+    this.setState({
+      isLoading: true
+    });
+    const isRegistered = await this.context.contract.methods.isClientRegistered().call({
+      from: this.context.account
+    });
+    if(isRegistered){
+      // get client CCP data
+      const clientData = await this.context.contract.methods.getClientDetails().call({
+        from: this.context.account
+      });
+      this.setState({
+        clientName: this.context.web3.utils.hexToUtf8(clientData[0]),
+        validFrom: new Date(parseInt(clientData[1])*1000).toISOString().split("T")[0],
+        validTo: new Date(parseInt(clientData[2])*1000).toISOString().split("T")[0],
+        clientPay: clientData[3],
+        ccpAddress: clientData[4]
+      });
     }
+    this.setState({
+      isLoading: false,
+      isRegistered
+    });
   }
 
   render() {
-    const {isVerified, agree, error, errorMessage, ...clientDetails} = {...this.state};
+    const {isLoading, isRegistered, isVerified, agree, error, errorMessage, ...clientDetails} = {...this.state};
     const buttonDisabled = !(isVerified && agree && clientDetails.clientName
-                            && clientDetails.version && clientDetails.ccpAddress);
-    clientDetails.clientPay = this.context.account;
+                            && clientDetails.ccpAddress);
   	return (
-    <Dialog open={this.props.open} aria-labelledby="register-ccp">
-      <DialogTitle id="register-ccp">Client Check Policy Registration</DialogTitle>
-      <DialogContent>
-        {this.state.error && 
-            <Alert severity="error">{this.state.errorMessage}</Alert>
-        }
-        <TextField
-          variant="outlined" margin="normal" required fullWidth
-          label="Client Name" name="clientName" autoFocus 
-          value={clientDetails.clientName}
-          onChange={this.updateFormState}
-          InputProps={{
-            readOnly: this.props.update
-          }}
-        />
-        <TextField
-          variant="outlined" margin="normal" required fullWidth
-          label="Client Pay Adress" name="clientPay" 
-          value={clientDetails.clientPay}
-          InputProps={{
-            readOnly: true
-          }}
-        />
-        <TextField
-          variant="outlined" margin="normal" required fullWidth
-          label="Version" name="version"  
-          value={clientDetails.version ? clientDetails.version : ''}
-          onChange={this.updateFormState} 
-        />              
-        <Box component="span" p={1} padding={1}>
-          <TextField
-            name="validFrom"
-            label="Valid From"
-            type="date"
-            value={clientDetails.validFrom}
-            onChange={this.updateFormState}
-            InputLabelProps={{
-              shrink: true,
-            }}
-          />
-        </Box>
-        <Box component="span" p={1} padding={1}>
-          <TextField
-            name="validTo"
-            label="Valid To"
-            type="date"
-            value={clientDetails.validTo}
-            onChange={this.updateFormState}
-            InputLabelProps={{
-              shrink: true,
-            }}
-          />
-        </Box>
-        <TextField
-          variant="outlined" margin="normal" required fullWidth
-          label="Contract Adress" name="ccpAddress"
-          value={clientDetails.ccpAddress}
-          onChange={this.updateFormState} 
-        />
-        <input type="checkbox" name="agree" onChange={this.checkboxHandler} />
-        <label > I agree to</label>
-        <Tooltip title="Check out the About page" arrow>
-          <Button><b>Terms and Conditions.</b></Button>
-        </Tooltip>
-        <Box m={2}  justifyContent="center">  
-          <Recaptcha
-            sitekey={siteKey}
-            render="explicit"
-            verifyCallback={this.verifyCallback}
-          />
-        </Box>
-      </DialogContent>  
-      <DialogActions>
-        <Button onClick={this.handleClose} color="secondary">
-          Cancel
-        </Button>
-        <Button disabled={buttonDisabled}
-          color="primary"
-          onClick={() => this.handleRegister(clientDetails)}>
-          {this.props.update ? "Update":"Register"}
-        </Button>
-      </DialogActions>    
-    </Dialog>
-  );
- }
+      <Dialog open={this.props.open} aria-labelledby="register-ccp"
+        onEnter={() => this.getClientData()}
+        disableBackdropClick
+        disableEscapeKeyDown
+      >
+        <DialogTitle id="register-ccp">Client Check Policy Registration</DialogTitle>
+          {isLoading
+          ?  <DialogContent>
+              <CircularProgress color = "secondary"/>
+            </DialogContent>
+          : <DialogContent dividers>
+              {error && 
+                  <Alert severity="error">{errorMessage}</Alert>
+              }
+              <TextField
+                variant="outlined" margin="normal" required fullWidth
+                label="Client Name" name="clientName" autoFocus 
+                value={clientDetails.clientName}
+                onChange={this.updateFormState}
+                InputProps={{
+                  readOnly: isRegistered
+                }}
+              />
+              <TextField
+                variant="outlined" margin="normal" required fullWidth
+                label="Client Pay Adress" name="clientPay" 
+                value={clientDetails.clientPay || this.context.account}
+                InputProps={{
+                  readOnly: true
+                }}
+              />
+              <TextField
+                variant="outlined" margin="normal" required fullWidth
+                label="Version" name="version"  
+                value={clientDetails.version}
+                InputProps={{
+                  readOnly: true
+                }}
+              />
+              <Grid container direction="row" spacing={2}>
+                <Grid item xs={12} sm={6}>
+                  <TextField
+                      name="validFrom"
+                      label="Valid From"
+                      type="date"
+                      value={clientDetails.validFrom}
+                      onChange={this.updateFormState}
+                      fullWidth 
+                      required
+                      InputProps={{
+                        readOnly: isRegistered
+                      }}
+                    />
+                </Grid>
+                <Grid item xs={12} sm={6}>
+                  <TextField
+                    name="validTo"
+                    label="Valid To"
+                    type="date"
+                    value={clientDetails.validTo}
+                    onChange={this.updateFormState}
+                    fullWidth
+                    required
+                  />
+                </Grid>
+              </Grid>
+              <TextField
+                variant="outlined" margin="normal" required fullWidth
+                label="Contract Adress" name="ccpAddress"
+                value={clientDetails.ccpAddress}
+                onChange={this.updateFormState}
+                InputProps={{
+                  readOnly: isRegistered
+                }} 
+              />
+              <input type="checkbox" name="agree" onChange={this.checkboxHandler} />
+              <label > I agree to</label>
+              <Tooltip title="Check out the About page" arrow>
+                <Button><b>Terms and Conditions.</b></Button>
+              </Tooltip>
+              <Box m={2}  display="flex" alignItems="center" justifyContent="center">  
+                <Recaptcha
+                  sitekey={siteKey}
+                  render="explicit"
+                  verifyCallback={this.verifyCallback}
+                />
+              </Box>
+            </DialogContent> }
+            <DialogActions>
+              <Button onClick={this.handleClose} color="secondary">
+                Cancel
+              </Button>
+              <Button disabled={buttonDisabled}
+                color="primary"
+                onClick={() => this.handleRegister(clientDetails)}>
+                {isRegistered ? "Update":"Register"}
+              </Button>
+            </DialogActions>   
+        </Dialog>
+    );
+  }
 }
 
 CCPRegistration.contextType = AppContext;

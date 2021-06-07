@@ -44,6 +44,8 @@ const drawerWidth = 240;
 const useStyles = theme => ({
   root: {
     display: 'flex',
+    minHeight: "100vh",
+    backgroundImage: "linear-gradient(to bottom right, white , aliceblue, darkturquoise)",
   },
   title: {
       flexGrow: 1,
@@ -110,8 +112,8 @@ class Dashboard extends Component {
     constructor(props){
         super(props);
         this.state = {
-            isLoggedIn:  (props.location.state && props.location.state.isLoggedIn) || false,
-            drawerOpen: false
+            drawerOpen: false,
+            isLoggedIn: (sessionStorage.getItem("isLoggedIn") === "true") || false
         };
         this.handleDrawerOpen = this.handleDrawerOpen.bind(this);
         this.handleDrawerClose = this.handleDrawerClose.bind(this);
@@ -124,17 +126,25 @@ class Dashboard extends Component {
                 account: accounts[0]
             });
         });
+        window.onbeforeunload = (event) => {
+            event.preventDefault();
+            event.returnValue = "";
+        };
+        window.onunload = (event) => {
+            this.handleLogout();
+        }
     }
 
     componentWillUnmount(){
         window.ethereum.removeListener("accountsChanged",(accounts)=>{
-            this.context.setState({
+            this.context.setContext({
                 account: accounts[0]
             });
         });
     }
 
     handleLogout(){
+        sessionStorage.setItem("isLoggedIn", false);
         this.setState({
             isLoggedIn: false
         });
