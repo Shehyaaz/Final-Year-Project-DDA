@@ -233,7 +233,7 @@ contract DDA {
             emit CertChecked(msg.sender, domain.drp.domainName, status);
         }
         else{
-            clients[ccp.clientAddress].lastChecked[domain.drp.domainName] = now;
+            clients[ccp.clientAddress].lastChecked[domain.drp.domainAddress] = now;
             emit CertChecked(msg.sender, domain.drp.domainName, status);
         }
     }

@@ -116,10 +116,6 @@ class Account extends Component {
     }
 
     async getDomainData(){
-        // get escrow amount
-        const escrowAmount = await this.context.contract.methods.getEscrowAmount().call({
-            from: this.state.account
-        });
         // get domain DRP data
         const status = await this.context.contract.methods.getDRPStatus().call({
             from: this.state.account
@@ -151,7 +147,7 @@ class Account extends Component {
                 price: this.context.web3.utils.fromWei(domainData[4].toString(), "ether"),
                 domainAddress: domainData[5],
                 drpAddress: domainData[6],
-                escrowAmount: this.context.web3.utils.fromWei(escrowAmount, "ether"),
+                escrowAmount: this.context.web3.utils.fromWei(domainData[7], "ether"),
                 drpStatus: status[0] && status[1],
                 drpStatusMssg
             }

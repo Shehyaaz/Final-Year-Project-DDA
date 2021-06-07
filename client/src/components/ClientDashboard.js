@@ -446,15 +446,6 @@ class ClientDashboard extends Component {
             isLoading: true
         });
         await this.getClientData();
-        const DRPExpired = this.context.contract.Won()
-          Won.watch((err, result) => {
-            if (err) {
-              console.log('could not get event Won()')
-            } else {
-              this.winEvent = result.args
-              this.pending = false
-            }
-          })
         this.setState({
             isLoading: false
         });    
