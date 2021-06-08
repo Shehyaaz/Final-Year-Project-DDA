@@ -12,6 +12,8 @@ import { withStyles } from "@material-ui/core/styles";
 import logo from "../assets/metamask.svg";
 import getWeb3 from "../utils/getWeb3";
 import AppContext from "../context/AppContext";
+import AlertDialog from "../widgets/AlertDialog";
+import DDA from "../contracts/DDA.json";
 
 const useStyles = theme => ({
   root: {
@@ -44,7 +46,12 @@ class HomePage extends Component {
 		super(props);
 		this.state = {
 			isLoading: false,
-			isLoggedIn: false
+			alert: {
+				open: false,
+				title: "",
+				message: ""
+			},
+			isLoggedIn: (sessionStorage.getItem("isLoggedIn") === "true") || false
 		};
 		// binding this
 		this.handleLogin = this.handleLogin.bind(this);
@@ -58,25 +65,26 @@ class HomePage extends Component {
 		try {
 			// Get network provider and web3 instance.
 			const web3 = await getWeb3();
-			
+
 			// Use web3 to get the user's accounts.
 			const accounts = await web3.eth.getAccounts();
 	
 			// Get the contract instance.
-			//const networkId = await web3.eth.net.getId();
-			// const deployedNetwork = SimpleStorageContract.networks[networkId];
-			const instance = 10;
-			// const instance = new web3.eth.Contract(
-			// 	SimpleStorageContract.abi,
-			// 	deployedNetwork && deployedNetwork.address,
-			// );
-		
-			if( web3 != null && accounts != null && instance != null  ){
+			const networkId = await web3.eth.net.getId();
+			const deployedNetwork = DDA.networks[networkId];
+			const instance = new web3.eth.Contract(
+				DDA.abi,
+				deployedNetwork && deployedNetwork.address,
+			);
+			
+			if( web3 != null && accounts != null && instance != null ){
+				// update context
 				this.context.setContext({
 					web3: web3, 
 					contract: instance, 
-					account: accounts[0]
-				}); // update context
+					account: accounts[0],
+				});
+				sessionStorage.setItem("isLoggedIn", true);
 				this.setState({
 					isLoading: false,
 					isLoggedIn: true
@@ -87,20 +95,25 @@ class HomePage extends Component {
 			}
 		} catch (error) {
 			// Catch any errors for any of the above operations.
-			this.setState({isLoading: false});
-			alert("Something unexpected occurred :(\n"+error);
+			this.setState({
+				alert: {
+					open: true,
+					title: "Error",
+					message: "An unexpected error has occurred !\n"+error.message
+				},
+				isLoading: false
+			});
 		}
 	}
 
 	render() {
 		const classes = this.props.classes;
+		const alert = this.state.alert;
 		if(this.state.isLoggedIn){
-			const {isLoading, ...rest} = {...this.state};
 			return (
 				<Redirect 
 					to = {{
-						pathname: "/dashboard/about",
-						state: {...rest}
+						pathname: "/dashboard/about"
 					}}
 				/>
 			);
@@ -149,6 +162,19 @@ class HomePage extends Component {
 						{/* Empty Grid element for spacing */}
 					</Grid>
 				</Grid>
+
+				<AlertDialog 
+                    open={this.state.alert.open}
+                    title={this.state.alert.title}
+                    message={this.state.alert.message}
+                    isConfirm={false}
+                    onClose={() => this.setState({
+                        alert: {
+							...alert,
+                            open: false
+                        }
+                    })}
+                />
 			</div>
 		);
 	}

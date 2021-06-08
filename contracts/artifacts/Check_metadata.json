@@ -1,0 +1,199 @@
+{
+	"compiler": {
+		"version": "0.6.12+commit.27d51765"
+	},
+	"language": "Solidity",
+	"output": {
+		"abi": [
+			{
+				"inputs": [
+					{
+						"internalType": "bytes32[]",
+						"name": "_sctLogID",
+						"type": "bytes32[]"
+					},
+					{
+						"internalType": "uint256[]",
+						"name": "_sctTimestamp",
+						"type": "uint256[]"
+					},
+					{
+						"internalType": "uint256",
+						"name": "_certValidFrom",
+						"type": "uint256"
+					},
+					{
+						"internalType": "uint256",
+						"name": "_certValidTo",
+						"type": "uint256"
+					},
+					{
+						"internalType": "bytes32",
+						"name": "_ocspRes",
+						"type": "bytes32"
+					}
+				],
+				"name": "check",
+				"outputs": [
+					{
+						"internalType": "bool",
+						"name": "",
+						"type": "bool"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "bytes32",
+						"name": "",
+						"type": "bytes32"
+					}
+				],
+				"name": "ctLogIDs",
+				"outputs": [
+					{
+						"internalType": "bool",
+						"name": "",
+						"type": "bool"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "maximum_merge_delay",
+				"outputs": [
+					{
+						"internalType": "uint24",
+						"name": "",
+						"type": "uint24"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "minSCT",
+				"outputs": [
+					{
+						"internalType": "uint8",
+						"name": "",
+						"type": "uint8"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "bytes32",
+						"name": "",
+						"type": "bytes32"
+					}
+				],
+				"name": "ocspResType",
+				"outputs": [
+					{
+						"internalType": "uint8",
+						"name": "",
+						"type": "uint8"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "bytes32[]",
+						"name": "_ctLogIDs",
+						"type": "bytes32[]"
+					},
+					{
+						"internalType": "uint24",
+						"name": "_maximum_merge_delay",
+						"type": "uint24"
+					}
+				],
+				"name": "setCTLogs",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "_clientAddr",
+						"type": "address"
+					},
+					{
+						"internalType": "address",
+						"name": "_ccpAddr",
+						"type": "address"
+					}
+				],
+				"name": "verifyCCP",
+				"outputs": [
+					{
+						"internalType": "bool",
+						"name": "",
+						"type": "bool"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			}
+		],
+		"devdoc": {
+			"kind": "dev",
+			"methods": {},
+			"version": 1
+		},
+		"userdoc": {
+			"kind": "user",
+			"methods": {},
+			"version": 1
+		}
+	},
+	"settings": {
+		"compilationTarget": {
+			"Check.sol": "Check"
+		},
+		"evmVersion": "istanbul",
+		"libraries": {},
+		"metadata": {
+			"bytecodeHash": "ipfs"
+		},
+		"optimizer": {
+			"enabled": false,
+			"runs": 200
+		},
+		"remappings": []
+	},
+	"sources": {
+		"Check.sol": {
+			"keccak256": "0xafba0bec20fc9e982ee35816d24241ed256a8c746b01e7253575f00763ef7953",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://14481c0bb6e1b89e6d9256a0ab835c660a725efd797f42b37fe32a9d22946c2b",
+				"dweb:/ipfs/QmQhpTVPcMmX14GXV6yD9ebkVP9j9R4KDAPzsFYnaTLkHq"
+			]
+		},
+		"CheckAbstract.sol": {
+			"keccak256": "0x94e0c05d02a9706e169bbf84929ee7e2904fdebff9193595cf44a48126da4ea1",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://825fb529409c2364b2db8c976e4b9eb0a53db745aaddfae72fdb59a9c169a0af",
+				"dweb:/ipfs/QmUdrSHpLd32gvs2ec6Cw74s9WFYYboVbmXHF8ZJM8GqLn"
+			]
+		}
+	},
+	"version": 1
+}

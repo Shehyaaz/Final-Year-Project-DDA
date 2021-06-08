@@ -1,0 +1,209 @@
+{
+	"deploy": {
+		"VM:-": {
+			"linkReferences": {},
+			"autoDeployLib": true
+		},
+		"main:1": {
+			"linkReferences": {},
+			"autoDeployLib": true
+		},
+		"ropsten:3": {
+			"linkReferences": {},
+			"autoDeployLib": true
+		},
+		"rinkeby:4": {
+			"linkReferences": {},
+			"autoDeployLib": true
+		},
+		"kovan:42": {
+			"linkReferences": {},
+			"autoDeployLib": true
+		},
+		"görli:5": {
+			"linkReferences": {},
+			"autoDeployLib": true
+		},
+		"Custom": {
+			"linkReferences": {},
+			"autoDeployLib": true
+		}
+	},
+	"data": {
+		"bytecode": {
+			"linkReferences": {},
+			"object": "",
+			"opcodes": "",
+			"sourceMap": ""
+		},
+		"deployedBytecode": {
+			"immutableReferences": {},
+			"linkReferences": {},
+			"object": "",
+			"opcodes": "",
+			"sourceMap": ""
+		},
+		"gasEstimates": null,
+		"methodIdentifiers": {
+			"check(bytes32[],uint256[],uint256,uint256,bytes32)": "bdebae90",
+			"ctLogIDs(bytes32)": "2377bc7f",
+			"maximum_merge_delay()": "4efa638a",
+			"minSCT()": "28a7ea3b",
+			"ocspResType(bytes32)": "261fa31e",
+			"setCTLogs(bytes32[],uint24)": "2d9a18b0",
+			"verifyCCP(address,address)": "88d8840b"
+		}
+	},
+	"abi": [
+		{
+			"inputs": [],
+			"stateMutability": "nonpayable",
+			"type": "constructor"
+		},
+		{
+			"inputs": [
+				{
+					"internalType": "bytes32[]",
+					"name": "_sctLogID",
+					"type": "bytes32[]"
+				},
+				{
+					"internalType": "uint256[]",
+					"name": "_sctTimestamp",
+					"type": "uint256[]"
+				},
+				{
+					"internalType": "uint256",
+					"name": "_certValidFrom",
+					"type": "uint256"
+				},
+				{
+					"internalType": "uint256",
+					"name": "_certValidTo",
+					"type": "uint256"
+				},
+				{
+					"internalType": "bytes32",
+					"name": "_ocspRes",
+					"type": "bytes32"
+				}
+			],
+			"name": "check",
+			"outputs": [
+				{
+					"internalType": "bool",
+					"name": "",
+					"type": "bool"
+				}
+			],
+			"stateMutability": "view",
+			"type": "function"
+		},
+		{
+			"inputs": [
+				{
+					"internalType": "bytes32",
+					"name": "",
+					"type": "bytes32"
+				}
+			],
+			"name": "ctLogIDs",
+			"outputs": [
+				{
+					"internalType": "bool",
+					"name": "",
+					"type": "bool"
+				}
+			],
+			"stateMutability": "view",
+			"type": "function"
+		},
+		{
+			"inputs": [],
+			"name": "maximum_merge_delay",
+			"outputs": [
+				{
+					"internalType": "uint24",
+					"name": "",
+					"type": "uint24"
+				}
+			],
+			"stateMutability": "view",
+			"type": "function"
+		},
+		{
+			"inputs": [],
+			"name": "minSCT",
+			"outputs": [
+				{
+					"internalType": "uint8",
+					"name": "",
+					"type": "uint8"
+				}
+			],
+			"stateMutability": "view",
+			"type": "function"
+		},
+		{
+			"inputs": [
+				{
+					"internalType": "bytes32",
+					"name": "",
+					"type": "bytes32"
+				}
+			],
+			"name": "ocspResType",
+			"outputs": [
+				{
+					"internalType": "uint8",
+					"name": "",
+					"type": "uint8"
+				}
+			],
+			"stateMutability": "view",
+			"type": "function"
+		},
+		{
+			"inputs": [
+				{
+					"internalType": "bytes32[]",
+					"name": "_ctLogIDs",
+					"type": "bytes32[]"
+				},
+				{
+					"internalType": "uint24",
+					"name": "_maximum_merge_delay",
+					"type": "uint24"
+				}
+			],
+			"name": "setCTLogs",
+			"outputs": [],
+			"stateMutability": "nonpayable",
+			"type": "function"
+		},
+		{
+			"inputs": [
+				{
+					"internalType": "address",
+					"name": "_clientAddr",
+					"type": "address"
+				},
+				{
+					"internalType": "address",
+					"name": "_ccpAddr",
+					"type": "address"
+				}
+			],
+			"name": "verifyCCP",
+			"outputs": [
+				{
+					"internalType": "bool",
+					"name": "",
+					"type": "bool"
+				}
+			],
+			"stateMutability": "view",
+			"type": "function"
+		}
+	]
+}
