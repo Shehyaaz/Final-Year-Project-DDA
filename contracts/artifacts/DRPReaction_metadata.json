@@ -1,28 +1,11 @@
 {
 	"compiler": {
-<<<<<<< HEAD
-		"version": "0.5.17+commit.d19bba13"
-=======
 		"version": "0.6.12+commit.27d51765"
->>>>>>> origin/test
 	},
 	"language": "Solidity",
 	"output": {
 		"abi": [
 			{
-<<<<<<< HEAD
-				"constant": false,
-				"inputs": [],
-				"name": "terminate",
-				"outputs": [],
-				"payable": false,
-				"stateMutability": "nonpayable",
-				"type": "function"
-			},
-			{
-				"constant": false,
-=======
->>>>>>> origin/test
 				"inputs": [
 					{
 						"internalType": "uint256",
@@ -42,25 +25,10 @@
 				],
 				"name": "trigger",
 				"outputs": [],
-<<<<<<< HEAD
-				"payable": false,
-=======
->>>>>>> origin/test
 				"stateMutability": "nonpayable",
 				"type": "function"
 			},
 			{
-<<<<<<< HEAD
-				"constant": true,
-				"inputs": [
-					{
-						"internalType": "address",
-						"name": "_addr",
-						"type": "address"
-					}
-				],
-				"name": "verifyAddress",
-=======
 				"inputs": [
 					{
 						"internalType": "address",
@@ -74,7 +42,6 @@
 					}
 				],
 				"name": "verifyDRP",
->>>>>>> origin/test
 				"outputs": [
 					{
 						"internalType": "bool",
@@ -82,18 +49,6 @@
 						"type": "bool"
 					}
 				],
-<<<<<<< HEAD
-				"payable": false,
-				"stateMutability": "view",
-				"type": "function"
-			}
-		],
-		"devdoc": {
-			"methods": {}
-		},
-		"userdoc": {
-			"methods": {}
-=======
 				"stateMutability": "view",
 				"type": "function"
 			},
@@ -111,7 +66,6 @@
 			"kind": "user",
 			"methods": {},
 			"version": 1
->>>>>>> origin/test
 		}
 	},
 	"settings": {
@@ -120,12 +74,9 @@
 		},
 		"evmVersion": "istanbul",
 		"libraries": {},
-<<<<<<< HEAD
-=======
 		"metadata": {
 			"bytecodeHash": "ipfs"
 		},
->>>>>>> origin/test
 		"optimizer": {
 			"enabled": false,
 			"runs": 200
@@ -133,20 +84,6 @@
 		"remappings": []
 	},
 	"sources": {
-<<<<<<< HEAD
-		"DRPInterface.sol": {
-			"keccak256": "0x3567c917bea553415e38da92ee50db7553c0df399a61d7f3979046b62ac3c139",
-			"urls": [
-				"bzz-raw://799fa525c30bf543641c669fa8ce072aa15e4f5ebe8db8853c4d008703c3db4b",
-				"dweb:/ipfs/QmWddVL2EQjNrFJ1DjjWdxBU4CTfjcjQ8Rr4TpAMwMS3qc"
-			]
-		},
-		"DRPReaction.sol": {
-			"keccak256": "0x8f0b634e4597c724a7b24f8b4894bc283a023920f367b33b1b5936768e3f17e4",
-			"urls": [
-				"bzz-raw://75d185c8be1ae5cce607e69a765ea2e3e6d0d34ee4825469f17ec78355e2f7a7",
-				"dweb:/ipfs/Qmcyi6KAjPn9p7dLHhbvXHdTpeMNZZ6uB8EfZoKC38dgu6"
-=======
 		"DRPAbstract.sol": {
 			"keccak256": "0xb3b03be35179f3d7c2e4efc0c12813a1cc9b01a740dbf53eb6359c0228a79c2d",
 			"license": "MIT",
@@ -161,7 +98,6 @@
 			"urls": [
 				"bzz-raw://160ddef43fa06fc591313da94209b90c672ea9a1eff807e2e59d5d8a8eb4db72",
 				"dweb:/ipfs/QmSvLoPACp9jVro5qTUe97hbkmcbAfzjqBYWrqL2EtuF2r"
->>>>>>> origin/test
 			]
 		}
 	},

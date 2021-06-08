@@ -44,11 +44,8 @@ const drawerWidth = 240;
 const useStyles = theme => ({
   root: {
     display: 'flex',
-<<<<<<< HEAD
-=======
     minHeight: "100vh",
     backgroundImage: "linear-gradient(to bottom right, white , aliceblue, darkturquoise)",
->>>>>>> origin/test
   },
   title: {
       flexGrow: 1,
