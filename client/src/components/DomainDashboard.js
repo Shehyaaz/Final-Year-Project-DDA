@@ -22,9 +22,13 @@ import {
 import { withStyles } from "@material-ui/core/styles";
 import { red } from "@material-ui/core/colors";
 import DRPRegistration from "./DRPRegistration";
+<<<<<<< HEAD
+import AppContext from "../context/AppContext";
+=======
 import AlertDialog from "../widgets/AlertDialog";
 import AppContext from "../context/AppContext";
 import { gasLimit } from "../utils/constants";
+>>>>>>> origin/test
 
 const useStyles = theme => ({
     root: {
@@ -51,22 +55,39 @@ class DomainDashboard extends Component {
 		super(props);
         this.state={
             account: '',
+<<<<<<< HEAD
+=======
             alert: {
                 open: false,
                 title: '',
                 message: ''
             },
             showConfirm: false,
+>>>>>>> origin/test
             isLoading: false,
             isRegistered: false,
             openRegistrationForm: false
         }
 		this.handleRegisterDRP = this.handleRegisterDRP.bind(this);
+<<<<<<< HEAD
+        this.getDomainRegistrationStatus = this.getDomainRegistrationStatus.bind(this); 
+=======
+>>>>>>> origin/test
         this.checkDRPStatus = this.checkDRPStatus.bind(this);
         this.getEscrowAmount = this.getEscrowAmount.bind(this);
         this.expireDRP = this.expireDRP.bind(this);   
 	}
 
+<<<<<<< HEAD
+    async getDomainRegistrationStatus(){
+        const isRegistered = await this.context.contract.methods.isDomainRegistered().call();
+        this.setState({
+            isRegistered
+        });
+    }
+
+=======
+>>>>>>> origin/test
     async handleRegisterDRP(domainDetails){
         this.setState({
             isLoading: true,
@@ -74,6 +95,23 @@ class DomainDashboard extends Component {
         });
         if(this.state.isRegistered){
             // get update fee from blockchain
+<<<<<<< HEAD
+            const updateFee = await this.context.contract.domain_update_fee;
+            // update domain details
+            try{
+                this.context.contract.methods.updateDomain(
+                    this.context.web3.utils.utf8ToHex(domainDetails.issuer),
+                    Math.floor(new Date(domainDetails.validTo).getTime()/1000),
+                    parseInt(this.context.web3.utils.toWei(domainDetails.price, "ether")),
+                    domainDetails.drpAddress
+                ).send({
+                    from: this.state.account,
+                    value: updateFee
+                })
+                .on("receipt", () => {
+                    alert(domainDetails.domainName+" details updated successfully !");
+                    this.setState({
+=======
             const updateFee = await this.context.contract.methods.update_fee().call();
             // update domain details
             try{
@@ -92,32 +130,53 @@ class DomainDashboard extends Component {
                             title: "Success",
                             message: domainDetails.domainName+" details were updated successfully !"
                         },
+>>>>>>> origin/test
                         isLoading: false
                     });
                 })
                 .on("error", () => {
+<<<<<<< HEAD
+                    alert(domainDetails.domainName+" updation failed !");
+                    this.setState({
+=======
                     this.setState({
                         alert: {
                             open: true,
                             title: "Error",
                             message: domainDetails.domainName+" updation failed !"
                         },
+>>>>>>> origin/test
                         isLoading: false
                     });
                 });
             }catch(err){
+<<<<<<< HEAD
+                alert(domainDetails.domainName+" updation failed !");
+                this.setState({
+=======
                 this.setState({
                     alert: {
                         open: true,
                         title: "Error",
                         message: domainDetails.domainName+" updation failed !\n"+err.message
                     },
+>>>>>>> origin/test
                     isLoading: false
                 });
             }
         }
         else{
             // get rregistration fee from blockchain
+<<<<<<< HEAD
+            const registerFee = await this.context.contract.domain_registration_fee;
+            // check if domain is available on the Internet
+            fetch("/verify?domainName="+domainDetails.domainName)
+            .then((res) => {
+                if(res.ok){
+                    // register domain details
+                    try{
+                        this.context.contract.methods.registerDomain(
+=======
             const registerFee = await this.context.contract.methods.domain_registration_fee().call();
             // check if domain is available on the Internet
             fetch("/verify?domainName="+domainDetails.domainName)
@@ -127,10 +186,23 @@ class DomainDashboard extends Component {
                     const totalRegFee = parseFloat(this.context.web3.utils.fromWei(registerFee, "ether")) + 1.2*parseFloat(domainDetails.price);
                     try{
                         await this.context.contract.methods.registerDomain(
+>>>>>>> origin/test
                             this.context.web3.utils.utf8ToHex(domainDetails.domainName),
                             this.context.web3.utils.utf8ToHex(domainDetails.issuer),
                             Math.floor(new Date(domainDetails.validFrom).getTime()/1000),
                             Math.floor(new Date(domainDetails.validTo).getTime()/1000),
+<<<<<<< HEAD
+                            parseInt(this.context.web3.utils.toWei(domainDetails.price, "ether")),
+                            domainDetails.drpAddress,
+                            domainDetails.version
+                        ).send({
+                            from: this.state.account,
+                            value: registerFee
+                        })
+                        .on("receipt", () => {
+                            alert(domainDetails.domainName+" registered successfully !");
+                            this.setState({
+=======
                             this.context.web3.utils.toWei(domainDetails.price, "ether"),
                             domainDetails.drpAddress,
                             domainDetails.version
@@ -147,10 +219,15 @@ class DomainDashboard extends Component {
                                     message: domainDetails.domainName+" registered successfully !"
                                 },
                                 isRegistered: true,
+>>>>>>> origin/test
                                 isLoading: false
                             });
                         })
                         .on("error", () => {
+<<<<<<< HEAD
+                            alert(domainDetails.domainName+" registration failed !");
+                            this.setState({
+=======
                             this.setState({
                                 alert: {
                                     open: true,
@@ -158,38 +235,54 @@ class DomainDashboard extends Component {
                                     message: domainDetails.domainName+
                                         " registration failed ! Please check your React contract address!\nIf the React contract is valid, then this domain has already registered."
                                 },
+>>>>>>> origin/test
                                 isLoading: false
                             });
                         });
                     }catch(err){
+<<<<<<< HEAD
+                        alert(domainDetails.domainName+" registration failed !");
+                        this.setState({
+=======
                         this.setState({
                             alert: {
                                 open: true,
                                 title: "Error",
                                 message: domainDetails.domainName+" registration failed !\n"+err.message
                             },
+>>>>>>> origin/test
                             isLoading: false
                         }); 
                     }
                 }
                 else{
+<<<<<<< HEAD
+                    alert(domainDetails.domainName+" was not found on the Internet !");
+                    this.setState({
+=======
                     this.setState({
                         alert: {
                             open: true,
                             title: "Error",
                             message: domainDetails.domainName+" was not found on the Internet !"
                         },
+>>>>>>> origin/test
                         isLoading: false
                     });
                 }
             })
             .catch((err) => {
+<<<<<<< HEAD
+                alert("An error occurred: "+err);
+                this.setState({
+=======
                 this.setState({
                     alert: {
                         open: true,
                         title: "Error",
                         message: "An error occurred: "+err.message
                     },
+>>>>>>> origin/test
                     isLoading: false
                 });
             });
@@ -200,6 +293,22 @@ class DomainDashboard extends Component {
         this.setState({
             isLoading: true
         });
+<<<<<<< HEAD
+        const [drpValidityStatus, drpContractStatus] = await this.context.contract.methods.getDRPPStatus().call();
+        if(drpValidityStatus && drpContractStatus){
+            alert("DRP valid :)");
+        }
+        else if(drpValidityStatus && !drpContractStatus){
+            alert("DRP React Contract is either invalid or has been terminated :(");
+        }
+        else if(!drpValidityStatus && drpContractStatus){
+            alert("DRP validity has expired :(");
+        }
+        else{
+            alert("DRP validity has expired and DRP React Contract is either invalid or has been terminated :(");
+        }
+        this.setState({
+=======
         const status = await this.context.contract.methods.getDRPStatus().call({
             from: this.context.account
         });
@@ -227,6 +336,7 @@ class DomainDashboard extends Component {
                 title,
                 message: mssg
             },
+>>>>>>> origin/test
             isLoading: false
         });
     }
@@ -235,6 +345,11 @@ class DomainDashboard extends Component {
         this.setState({
             isLoading: true
         });
+<<<<<<< HEAD
+        const escrowAmount = await this.context.contract.methods.getEscrowAmount().call();
+        alert("Your escrowed amount is :"+parseFloat(this.context.web3.utils.fromWei(escrowAmount, "ether")));
+        this.setState({
+=======
         const domainData = await this.context.contract.methods.getDomainDetails().call({
             from: this.context.account
         });
@@ -244,11 +359,54 @@ class DomainDashboard extends Component {
                 title: "Escrow Amount",
                 message: "Your escrowed amount is : "+parseFloat(this.context.web3.utils.fromWei(domainData[7], "ether"))+" ether"
             },
+>>>>>>> origin/test
             isLoading: false
         });
     }
 
     async expireDRP(){
+<<<<<<< HEAD
+        this.setState({
+            isLoading: true
+        });
+        if(window.confirm("Expiring the DRP will delete your DRP from the blockchain, do you wish to continue")){
+            try{
+                await this.context.contract.methods.expireDRP().send({
+                    from: this.state.account
+                })
+                .on("receipt", async(receipt) => {
+                    if(receipt.events.DRPExpired && receipt.events.DRPExpired.returnValues._domainAddr){
+                        alert("DRP expired successfully");
+                        await this.getDomainRegistrationStatus();
+                        this.setState({
+                            isLoading: false
+                        });
+                    }
+                    else{
+                        alert("Failed to expire DRP :(");
+                        this.setState({
+                            isLoading: false
+                        });
+                    }
+                })
+                .on("error", () => {
+                    alert("An error has occurred, failed to expire DRP :(");
+                    this.setState({
+                        isLoading: false
+                    });
+                });
+            }
+            catch(err){
+                alert("An error occurred "+err);
+                this.setState({
+                    isLoading: false
+                });
+            }
+        }
+    }
+
+    componentDidMount(){
+=======
         const alert = this.state.alert;
         this.setState({
             isLoading: true,
@@ -310,10 +468,30 @@ class DomainDashboard extends Component {
     }
 
     componentDidMount = async() => {
+>>>>>>> origin/test
         this.setState({
             account: this.context.account,
             isLoading: true
         });
+<<<<<<< HEAD
+        this.getDomainRegistrationStatus().then(() => {
+            this.setState({
+                isLoading: false
+            });
+        });        
+    }
+
+    componentDidUpdate(prevProps, prevState){
+        if(prevState.account !== this.context.account){
+            this.setState({
+                account: this.context.account
+            });
+            this.getDomainRegistrationStatus().then(() => {
+                this.setState({
+                    isLoading: false
+                });
+            });  
+=======
         const isRegistered = await this.context.contract.methods.isDomainRegistered().call({
             from: this.context.account
         });
@@ -336,12 +514,16 @@ class DomainDashboard extends Component {
                 isLoading: false,
                 isRegistered
             });
+>>>>>>> origin/test
         }
     }
 
     render() {
         const classes = this.props.classes;
+<<<<<<< HEAD
+=======
         const alert = this.state.alert;
+>>>>>>> origin/test
         return (
             <div className={classes.root}>
                 <Backdrop className={classes.backdrop} open={this.state.isLoading}>
@@ -482,6 +664,13 @@ class DomainDashboard extends Component {
                                 <CardActions disableSpacing>
                                     <Button color="primary"
                                         startIcon={<DeleteOutline />}
+<<<<<<< HEAD
+                                        onClick={this.expireDRP}
+                                        disableElevation
+                                        disabled={!this.state.isRegistered}
+                                        size="small" 
+                                        className={classes.cardButton}   
+=======
                                         disableElevation
                                         disabled={!this.state.isRegistered}
                                         size="small" 
@@ -495,6 +684,7 @@ class DomainDashboard extends Component {
                                                         }
                                                     })
                                                 } 
+>>>>>>> origin/test
                                     >
                                        Expire DRP
                                     </Button>
@@ -503,6 +693,14 @@ class DomainDashboard extends Component {
                         </Grid>
                     </Grid>
                 </Grid>
+<<<<<<< HEAD
+                <DRPRegistration 
+                    open={this.state.openRegistrationForm}
+                    onClose={() => this.setState({openRegistrationForm: false})}
+                    update={this.state.isRegistered}
+                    onRegister={(domainDetails) => this.handleRegisterDRP(domainDetails)}
+                />
+=======
 
                 <DRPRegistration 
                     open={this.state.openRegistrationForm}
@@ -527,6 +725,7 @@ class DomainDashboard extends Component {
                         :   undefined
                     }
                 />
+>>>>>>> origin/test
             </div>
         );
     }

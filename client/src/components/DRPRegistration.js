@@ -24,18 +24,28 @@ class DRPRegistration extends Component {
     this.state={
       isLoading: false,
       isVerified: false,
+<<<<<<< HEAD
+=======
       isRegistered: false,
+>>>>>>> origin/test
       agree: false,
       error: false,
       errorMessage: '',
       domainName: '',
       issuer: '',
+<<<<<<< HEAD
+=======
       domainPay: '',
+>>>>>>> origin/test
       version: 1,
       validFrom: new Date().toISOString().split("T")[0],
       validTo: new Date().toISOString().split("T")[0],
       drpAddress: '',
+<<<<<<< HEAD
+      price: 0
+=======
       price: ''
+>>>>>>> origin/test
     };
     this.initialState = {...this.state};
     this.handleClose = this.handleClose.bind(this);
@@ -53,6 +63,18 @@ class DRPRegistration extends Component {
   }
 
   async getDomainData(){
+<<<<<<< HEAD
+    // get domain DRP data
+    const [domainName, issuerName, validFrom, validTo, drpPrice, domainAddress, reactContract] = await this.context.contract.getClientDetails().call();
+    this.setState({
+      domainName: this.context.web3.utils.hexToUtf8(domainName),
+      issuer: this.context.web3.utils.hexToUtf8(issuerName),
+      validFrom: new Date(validFrom).toISOString().split("T")[0],
+      validTo: new Date(validTo).toISOString().split("T")[0],
+      domainAddress,
+      drpAddress: reactContract,
+      price: parseFloat(this.context.web3.utils.fromWei(drpPrice, "ether"))
+=======
     this.setState({
       isLoading: true
     });
@@ -77,6 +99,7 @@ class DRPRegistration extends Component {
     this.setState({
       isLoading: false,
       isRegistered
+>>>>>>> origin/test
     });
   }
 
@@ -86,6 +109,10 @@ class DRPRegistration extends Component {
         ...this.initialState
       });
       domainDetails.version = parseInt(domainDetails.version);
+<<<<<<< HEAD
+      domainDetails.price = parseFloat(domainDetails.price);
+=======
+>>>>>>> origin/test
       this.props.onRegister(domainDetails);
     }
   }
@@ -98,7 +125,11 @@ class DRPRegistration extends Component {
       errorMessage = "Domain name is invalid!";
     else if(!domainRegEx.test(domainDetails.issuer))
       errorMessage = "Issuer name is invalid!";
+<<<<<<< HEAD
+    else if(domainDetails.issuer.search(domainDetails.domainName) === -1)
+=======
     else if(domainDetails.domainName.search(domainDetails.issuer) === -1)
+>>>>>>> origin/test
       errorMessage = "Domain must be a sub-domain of DRP issuer!";
     else if(isNaN(domainDetails.price) || parseFloat(domainDetails.price) <= 0)
       errorMessage = "Invalid or negative price!";
@@ -139,6 +170,130 @@ class DRPRegistration extends Component {
     });
   }
 
+<<<<<<< HEAD
+  componentDidMount = async() => {
+    if(this.props.update){
+      this.setState({
+        isLoading: true
+      });
+      await this.getDomainData();
+      this.setState({
+        isLoading: false
+      });
+    }
+  }
+
+  render() { 
+    const {isLoading, isVerified, agree, error, errorMessage, ...domainDetails} = {...this.state};
+    const buttonDisabled = !(isVerified && agree && domainDetails.domainName && domainDetails.issuer
+                              && domainDetails.drpAddress && domainDetails.price);
+    domainDetails.domainPay = this.context.account;
+  	return (
+      <Dialog open={this.props.open} aria-labelledby="register-drp">
+        <DialogTitle id="register-drp">Domain Reaction Policy Registration</DialogTitle>
+          {isLoading
+            ? <div>
+                <DialogContent>
+                  <CircularProgress color = "secondary"/>
+                </DialogContent>
+                <DialogActions>
+                  <Button onClick={this.handleClose} color="secondary">
+                    Cancel
+                  </Button>
+                </DialogActions>
+              </div>
+            : <div>
+                <DialogContent>
+                {error && 
+                  <Alert severity="error">{errorMessage}</Alert>
+                }
+                <TextField
+                  variant="outlined" margin="normal" required fullWidth
+                  label="Domain Name" name="domainName" autoFocus 
+                  value={domainDetails.domainName}
+                  onChange={this.updateFormState}
+                  InputProps={{
+                    readOnly: this.props.update
+                  }}
+                />
+                <TextField
+                  variant="outlined" margin="normal" required fullWidth
+                  label="DRP Issuer" name="issuer" 
+                  value={domainDetails.issuer}
+                  onChange={this.updateFormState}
+                />
+                <TextField
+                  variant="outlined" margin="normal" required fullWidth
+                  label="Domain Pay Adress" name="domain_pay"  
+                  value={domainDetails.domainPay}
+                  InputProps={{
+                    readOnly: true
+                  }}  
+                />
+                <TextField
+                  variant="outlined" margin="normal" required fullWidth
+                  label="Version" name="version"
+                  value={domainDetails.version}
+                  InputProps={{
+                    readOnly: true
+                  }}
+                />
+                <Grid container direction="row" spacing={2}>
+                  <Grid item xs={12} sm={6}>
+                    <TextField
+                        name="validFrom"
+                        label="Valid From"
+                        type="date"
+                        value={domainDetails.validFrom}
+                        onChange={this.updateFormState}
+                        fullWidth 
+                        required
+                        InputProps={{
+                          readOnly: this.props.update
+                        }}
+                      />
+                  </Grid>
+                  <Grid item xs={12} sm={6}>
+                    <TextField
+                      name="validTo"
+                      label="Valid To"
+                      type="date"
+                      value={domainDetails.validTo}
+                      onChange={this.updateFormState}
+                      fullWidth
+                      required
+                    />
+                  </Grid>
+                </Grid>
+                <TextField
+                  variant="outlined" margin="normal" required fullWidth
+                  label="Contract Adress" name="drpAddress"
+                  value={domainDetails.drpAddress}
+                  onChange={this.updateFormState}  
+                />
+                <TextField
+                  variant="outlined" margin="normal" required fullWidth
+                  label="DRP Price(in ether)" name="price"
+                  value={domainDetails.price ? domainDetails.price : ''}
+                  onChange={this.updateFormState}  
+                />
+                <div>
+                  <input type="checkbox" name="agree" checked={agree} onChange={this.checkboxHandler} />
+                  <label > I agree to</label>
+                  <Tooltip title="Check out the About page" arrow>
+                    <Button><b>Terms and Conditions.</b></Button>
+                  </Tooltip>
+                </div>
+                <Box m={2}  display="flex" alignItems="center" justifyContent="center">  
+                  <Recaptcha
+                    ref={e => this.captcha = e}
+                    sitekey={siteKey}
+                    render="explicit"
+                    verifyCallback={this.verifyCallback}
+                  />
+                </Box>
+              </DialogContent>
+=======
   render() { 
     const {isLoading, isRegistered, isVerified, agree, error, errorMessage, ...domainDetails} = {...this.state};
     const buttonDisabled = !(isVerified && agree && domainDetails.domainName && domainDetails.issuer
@@ -250,6 +405,7 @@ class DRPRegistration extends Component {
                     />
                   </Box>
               </DialogContent> }
+>>>>>>> origin/test
               <DialogActions>
                 <Button onClick={this.handleClose} color="secondary">
                   Cancel
@@ -257,9 +413,17 @@ class DRPRegistration extends Component {
                 <Button disabled={buttonDisabled}
                     color="primary"
                     onClick={() => this.handleRegister(domainDetails)}>
+<<<<<<< HEAD
+                  {this.props.update ? "Update":"Register"}
+                </Button>
+              </DialogActions>
+            </div>
+          }
+=======
                   {isRegistered ? "Update":"Register"}
                 </Button>
               </DialogActions>
+>>>>>>> origin/test
         </Dialog>
     );
   }

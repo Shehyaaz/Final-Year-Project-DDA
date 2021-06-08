@@ -1,14 +1,30 @@
 {
 	"compiler": {
+<<<<<<< HEAD
+		"version": "0.5.17+commit.d19bba13"
+=======
 		"version": "0.6.12+commit.27d51765"
+>>>>>>> origin/test
 	},
 	"language": "Solidity",
 	"output": {
 		"abi": [
 			{
+<<<<<<< HEAD
+				"constant": true,
 				"inputs": [
 					{
 						"internalType": "bytes32[]",
+						"name": "_ctLogIDs",
+						"type": "bytes32[]"
+					},
+					{
+						"internalType": "bytes32[]",
+=======
+				"inputs": [
+					{
+						"internalType": "bytes32[]",
+>>>>>>> origin/test
 						"name": "_sctLogID",
 						"type": "bytes32[]"
 					},
@@ -19,6 +35,14 @@
 					},
 					{
 						"internalType": "uint256",
+<<<<<<< HEAD
+						"name": "_maximum_merge_delay",
+						"type": "uint256"
+					},
+					{
+						"internalType": "uint256",
+=======
+>>>>>>> origin/test
 						"name": "_certValidFrom",
 						"type": "uint256"
 					},
@@ -26,11 +50,14 @@
 						"internalType": "uint256",
 						"name": "_certValidTo",
 						"type": "uint256"
+<<<<<<< HEAD
+=======
 					},
 					{
 						"internalType": "string",
 						"name": "_ocspRes",
 						"type": "string"
+>>>>>>> origin/test
 					}
 				],
 				"name": "check",
@@ -41,10 +68,21 @@
 						"type": "bool"
 					}
 				],
+<<<<<<< HEAD
+				"payable": false,
+=======
+>>>>>>> origin/test
 				"stateMutability": "view",
 				"type": "function"
 			},
 			{
+<<<<<<< HEAD
+				"constant": false,
+				"inputs": [],
+				"name": "terminateCCP",
+				"outputs": [],
+				"payable": false,
+=======
 				"inputs": [
 					{
 						"internalType": "bytes32",
@@ -130,10 +168,22 @@
 				"inputs": [],
 				"name": "terminateCCP",
 				"outputs": [],
+>>>>>>> origin/test
 				"stateMutability": "nonpayable",
 				"type": "function"
 			},
 			{
+<<<<<<< HEAD
+				"constant": true,
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "_addr",
+						"type": "address"
+					}
+				],
+				"name": "verifyCCPAddress",
+=======
 				"inputs": [
 					{
 						"internalType": "address",
@@ -147,6 +197,7 @@
 					}
 				],
 				"name": "verifyCCP",
+>>>>>>> origin/test
 				"outputs": [
 					{
 						"internalType": "bool",
@@ -154,11 +205,21 @@
 						"type": "bool"
 					}
 				],
+<<<<<<< HEAD
+				"payable": false,
+=======
+>>>>>>> origin/test
 				"stateMutability": "view",
 				"type": "function"
 			}
 		],
 		"devdoc": {
+<<<<<<< HEAD
+			"methods": {}
+		},
+		"userdoc": {
+			"methods": {}
+=======
 			"kind": "dev",
 			"methods": {},
 			"version": 1
@@ -167,6 +228,7 @@
 			"kind": "user",
 			"methods": {},
 			"version": 1
+>>>>>>> origin/test
 		}
 	},
 	"settings": {
@@ -175,9 +237,12 @@
 		},
 		"evmVersion": "istanbul",
 		"libraries": {},
+<<<<<<< HEAD
+=======
 		"metadata": {
 			"bytecodeHash": "ipfs"
 		},
+>>>>>>> origin/test
 		"optimizer": {
 			"enabled": false,
 			"runs": 200
@@ -186,6 +251,19 @@
 	},
 	"sources": {
 		"Check.sol": {
+<<<<<<< HEAD
+			"keccak256": "0x509c6da76c17975106e0d0fe10ffc054d7469c9a34bed9ddf641b77870b8f9f2",
+			"urls": [
+				"bzz-raw://cdc8f56d6c21f1aa000a670984dba907ea03411fdfe324794bb48780566a10bf",
+				"dweb:/ipfs/QmfCsEzJ2RG3ws4eoprs28rHDTh9UgLcB1W2hCauYvncYt"
+			]
+		},
+		"CheckInterface.sol": {
+			"keccak256": "0x199529de84e3bc11276fd1776b5d3e8020cd3ba09cf74e1b0ffc877123c882c6",
+			"urls": [
+				"bzz-raw://06b85ad6bbef9b11dcebc2cff903a6775e646955a9fee900963e55c11f02a6cc",
+				"dweb:/ipfs/QmaLRmtUeYfaCVtBQEFDd9rWA7bLctekcLuF4abEVmLko6"
+=======
 			"keccak256": "0xa1596d0c39df1fd17b165272d749641c0dc29ff69d5bc42b4250f4ceb8766f6d",
 			"license": "MIT",
 			"urls": [
@@ -199,6 +277,7 @@
 			"urls": [
 				"bzz-raw://e28d7dcaf7aef15382058690f115158963e2efdb97d9137689ffe06a8fefc203",
 				"dweb:/ipfs/Qmbm2qPHnhPt86yZUW17dQBw3xiEMj9spxQDtQ4pqs2Qo1"
+>>>>>>> origin/test
 			]
 		}
 	},

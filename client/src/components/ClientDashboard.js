@@ -24,6 +24,12 @@ import {
     VerifiedUserOutlined
 } from "@material-ui/icons";
 import { withStyles } from "@material-ui/core/styles";
+<<<<<<< HEAD
+import { red } from "@material-ui/core/colors";
+import CCPRegistration from "./CCPRegistration";
+import PurchaseDRP from "./PurchaseDRP";
+import AppContext from "../context/AppContext";
+=======
 import CCPRegistration from "./CCPRegistration";
 import PurchaseDRP from "./PurchaseDRP";
 import AlertDialog from "../widgets/AlertDialog";
@@ -33,6 +39,7 @@ import {
     green,
     red 
 } from '@material-ui/core/colors';
+>>>>>>> origin/test
 
 const useStyles = theme => ({
     root: {
@@ -58,6 +65,8 @@ class ClientDashboard extends Component {
 		super(props);
         this.state={
             account: '',
+<<<<<<< HEAD
+=======
             alert: {
                 open: false,
                 title: '',
@@ -65,6 +74,7 @@ class ClientDashboard extends Component {
             },
             showConfirm: false,
             deleteDRPIndex: "",
+>>>>>>> origin/test
             isLoading: false,
             isRegistered: false,
             openRegistrationForm: false,
@@ -76,7 +86,10 @@ class ClientDashboard extends Component {
         this.handleDRPCheck = this.handleDRPCheck.bind(this);
         this.getClientData = this.getClientData.bind(this);
         this.checkCCPStatus = this.checkCCPStatus.bind(this);
+<<<<<<< HEAD
+=======
         this.deleteDRP = this.deleteDRP.bind(this);
+>>>>>>> origin/test
 	}
 
     DataRow = row => (
@@ -87,8 +100,12 @@ class ClientDashboard extends Component {
           <TableCell>{row.drpPrice}</TableCell>
           <TableCell>{row.lastChecked}</TableCell>
           <TableCell>
+<<<<<<< HEAD
+              <Button color="secondary" size="small" endIcon={<VerifiedUserOutlined/>}
+=======
               <Button size="small" endIcon={<VerifiedUserOutlined/>}
                 style={{color: row.lastChecked === "-" ? red[500] : green[500]}}
+>>>>>>> origin/test
                 disableElevation
                 onClick= {() => this.handleDRPCheck(row.domainName, row.drpIndex)}
               >
@@ -109,6 +126,13 @@ class ClientDashboard extends Component {
             }
             throw new Error(res);
         })
+<<<<<<< HEAD
+        .then((res) => {
+            // call check certificate function from contract
+            const sctLogID = res.sctList.map(sct => sct.logID);
+            const sctTimestamp = res.sctList.map(sct => sct.timestamp);
+            this.context.contract.checkCertificate(
+=======
         .then(async(res) => {
             // call check certificate function from contract
             let sctLogID = [];
@@ -119,19 +143,30 @@ class ClientDashboard extends Component {
             }
 
             await this.context.contract.methods.checkCertificate(
+>>>>>>> origin/test
                 drpIndex,
                 sctLogID,
                 sctTimestamp,
                 res.certValidFrom,
+<<<<<<< HEAD
+                res.certValidTo
+            ).send({
+                from: this.state.account
+=======
                 res.certValidTo,
                 res.ocspRes
             ).send({
                 from: this.context.account,
                 gas: gasLimit
+>>>>>>> origin/test
             })
             .on("receipt", async(receipt) => {
                 // certificate check was executed
                 if(receipt.events.CertChecked && receipt.events.CertChecked.returnValues._certValid){
+<<<<<<< HEAD
+                    alert(domainName+" certificate is Valid");
+                    this.setState({
+=======
                     await this.getClientData();
                     this.setState({
                         alert: {
@@ -139,10 +174,16 @@ class ClientDashboard extends Component {
                             title: "Valid",
                             message: domainName+" certificate is Valid"
                         },
+>>>>>>> origin/test
                         isLoading: false
                     });
                 }
                 else{
+<<<<<<< HEAD
+                    alert(domainName+" has an INVALID certificate !");
+                    await this.getClientData();
+                    this.setState({
+=======
                     await this.getClientData();
                     this.setState({
                         alert: {
@@ -150,10 +191,45 @@ class ClientDashboard extends Component {
                             title: "Invalid",
                             message: domainName+" has an INVALID certificate !"
                         },
+>>>>>>> origin/test
                         isLoading: false
                     });
                 }
             })
+<<<<<<< HEAD
+            .on("error", () => {
+                // certificate check was not executed
+                if(window.confirm("Please check CCP and purchased DRP validity. If found valid, this DRP has been terminated. Delete this DRP ?")){
+                    this.context.contract.deleteDRPFromClientList(drpIndex).send({
+                        from: this.state.account
+                    })
+                    .on("receipt", (receipt) => {
+                        if(receipt.events.DRPDeleted && receipt.events.DRPDeleted.returnValues._domainAddr){
+                            alert(domainName+" DRP deleted successfully");
+                            this.setState({
+                                isLoading: false
+                            });
+                        }
+                        else {
+                            alert("Could not delete DRP :(");
+                            this.setState({
+                                isLoading: false
+                            });
+                        }
+                    })
+                    .on("error", ()=>{
+                        alert("An error has occurred :(");
+                        this.setState({
+                            isLoading: false
+                        });
+                    });
+                }
+            });
+        })
+        .catch((err) => {
+            alert("An error occurred: "+err);
+            this.setState({
+=======
             .on("error", (err) => {
                 console.log(err);
                 // certificate check was not executed
@@ -176,11 +252,14 @@ class ClientDashboard extends Component {
                     title: "Error",
                     message: "An error has occurred :("+err.message
                 },
+>>>>>>> origin/test
                 isLoading: false
             });
         });
     }
     
+<<<<<<< HEAD
+=======
     async deleteDRP(drpIndex){
         const alert = this.state.alert;
         this.setState({
@@ -232,6 +311,7 @@ class ClientDashboard extends Component {
         });
     }
 
+>>>>>>> origin/test
     async handleRegisterCCP(clientDetails){
         this.setState({
             isLoading: true,
@@ -239,13 +319,25 @@ class ClientDashboard extends Component {
         });
         if(this.state.isRegistered){
             // get update fee from blockchain
+<<<<<<< HEAD
+            const updateFee = await this.context.contract.client_update_fee;
+=======
             const updateFee = await this.context.contract.methods.update_fee().call();
+>>>>>>> origin/test
             // update client details
             try{
                 this.context.contract.methods.updateClient(
                     Math.floor(new Date(clientDetails.validTo).getTime()/1000),
                     clientDetails.ccpAddress
                 ).send({
+<<<<<<< HEAD
+                    from: this.state.account,
+                    value: updateFee
+                })
+                .on("receipt", () => {
+                    alert(clientDetails.clientName+" details updated successfully !");
+                    this.setState({
+=======
                     from: this.context.account,
                     value: updateFee,
                     gas: gasLimit
@@ -258,42 +350,68 @@ class ClientDashboard extends Component {
                             title: "Success",
                             message: clientDetails.clientName+" details were updated successfully !",
                         },
+>>>>>>> origin/test
                         isLoading: false
                     });
                 })
                 .on("error", () => {
+<<<<<<< HEAD
+                    alert(clientDetails.clientName+" updation failed !");
+                    this.setState({
+=======
                     this.setState({
                         alert: {
                             open: true,
                             title: "Error",
                             message: clientDetails.clientName+" details could not be updated !"
                         },
+>>>>>>> origin/test
                         isLoading: false
                     });
                 });
             }catch(err){
+<<<<<<< HEAD
+                alert(clientDetails.clientName+" updation failed !");
+                this.setState({
+=======
                 this.setState({
                     alert: {
                         open: true,
                         title: "Error",
                         message: clientDetails.clientName+" details could not be updated ! "+err.message
                     },
+>>>>>>> origin/test
                     isLoading: false
                 });
             }
         }
         else{
             // get registration fee from blockchain
+<<<<<<< HEAD
+            const registerFee = await this.context.contract.client_registration_fee;
+            // register client details
+            try{
+                this.context.contract.methods.registerClient(
+=======
             const registerFee = await this.context.contract.methods.client_registration_fee().call();
             // register client details
             try{
                 await this.context.contract.methods.registerClient(
+>>>>>>> origin/test
                     this.context.web3.utils.utf8ToHex(clientDetails.clientName),
                     Math.floor(new Date(clientDetails.validFrom).getTime()/1000),
                     Math.floor(new Date(clientDetails.validTo).getTime()/1000),
                     clientDetails.ccpAddress,
                     clientDetails.version
                 ).send({
+<<<<<<< HEAD
+                    from: this.state.account,
+                    value: registerFee
+                })
+                .on("receipt", () => {
+                    alert(clientDetails.clientName+" registered successfully !");
+                    this.setState({
+=======
                     from: this.context.account,
                     value: registerFee,
                     gas: gasLimit*3
@@ -306,26 +424,37 @@ class ClientDashboard extends Component {
                             title: "Success",
                             message: clientDetails.clientName+" registered successfully !"
                         },
+>>>>>>> origin/test
                         isLoading: false
                     });
                 })
                 .on("error", () => {
+<<<<<<< HEAD
+                    alert(clientDetails.clientName+" registration failed !");
+                    this.setState({
+=======
                     this.setState({
                         alert: {
                             open: true,
                             title: "Error",
                             message: clientDetails.clientName+" registration failed ! Please check your Check contract address !"
                         },
+>>>>>>> origin/test
                         isLoading: false
                     });
                 });
             }catch(err){
+<<<<<<< HEAD
+                alert(clientDetails.clientName+" registration failed !");
+                this.setState({
+=======
                 this.setState({
                     alert: {
                         open: true,
                         title: "Error",
                         message: clientDetails.clientName+" registration failed ! "+err.message
                     },
+>>>>>>> origin/test
                     isLoading: false
                 }); 
             }
@@ -338,6 +467,15 @@ class ClientDashboard extends Component {
             openPurchaseForm: false
         });
         try{
+<<<<<<< HEAD
+            this.context.contract.methods.purchaseDRP(domain.domainAddress).send({
+                from: this.state.account,
+                value: parseInt(this.context.web3.utils.toWei(domain.drpPrice, "ether"))
+            })
+            .on("receipt", () => {
+                alert("Successfully purchased "+domain.domainName+" DRP");
+                this.setState({
+=======
             await this.context.contract.methods.purchaseDRP(domain.domainAddress).send({
                 from: this.context.account,
                 value: this.context.web3.utils.toWei(domain.drpPrice, "ether"),
@@ -351,26 +489,37 @@ class ClientDashboard extends Component {
                         title: "Success",
                         message: "Successfully purchased the DRP of "+domain.domainName
                     },
+>>>>>>> origin/test
                     isLoading: false
                 });
             })
             .on("error", () => {
+<<<<<<< HEAD
+                alert("Purchase failed :(");
+                this.setState({
+=======
                 this.setState({
                     alert: {
                         open: true,
                         title: "Error",
                         message: "DRP purchase failed :("
                     },
+>>>>>>> origin/test
                     isLoading: false
                 });
             });
         }catch(err){
+<<<<<<< HEAD
+            alert("Purchase failed :( "+err);
+            this.setState({
+=======
             this.setState({
                 alert: {
                     open: true,
                     title: "Error",
                     message: "DRP purchase failed :( "+err.message
                 },
+>>>>>>> origin/test
                 isLoading: false
             }); 
         }
@@ -380,6 +529,22 @@ class ClientDashboard extends Component {
         this.setState({
             isLoading: true
         });
+<<<<<<< HEAD
+        const [ccpValidityStatus, ccpContractStatus] = await this.context.contract.methods.getCCPStatus().call();
+        if(ccpValidityStatus && ccpContractStatus){
+            alert("CCP valid :)");
+        }
+        else if(ccpValidityStatus && !ccpContractStatus){
+            alert("CCP Check Contract is invalid :(");
+        }
+        else if(!ccpValidityStatus && ccpContractStatus){
+            alert("CCP validity has expired :(");
+        }
+        else{
+            alert("CCP validity has expired and CCP Check Contract is invalid :(");
+        }
+        this.setState({
+=======
         const status = await this.context.contract.methods.getCCPStatus().call({
             from: this.context.account
         });
@@ -407,11 +572,26 @@ class ClientDashboard extends Component {
                 title,
                 message: mssg
             },
+>>>>>>> origin/test
             isLoading: false
         });
     }
 
     async getClientData(){
+<<<<<<< HEAD
+        const isRegistered = await this.context.contract.methods.isClientRegistered().call();
+        const drpList = [];
+        if(isRegistered){
+            const drpListLength = await this.context.contract.methods.getClientDRPListLength().call();
+            for(let i=0; i < drpListLength; i++){
+                const [domainName, validFrom, validTo, drpPrice, lastChecked] = await this.context.contract.methods.getClientDRPList(i).call(); // an array of values is returned
+                drpList.push({
+                    domainName: this.context.web3.utils.hexToUtf8(domainName),
+                    validFrom: new Date(validFrom).toISOString().split("T")[0],
+                    validTo: new Date(validTo).toISOString().split("T")[0],
+                    drpPrice: parseFloat(this.context.web3.utils.fromWei(drpPrice, "ether")),
+                    lastChecked: lastChecked > 0 ? new Date(lastChecked).toISOString().split("T")[0] : "-"
+=======
         const drpList = [];
         const isRegistered = await this.context.contract.methods.isClientRegistered().call({
             from: this.context.account
@@ -431,6 +611,7 @@ class ClientDashboard extends Component {
                     validTo: new Date(parseInt(drpData[2])*1000).toISOString().split("T")[0],
                     drpPrice: this.context.web3.utils.fromWei(drpData[3], "ether"),
                     lastChecked: parseInt(drpData[4]) > 1 ? new Date(parseInt(drpData[4])*1000).toISOString().split("T")[0] : "-"
+>>>>>>> origin/test
                 });
             }
         }
@@ -466,7 +647,10 @@ class ClientDashboard extends Component {
 
     render() {
         const classes = this.props.classes;
+<<<<<<< HEAD
+=======
         const alert = this.state.alert;
+>>>>>>> origin/test
         return (
             <div className={classes.root}>
                 <Backdrop className={classes.backdrop} open={this.state.isLoading}>
@@ -580,7 +764,11 @@ class ClientDashboard extends Component {
                                 <TableBody>
                                     {(this.state.drpList.length === 0)
                                     ? <TableRow>
+<<<<<<< HEAD
+                                        <TableCell align="center" colSpan="3">
+=======
                                         <TableCell align="center" colSpan="6">
+>>>>>>> origin/test
                                             <Typography variant ="h6" component="h6">
                                                 No data to display
                                             </Typography>
@@ -596,6 +784,10 @@ class ClientDashboard extends Component {
                 <CCPRegistration 
                     open={this.state.openRegistrationForm}
                     onClose={() => this.setState({openRegistrationForm: false})}
+<<<<<<< HEAD
+                    update={this.state.isRegistered}
+=======
+>>>>>>> origin/test
                     onRegister={(clientDetails) => this.handleRegisterCCP(clientDetails)}
                 /> 
 
@@ -604,6 +796,8 @@ class ClientDashboard extends Component {
                     onClose={() => this.setState({openPurchaseForm: false})}
                     onPurchase={(domain) => this.handlePurchaseDRP(domain)}
                 />
+<<<<<<< HEAD
+=======
 
                 <AlertDialog 
                     open={this.state.alert.open}
@@ -622,10 +816,15 @@ class ClientDashboard extends Component {
                         :   undefined
                     }
                 />
+>>>>>>> origin/test
             </div>
         );
     }
 }
 
 ClientDashboard.contextType = AppContext;
+<<<<<<< HEAD
 export default withStyles(useStyles,{ withTheme: true })(ClientDashboard);
+=======
+export default withStyles(useStyles,{ withTheme: true })(ClientDashboard);
+>>>>>>> origin/test

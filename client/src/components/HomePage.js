@@ -12,7 +12,10 @@ import { withStyles } from "@material-ui/core/styles";
 import logo from "../assets/metamask.svg";
 import getWeb3 from "../utils/getWeb3";
 import AppContext from "../context/AppContext";
+<<<<<<< HEAD
+=======
 import AlertDialog from "../widgets/AlertDialog";
+>>>>>>> origin/test
 import DDA from "../contracts/DDA.json";
 
 const useStyles = theme => ({
@@ -23,6 +26,7 @@ const useStyles = theme => ({
     backgroundSize: "cover",
     backgroundPosition: "center",
 	display: "flex",
+<<<<<<< HEAD
   },
   title: {
 	  color: "#1c1c1c",
@@ -32,6 +36,17 @@ const useStyles = theme => ({
   divider: {
 	  color: "#a1a1a1",
   },
+=======
+  },
+  title: {
+	  color: "#1c1c1c",
+	  padding: "0.5rem",
+	  textAlign: "center",
+  },
+  divider: {
+	  color: "#a1a1a1",
+  },
+>>>>>>> origin/test
   logo: {
 	  height: "1.5em",
   },
@@ -46,11 +61,14 @@ class HomePage extends Component {
 		super(props);
 		this.state = {
 			isLoading: false,
+<<<<<<< HEAD
+=======
 			alert: {
 				open: false,
 				title: "",
 				message: ""
 			},
+>>>>>>> origin/test
 			isLoggedIn: (sessionStorage.getItem("isLoggedIn") === "true") || false
 		};
 		// binding this
@@ -95,12 +113,17 @@ class HomePage extends Component {
 			}
 		} catch (error) {
 			// Catch any errors for any of the above operations.
+<<<<<<< HEAD
+			alert("An unexpected error has occurred !\n"+error.message);
+			this.setState({
+=======
 			this.setState({
 				alert: {
 					open: true,
 					title: "Error",
 					message: "An unexpected error has occurred !\n"+error.message
 				},
+>>>>>>> origin/test
 				isLoading: false
 			});
 		}
@@ -108,7 +131,10 @@ class HomePage extends Component {
 
 	render() {
 		const classes = this.props.classes;
+<<<<<<< HEAD
+=======
 		const alert = this.state.alert;
+>>>>>>> origin/test
 		if(this.state.isLoggedIn){
 			return (
 				<Redirect 
@@ -162,6 +188,8 @@ class HomePage extends Component {
 						{/* Empty Grid element for spacing */}
 					</Grid>
 				</Grid>
+<<<<<<< HEAD
+=======
 
 				<AlertDialog 
                     open={this.state.alert.open}
@@ -175,6 +203,7 @@ class HomePage extends Component {
                         }
                     })}
                 />
+>>>>>>> origin/test
 			</div>
 		);
 	}
