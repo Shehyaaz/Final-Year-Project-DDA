@@ -1,10 +1,12 @@
+// SPDX-License-Identifier: MIT
 /*
 This is a smart contract that implements the TriggerInterface in Decentralised Domain Authentication on Ethereum blockchain.
 Authors : Mohammed Sufiyan Aman, Riyanchhi Agrawal, Shakshi Pandey, Shehyaaz Khan Nayazi
 */
 
-pragma solidity ^0.5.0;
+pragma solidity ^0.6.0;
 
+<<<<<<< HEAD
 import "./DRPInterface.sol";
 
 contract DRPReaction is DRPInterface {
@@ -18,4 +20,16 @@ contract DRPReaction is DRPInterface {
         require(address(this).balance >= amount);
         msg.sender.transfer(amount);
     }
+=======
+import "./DRPAbstract.sol";
+
+contract DRPReaction is DRPAbstract {
+    /* Overrides function of DRPAbstract */
+     function verifyDRP(
+        address _domainAddr,
+        address _drpAddr
+     ) external view override returns(bool){
+         return (_drpAddr == address(this) && _domainAddr != address(0));
+     }
+>>>>>>> origin/test
 }

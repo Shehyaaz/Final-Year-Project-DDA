@@ -1,6 +1,10 @@
 {
 	"compiler": {
+<<<<<<< HEAD
 		"version": "0.5.17+commit.d19bba13"
+=======
+		"version": "0.6.1+commit.e6f7d5a4"
+>>>>>>> origin/test
 	},
 	"language": "Solidity",
 	"output": {
@@ -13,7 +17,10 @@
 						"type": "bytes32[]"
 					}
 				],
+<<<<<<< HEAD
 				"payable": false,
+=======
+>>>>>>> origin/test
 				"stateMutability": "nonpayable",
 				"type": "constructor"
 			},
@@ -28,9 +35,15 @@
 					},
 					{
 						"indexed": false,
+<<<<<<< HEAD
 						"internalType": "address",
 						"name": "_domainAddr",
 						"type": "address"
+=======
+						"internalType": "bytes32",
+						"name": "_domainName",
+						"type": "bytes32"
+>>>>>>> origin/test
 					},
 					{
 						"indexed": false,
@@ -60,9 +73,15 @@
 				"inputs": [
 					{
 						"indexed": false,
+<<<<<<< HEAD
 						"internalType": "address",
 						"name": "_domainAddr",
 						"type": "address"
+=======
+						"internalType": "bytes32",
+						"name": "_domainName",
+						"type": "bytes32"
+>>>>>>> origin/test
 					}
 				],
 				"name": "DRPExpired",
@@ -79,6 +98,7 @@
 					},
 					{
 						"indexed": false,
+<<<<<<< HEAD
 						"internalType": "address",
 						"name": "_domainAddr",
 						"type": "address"
@@ -88,6 +108,11 @@
 						"internalType": "uint256",
 						"name": "_amount",
 						"type": "uint256"
+=======
+						"internalType": "bytes32",
+						"name": "_domainName",
+						"type": "bytes32"
+>>>>>>> origin/test
 					}
 				],
 				"name": "DRPpurchased",
@@ -101,6 +126,15 @@
 						"internalType": "address",
 						"name": "_addr",
 						"type": "address"
+<<<<<<< HEAD
+=======
+					},
+					{
+						"indexed": false,
+						"internalType": "bytes32",
+						"name": "_name",
+						"type": "bytes32"
+>>>>>>> origin/test
 					}
 				],
 				"name": "Registered",
@@ -120,7 +154,10 @@
 				"type": "event"
 			},
 			{
+<<<<<<< HEAD
 				"constant": false,
+=======
+>>>>>>> origin/test
 				"inputs": [
 					{
 						"internalType": "uint256",
@@ -129,33 +166,61 @@
 					},
 					{
 						"internalType": "bytes32[]",
+<<<<<<< HEAD
 						"name": "sctLogID",
+=======
+						"name": "_sctLogID",
+>>>>>>> origin/test
 						"type": "bytes32[]"
 					},
 					{
 						"internalType": "uint256[]",
+<<<<<<< HEAD
 						"name": "sctTimestamp",
+=======
+						"name": "_sctTimestamp",
+>>>>>>> origin/test
 						"type": "uint256[]"
 					},
 					{
 						"internalType": "uint256",
+<<<<<<< HEAD
 						"name": "certValidFrom",
+=======
+						"name": "_certValidFrom",
+>>>>>>> origin/test
 						"type": "uint256"
 					},
 					{
 						"internalType": "uint256",
+<<<<<<< HEAD
 						"name": "certValidTo",
 						"type": "uint256"
+=======
+						"name": "_certValidTo",
+						"type": "uint256"
+					},
+					{
+						"internalType": "string",
+						"name": "_ocspRes",
+						"type": "string"
+>>>>>>> origin/test
 					}
 				],
 				"name": "checkCertificate",
 				"outputs": [],
+<<<<<<< HEAD
 				"payable": false,
+=======
+>>>>>>> origin/test
 				"stateMutability": "nonpayable",
 				"type": "function"
 			},
 			{
+<<<<<<< HEAD
 				"constant": true,
+=======
+>>>>>>> origin/test
 				"inputs": [],
 				"name": "client_registration_fee",
 				"outputs": [
@@ -165,6 +230,7 @@
 						"type": "uint256"
 					}
 				],
+<<<<<<< HEAD
 				"payable": false,
 				"stateMutability": "view",
 				"type": "function"
@@ -181,11 +247,16 @@
 					}
 				],
 				"payable": false,
+=======
+>>>>>>> origin/test
 				"stateMutability": "view",
 				"type": "function"
 			},
 			{
+<<<<<<< HEAD
 				"constant": true,
+=======
+>>>>>>> origin/test
 				"inputs": [],
 				"name": "contractOwner",
 				"outputs": [
@@ -195,12 +266,18 @@
 						"type": "address"
 					}
 				],
+<<<<<<< HEAD
 				"payable": false,
+=======
+>>>>>>> origin/test
 				"stateMutability": "view",
 				"type": "function"
 			},
 			{
+<<<<<<< HEAD
 				"constant": true,
+=======
+>>>>>>> origin/test
 				"inputs": [
 					{
 						"internalType": "uint256",
@@ -216,14 +293,27 @@
 						"type": "bytes32"
 					}
 				],
+<<<<<<< HEAD
 				"payable": false,
+=======
+>>>>>>> origin/test
 				"stateMutability": "view",
 				"type": "function"
 			},
 			{
+<<<<<<< HEAD
 				"constant": false,
 				"inputs": [
 					{
+=======
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "_clientAddr",
+						"type": "address"
+					},
+					{
+>>>>>>> origin/test
 						"internalType": "uint256",
 						"name": "_drpIndex",
 						"type": "uint256"
@@ -231,6 +321,7 @@
 				],
 				"name": "deleteDRPFromClientList",
 				"outputs": [],
+<<<<<<< HEAD
 				"payable": false,
 				"stateMutability": "nonpayable",
 				"type": "function"
@@ -241,11 +332,16 @@
 				"name": "destroyContract",
 				"outputs": [],
 				"payable": false,
+=======
+>>>>>>> origin/test
 				"stateMutability": "nonpayable",
 				"type": "function"
 			},
 			{
+<<<<<<< HEAD
 				"constant": true,
+=======
+>>>>>>> origin/test
 				"inputs": [],
 				"name": "domain_registration_fee",
 				"outputs": [
@@ -255,11 +351,15 @@
 						"type": "uint256"
 					}
 				],
+<<<<<<< HEAD
 				"payable": false,
+=======
+>>>>>>> origin/test
 				"stateMutability": "view",
 				"type": "function"
 			},
 			{
+<<<<<<< HEAD
 				"constant": true,
 				"inputs": [],
 				"name": "domain_update_fee",
@@ -280,11 +380,19 @@
 				"name": "expireDRP",
 				"outputs": [],
 				"payable": false,
+=======
+				"inputs": [],
+				"name": "expireDRP",
+				"outputs": [],
+>>>>>>> origin/test
 				"stateMutability": "nonpayable",
 				"type": "function"
 			},
 			{
+<<<<<<< HEAD
 				"constant": true,
+=======
+>>>>>>> origin/test
 				"inputs": [],
 				"name": "getCCPStatus",
 				"outputs": [
@@ -292,14 +400,27 @@
 						"internalType": "bool",
 						"name": "",
 						"type": "bool"
+<<<<<<< HEAD
 					}
 				],
 				"payable": false,
+=======
+					},
+					{
+						"internalType": "bool",
+						"name": "",
+						"type": "bool"
+					}
+				],
+>>>>>>> origin/test
 				"stateMutability": "view",
 				"type": "function"
 			},
 			{
+<<<<<<< HEAD
 				"constant": true,
+=======
+>>>>>>> origin/test
 				"inputs": [
 					{
 						"internalType": "uint256",
@@ -335,12 +456,18 @@
 						"type": "uint256"
 					}
 				],
+<<<<<<< HEAD
 				"payable": false,
+=======
+>>>>>>> origin/test
 				"stateMutability": "view",
 				"type": "function"
 			},
 			{
+<<<<<<< HEAD
 				"constant": true,
+=======
+>>>>>>> origin/test
 				"inputs": [],
 				"name": "getClientDRPListLength",
 				"outputs": [
@@ -350,12 +477,18 @@
 						"type": "uint256"
 					}
 				],
+<<<<<<< HEAD
 				"payable": false,
+=======
+>>>>>>> origin/test
 				"stateMutability": "view",
 				"type": "function"
 			},
 			{
+<<<<<<< HEAD
 				"constant": true,
+=======
+>>>>>>> origin/test
 				"inputs": [],
 				"name": "getClientDetails",
 				"outputs": [
@@ -383,6 +516,7 @@
 						"internalType": "address",
 						"name": "",
 						"type": "address"
+<<<<<<< HEAD
 					},
 					{
 						"internalType": "uint8",
@@ -391,11 +525,18 @@
 					}
 				],
 				"payable": false,
+=======
+					}
+				],
+>>>>>>> origin/test
 				"stateMutability": "view",
 				"type": "function"
 			},
 			{
+<<<<<<< HEAD
 				"constant": true,
+=======
+>>>>>>> origin/test
 				"inputs": [
 					{
 						"internalType": "uint256",
@@ -421,12 +562,18 @@
 						"type": "address"
 					}
 				],
+<<<<<<< HEAD
 				"payable": false,
+=======
+>>>>>>> origin/test
 				"stateMutability": "view",
 				"type": "function"
 			},
 			{
+<<<<<<< HEAD
 				"constant": true,
+=======
+>>>>>>> origin/test
 				"inputs": [],
 				"name": "getDRPStatus",
 				"outputs": [
@@ -434,14 +581,27 @@
 						"internalType": "bool",
 						"name": "",
 						"type": "bool"
+<<<<<<< HEAD
 					}
 				],
 				"payable": false,
+=======
+					},
+					{
+						"internalType": "bool",
+						"name": "",
+						"type": "bool"
+					}
+				],
+>>>>>>> origin/test
 				"stateMutability": "view",
 				"type": "function"
 			},
 			{
+<<<<<<< HEAD
 				"constant": true,
+=======
+>>>>>>> origin/test
 				"inputs": [],
 				"name": "getDomainDetails",
 				"outputs": [
@@ -481,19 +641,32 @@
 						"type": "address"
 					},
 					{
+<<<<<<< HEAD
 						"internalType": "uint8",
 						"name": "",
 						"type": "uint8"
 					}
 				],
 				"payable": false,
+=======
+						"internalType": "uint256",
+						"name": "",
+						"type": "uint256"
+					}
+				],
+>>>>>>> origin/test
 				"stateMutability": "view",
 				"type": "function"
 			},
 			{
+<<<<<<< HEAD
 				"constant": true,
 				"inputs": [],
 				"name": "getEscrowAmount",
+=======
+				"inputs": [],
+				"name": "getNumDRP",
+>>>>>>> origin/test
 				"outputs": [
 					{
 						"internalType": "uint256",
@@ -501,12 +674,18 @@
 						"type": "uint256"
 					}
 				],
+<<<<<<< HEAD
 				"payable": false,
+=======
+>>>>>>> origin/test
 				"stateMutability": "view",
 				"type": "function"
 			},
 			{
+<<<<<<< HEAD
 				"constant": true,
+=======
+>>>>>>> origin/test
 				"inputs": [],
 				"name": "isClientRegistered",
 				"outputs": [
@@ -516,12 +695,18 @@
 						"type": "bool"
 					}
 				],
+<<<<<<< HEAD
 				"payable": false,
+=======
+>>>>>>> origin/test
 				"stateMutability": "view",
 				"type": "function"
 			},
 			{
+<<<<<<< HEAD
 				"constant": true,
+=======
+>>>>>>> origin/test
 				"inputs": [],
 				"name": "isDomainRegistered",
 				"outputs": [
@@ -531,12 +716,18 @@
 						"type": "bool"
 					}
 				],
+<<<<<<< HEAD
 				"payable": false,
+=======
+>>>>>>> origin/test
 				"stateMutability": "view",
 				"type": "function"
 			},
 			{
+<<<<<<< HEAD
 				"constant": true,
+=======
+>>>>>>> origin/test
 				"inputs": [],
 				"name": "maximum_merge_delay",
 				"outputs": [
@@ -546,12 +737,18 @@
 						"type": "uint24"
 					}
 				],
+<<<<<<< HEAD
 				"payable": false,
+=======
+>>>>>>> origin/test
 				"stateMutability": "view",
 				"type": "function"
 			},
 			{
+<<<<<<< HEAD
 				"constant": false,
+=======
+>>>>>>> origin/test
 				"inputs": [
 					{
 						"internalType": "address payable",
@@ -561,12 +758,18 @@
 				],
 				"name": "purchaseDRP",
 				"outputs": [],
+<<<<<<< HEAD
 				"payable": true,
+=======
+>>>>>>> origin/test
 				"stateMutability": "payable",
 				"type": "function"
 			},
 			{
+<<<<<<< HEAD
 				"constant": false,
+=======
+>>>>>>> origin/test
 				"inputs": [
 					{
 						"internalType": "bytes32",
@@ -596,12 +799,18 @@
 				],
 				"name": "registerClient",
 				"outputs": [],
+<<<<<<< HEAD
 				"payable": true,
+=======
+>>>>>>> origin/test
 				"stateMutability": "payable",
 				"type": "function"
 			},
 			{
+<<<<<<< HEAD
 				"constant": false,
+=======
+>>>>>>> origin/test
 				"inputs": [
 					{
 						"internalType": "bytes32",
@@ -629,7 +838,11 @@
 						"type": "uint256"
 					},
 					{
+<<<<<<< HEAD
 						"internalType": "address",
+=======
+						"internalType": "address payable",
+>>>>>>> origin/test
 						"name": "_reactContract",
 						"type": "address"
 					},
@@ -641,12 +854,37 @@
 				],
 				"name": "registerDomain",
 				"outputs": [],
+<<<<<<< HEAD
 				"payable": true,
+=======
+>>>>>>> origin/test
 				"stateMutability": "payable",
 				"type": "function"
 			},
 			{
+<<<<<<< HEAD
 				"constant": true,
+=======
+				"inputs": [
+					{
+						"internalType": "bytes32",
+						"name": "",
+						"type": "bytes32"
+					}
+				],
+				"name": "registeredDomainNames",
+				"outputs": [
+					{
+						"internalType": "uint256",
+						"name": "",
+						"type": "uint256"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+>>>>>>> origin/test
 				"inputs": [
 					{
 						"internalType": "uint256",
@@ -662,32 +900,47 @@
 						"type": "address"
 					}
 				],
+<<<<<<< HEAD
 				"payable": false,
+=======
+>>>>>>> origin/test
 				"stateMutability": "view",
 				"type": "function"
 			},
 			{
+<<<<<<< HEAD
 				"constant": false,
+=======
+>>>>>>> origin/test
 				"inputs": [
 					{
 						"internalType": "uint256",
 						"name": "_validTo",
 						"type": "uint256"
+<<<<<<< HEAD
 					},
 					{
 						"internalType": "address",
 						"name": "_checkContract",
 						"type": "address"
+=======
+>>>>>>> origin/test
 					}
 				],
 				"name": "updateClient",
 				"outputs": [],
+<<<<<<< HEAD
 				"payable": true,
+=======
+>>>>>>> origin/test
 				"stateMutability": "payable",
 				"type": "function"
 			},
 			{
+<<<<<<< HEAD
 				"constant": false,
+=======
+>>>>>>> origin/test
 				"inputs": [
 					{
 						"internalType": "bytes32",
@@ -698,6 +951,7 @@
 						"internalType": "uint256",
 						"name": "_validTo",
 						"type": "uint256"
+<<<<<<< HEAD
 					},
 					{
 						"internalType": "uint256",
@@ -708,13 +962,37 @@
 						"internalType": "address",
 						"name": "_reactContract",
 						"type": "address"
+=======
+>>>>>>> origin/test
 					}
 				],
 				"name": "updateDomain",
 				"outputs": [],
+<<<<<<< HEAD
 				"payable": true,
 				"stateMutability": "payable",
 				"type": "function"
+=======
+				"stateMutability": "payable",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "update_fee",
+				"outputs": [
+					{
+						"internalType": "uint256",
+						"name": "",
+						"type": "uint256"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"stateMutability": "payable",
+				"type": "receive"
+>>>>>>> origin/test
 			}
 		],
 		"devdoc": {
@@ -730,6 +1008,12 @@
 		},
 		"evmVersion": "istanbul",
 		"libraries": {},
+<<<<<<< HEAD
+=======
+		"metadata": {
+			"bytecodeHash": "ipfs"
+		},
+>>>>>>> origin/test
 		"optimizer": {
 			"enabled": false,
 			"runs": 200
@@ -737,6 +1021,7 @@
 		"remappings": []
 	},
 	"sources": {
+<<<<<<< HEAD
 		"CheckInterface.sol": {
 			"keccak256": "0x199529de84e3bc11276fd1776b5d3e8020cd3ba09cf74e1b0ffc877123c882c6",
 			"urls": [
@@ -756,6 +1041,27 @@
 			"urls": [
 				"bzz-raw://25ddd6353f04eb3c3cf4c7e14340e1200138683c45a09d84cdc9d440dd65c373",
 				"dweb:/ipfs/QmUaXHwcgPWksZr7pVLTjUFQ73JjU3696JC4g2hgDADjB7"
+=======
+		"CheckAbstract.sol": {
+			"keccak256": "0xbef2ddb5f44bdf44b937dda44b214a57ff338fa798e63d425144a73846778083",
+			"urls": [
+				"bzz-raw://40a419fda9ba71a39a053b1d8f7ac45a911a0df81818f4e8cbaab6e7f69df739",
+				"dweb:/ipfs/QmRWCHNPAxcnbSeh891pQZdCkhYKpwsc6BEsUb3rbgf4ZQ"
+			]
+		},
+		"DDA.sol": {
+			"keccak256": "0xa3c4f05602c0d7f476191026dedff91c3bf66f8b3327f47f730fdae3a748340e",
+			"urls": [
+				"bzz-raw://916aff95710509ae0016109f33c25049dc08515600964aeab55e7981735a8010",
+				"dweb:/ipfs/Qmdqb2HDKj2n4yNcSxbDfifnKCVcZi3n33Uqy51udqQbFZ"
+			]
+		},
+		"DRPAbstract.sol": {
+			"keccak256": "0xb3b03be35179f3d7c2e4efc0c12813a1cc9b01a740dbf53eb6359c0228a79c2d",
+			"urls": [
+				"bzz-raw://665655d87ae45493ff547c654b74d852c6438f5de1bfb8d5b67e3f1a931a20b2",
+				"dweb:/ipfs/QmSrZB9uKQX18z1BxtuBHKJmCgQG2dC8aGCk5DMvsWvoCj"
+>>>>>>> origin/test
 			]
 		}
 	},

@@ -20,8 +20,13 @@ class App extends Component {
     this.setContext = this.setContext.bind(this);
   }
 
+<<<<<<< HEAD
   setContext = ({web3, contract, account}) => {
     this.setState({web3, contract, account});
+=======
+  setContext = (context) => {
+    this.setState({...context});
+>>>>>>> origin/test
   }
 
 	render() {

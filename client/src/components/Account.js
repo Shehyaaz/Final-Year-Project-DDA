@@ -6,7 +6,15 @@ import {
     AccordionSummary,
     AccordionDetails,
     Typography,
+<<<<<<< HEAD
     Grid
+=======
+    Grid,
+    List,
+    ListItem,
+    ListItemIcon,
+    ListItemText
+>>>>>>> origin/test
 } from "@material-ui/core";
 import {
     Today,
@@ -17,7 +25,10 @@ import {
     Person,
     ExpandMore,
     AccountCircle,
+<<<<<<< HEAD
     AccountBalanceWallet,
+=======
+>>>>>>> origin/test
     CheckCircle,
     Cancel
 } from "@material-ui/icons";
@@ -34,7 +45,11 @@ const useStyles = theme => ({
     },
     heading: {
       fontSize: theme.typography.pxToRem(15),
+<<<<<<< HEAD
       fontWeight: theme.typography.fontWeightRegular,
+=======
+      fontWeight: theme.typography.fontWeightBold,
+>>>>>>> origin/test
     },
     backdrop: {
         zIndex: theme.zIndex.drawer + 1,
@@ -47,7 +62,10 @@ class Account extends Component {
 		super(props);
         this.state={
             account: '',
+<<<<<<< HEAD
             balance: 0,
+=======
+>>>>>>> origin/test
             isLoading: false,
             clientRegistered: false,
             domainRegistered: false,
@@ -73,6 +91,7 @@ class Account extends Component {
                 drpStatusMssg: ""
             }
         }
+<<<<<<< HEAD
         this.getClientData = this.getClientData.bind(this);
         this.getDomainData = this.getDomainData.bind(this);
         this.getBalance = this.getBalance.bind(this);
@@ -109,6 +128,30 @@ class Account extends Component {
             ccpStatusMssg = "CCP Check Contract is invalid";
         }
         else if(!ccpValidityStatus && ccpContractStatus){
+=======
+        this.initialState = {...this.state};
+        this.getClientData = this.getClientData.bind(this);
+        this.getDomainData = this.getDomainData.bind(this);
+        this.getDataFromBlockchain = this.getDataFromBlockchain.bind(this);
+	}
+    
+    async getClientData(){
+        // get client CCP data
+        const status = await this.context.contract.methods.getCCPStatus().call({
+            from: this.state.account
+        });
+        const clientData = await this.context.contract.methods.getClientDetails().call({
+            from: this.state.account
+        });
+        let ccpStatusMssg = "";
+        if(status[0] && status[1]){
+            ccpStatusMssg = "CCP valid";
+        }
+        else if(status[0] && !status[1]){
+            ccpStatusMssg = "CCP Check Contract is invalid";
+        }
+        else if(!status[0] && status[1]){
+>>>>>>> origin/test
             ccpStatusMssg = "CCP validity has expired";
         }
         else{
@@ -116,18 +159,28 @@ class Account extends Component {
         }
         this.setState({
           clientDetails: {
+<<<<<<< HEAD
             clientName: this.context.web3.utils.hexToUtf8(clientName),
             validFrom: new Date(validFrom).toISOString().split("T")[0],
             validTo: new Date(validTo).toISOString().split("T")[0],
             clientAddress,
             ccpAddress: checkContract,
             ccpStatus: ccpValidityStatus && ccpContractStatus,
+=======
+            clientName: this.context.web3.utils.hexToUtf8(clientData[0]),
+            validFrom: new Date(parseInt(clientData[1])*1000).toISOString().split("T")[0],
+            validTo: new Date(parseInt(clientData[2])*1000).toISOString().split("T")[0],
+            clientAddress: clientData[3],
+            ccpAddress: clientData[4],
+            ccpStatus: status[0] && status[1],
+>>>>>>> origin/test
             ccpStatusMssg
           }
         });
     }
 
     async getDomainData(){
+<<<<<<< HEAD
         // get escrow amount
         const escrowAmount = await this.context.contract.methods.getEscrowAmount().call();
         // get domain DRP data
@@ -142,6 +195,24 @@ class Account extends Component {
             drpStatusMssg = "DRP React Contract is invalid";
         }
         else if(!drpValidityStatus && drpContractStatus){
+=======
+        // get domain DRP data
+        const status = await this.context.contract.methods.getDRPStatus().call({
+            from: this.state.account
+        });
+        const domainData = await this.context.contract.methods.getDomainDetails().call({
+            from: this.state.account
+        });
+        
+        let drpStatusMssg = "";
+        if(status[0] && status[1]){
+            drpStatusMssg = "DRP valid";
+        }
+        else if(status[0] && !status[1]){
+            drpStatusMssg = "DRP React Contract is invalid";
+        }
+        else if(!status[0] && status[1]){
+>>>>>>> origin/test
             drpStatusMssg = "DRP validity has expired";
         }
         else{
@@ -150,6 +221,7 @@ class Account extends Component {
         
         this.setState({
             domainDetails: {
+<<<<<<< HEAD
                 domainName: this.context.web3.utils.hexToUtf8(domainName),
                 issuer: this.context.web3.utils.hexToUtf8(issuerName),
                 validFrom: new Date(validFrom).toISOString().split("T")[0],
@@ -159,12 +231,24 @@ class Account extends Component {
                 price: parseFloat(this.context.web3.utils.fromWei(drpPrice, "ether")),
                 escrowAmount: parseFloat(this.context.web3.utils.fromWei(escrowAmount, "ether")),
                 drpStatus: drpValidityStatus && drpContractStatus,
+=======
+                domainName: this.context.web3.utils.hexToUtf8(domainData[0]),
+                issuer: this.context.web3.utils.hexToUtf8(domainData[1]),
+                validFrom: new Date(parseInt(domainData[2])*1000).toISOString().split("T")[0],
+                validTo: new Date(parseInt(domainData[3])*1000).toISOString().split("T")[0],
+                price: this.context.web3.utils.fromWei(domainData[4].toString(), "ether"),
+                domainAddress: domainData[5],
+                drpAddress: domainData[6],
+                escrowAmount: this.context.web3.utils.fromWei(domainData[7], "ether"),
+                drpStatus: status[0] && status[1],
+>>>>>>> origin/test
                 drpStatusMssg
             }
         });
     }
 
     async getDataFromBlockchain(){
+<<<<<<< HEAD
         await this.getBalance();
         const clientRegistered = await this.context.contract.methods.isClientRegistered().call();
         const domainRegistered = await this.context.contract.methods.isDomainRegistered().call();
@@ -174,6 +258,30 @@ class Account extends Component {
         if(domainRegistered){
             await this.getDomainData();
         }
+=======
+        const clientRegistered = await this.context.contract.methods.isClientRegistered().call({
+            from: this.state.account
+        });
+        const domainRegistered = await this.context.contract.methods.isDomainRegistered().call({
+            from: this.state.account
+        });
+        if(clientRegistered){
+            await this.getClientData();
+        }
+        else{
+            this.setState({
+                clientDetails: this.initialState.clientDetails
+            });
+        }
+        if(domainRegistered){
+            await this.getDomainData();
+        }
+        else{
+            this.setState({
+                domainDetails: this.initialState.domainDetails
+            });
+        }
+>>>>>>> origin/test
         this.setState({
             clientRegistered,
             domainRegistered
@@ -217,8 +325,12 @@ class Account extends Component {
                     container 
 					component="main" 
                     direction="column"
+<<<<<<< HEAD
                     justify="center"
                     alignItems="center"
+=======
+                    alignItems="stretch"
+>>>>>>> origin/test
                     spacing = {8}
                 >
                     <Grid 
@@ -227,6 +339,7 @@ class Account extends Component {
                         xs={12}
                         justify="center"
                         alignItems="stretch"
+<<<<<<< HEAD
                         spacing = {2}
                     >
                         <Accordion>
@@ -249,6 +362,33 @@ class Account extends Component {
                                 </Grid>
                             </AccordionDetails>
                         </Accordion>
+=======
+                        direction="column"
+                        spacing = {2}
+                    >
+                        <Typography variant="h4" component="h4">
+                            View Account Details
+                        </Typography>
+                        <br />
+                        <Accordion>
+                        <AccordionSummary
+                            expandIcon={<ExpandMore />}
+                            aria-controls="account-content"
+                        >
+                            <Typography className={classes.heading}>Account Details</Typography>
+                        </AccordionSummary>
+                        <AccordionDetails>
+                            <List component="nav">
+                                <ListItem button>
+                                    <ListItemIcon>
+                                        <AccountCircle />
+                                    </ListItemIcon>
+                                    <ListItemText primary={"Account Address : "+this.state.account} />
+                                </ListItem>
+                            </List>
+                        </AccordionDetails>
+                    </Accordion>
+>>>>>>> origin/test
                     </Grid>
                     <Grid 
                         container 
@@ -256,6 +396,10 @@ class Account extends Component {
                         xs={12}
                         justify="center"
                         alignItems="stretch"
+<<<<<<< HEAD
+=======
+                        direction="column"
+>>>>>>> origin/test
                         spacing = {2}
                     >
                         <Accordion disabled = {! this.state.clientRegistered}>
@@ -266,6 +410,7 @@ class Account extends Component {
                                 <Typography className={classes.heading}>Client Details</Typography>
                             </AccordionSummary>
                             <AccordionDetails>
+<<<<<<< HEAD
                                 <Grid item xs={12}>
                                     <AccountCircle />
                                     <Typography>Client Name: </Typography>
@@ -305,6 +450,55 @@ class Account extends Component {
                                     <Typography>CCP Status: </Typography>
                                     <Typography>{this.state.ccpStatusMssg}</Typography>
                                 </Grid>
+=======
+                                <List component="nav">
+                                    <ListItem button>
+                                        <ListItemIcon>
+                                            <AccountCircle />
+                                        </ListItemIcon>
+                                        <ListItemText primary={"Client Name : "+this.state.clientDetails.clientName} />
+                                    </ListItem>
+                                    <ListItem button>
+                                        <ListItemIcon>
+                                            <Today />
+                                        </ListItemIcon>
+                                        <ListItemText primary={"Valid From : "+this.state.clientDetails.validFrom} />
+                                    </ListItem>
+                                    <ListItem button>
+                                        <ListItemIcon>
+                                            <Today />
+                                        </ListItemIcon>
+                                        <ListItemText primary={"Valid To : "+this.state.clientDetails.validTo} />
+                                    </ListItem>
+                                    <ListItem button>
+                                        <ListItemIcon>
+                                            <ContactMail />
+                                        </ListItemIcon>
+                                        <ListItemText primary={"Client Pay Address : "+this.state.clientDetails.clientAddress} />
+                                    </ListItem>
+                                    <ListItem button>
+                                        <ListItemIcon>
+                                            <Dns />
+                                        </ListItemIcon>
+                                        <ListItemText primary={"Check Contract Address : "+this.state.clientDetails.ccpAddress} />
+                                    </ListItem>
+                                    <ListItem button>
+                                        <ListItemIcon>
+                                            <AccountTree />
+                                        </ListItemIcon>
+                                        <ListItemText primary={"Version : 1"} />
+                                    </ListItem>
+                                    <ListItem button>
+                                        <ListItemIcon>
+                                            { this.state.clientDetails.ccpStatus 
+                                                ? <CheckCircle style={{ color: green[500] }} />
+                                                : <Cancel style={{ color: red[500] }} />
+                                            }
+                                        </ListItemIcon>
+                                        <ListItemText primary={"CCP Status : "+this.state.clientDetails.ccpStatusMssg} />
+                                    </ListItem>
+                                </List>
+>>>>>>> origin/test
                             </AccordionDetails>
                         </Accordion>
                     </Grid>
@@ -314,6 +508,10 @@ class Account extends Component {
                         xs={12}
                         justify="center"
                         alignItems="stretch"
+<<<<<<< HEAD
+=======
+                        direction="column"
+>>>>>>> origin/test
                         spacing = {2}
                     >
                         <Accordion disabled = {! this.state.domainRegistered}>
@@ -324,6 +522,7 @@ class Account extends Component {
                                 <Typography className={classes.heading}>Domain Details</Typography>
                             </AccordionSummary>
                             <AccordionDetails>
+<<<<<<< HEAD
                                 <Grid item xs={12}>
                                     <AccountCircle />
                                     <Typography>Domain Name: </Typography>
@@ -378,6 +577,73 @@ class Account extends Component {
                                     <Typography>DRP Status: </Typography>
                                     <Typography>{this.state.drpStatusMssg}</Typography>
                                 </Grid>
+=======
+                                <List component="nav">
+                                    <ListItem button>
+                                        <ListItemIcon>
+                                            <AccountCircle />
+                                        </ListItemIcon>
+                                        <ListItemText primary={"Domain Name : "+this.state.domainDetails.domainName} />
+                                    </ListItem>
+                                    <ListItem button>
+                                        <ListItemIcon>
+                                            <Person />
+                                        </ListItemIcon>
+                                        <ListItemText primary={"Issuer Name : "+this.state.domainDetails.issuer} />
+                                    </ListItem>
+                                    <ListItem button>
+                                        <ListItemIcon>
+                                            <Today />
+                                        </ListItemIcon>
+                                        <ListItemText primary={"Valid From : "+this.state.domainDetails.validFrom} />
+                                    </ListItem>
+                                    <ListItem button>
+                                        <ListItemIcon>
+                                            <Today />
+                                        </ListItemIcon>
+                                        <ListItemText primary={"Valid To : "+this.state.domainDetails.validTo} />
+                                    </ListItem>
+                                    <ListItem button>
+                                        <ListItemIcon>
+                                            <ContactMail />
+                                        </ListItemIcon>
+                                        <ListItemText primary={"Domain Pay Address : "+this.state.domainDetails.domainAddress} />
+                                    </ListItem>
+                                    <ListItem button>
+                                        <ListItemIcon>
+                                            <Dns />
+                                        </ListItemIcon>
+                                        <ListItemText primary={"React Contract Address : "+this.state.domainDetails.drpAddress} />
+                                    </ListItem>
+                                    <ListItem button>
+                                        <ListItemIcon>
+                                            <AttachMoney />
+                                        </ListItemIcon>
+                                        <ListItemText primary={"DRP Price : "+this.state.domainDetails.price+ " Ether"} />
+                                    </ListItem>
+                                    <ListItem button>
+                                        <ListItemIcon>
+                                            <AccountTree />
+                                        </ListItemIcon>
+                                        <ListItemText primary={"Version : 1"} />
+                                    </ListItem>
+                                    <ListItem button>
+                                        <ListItemIcon>
+                                            <AttachMoney />
+                                        </ListItemIcon>
+                                        <ListItemText primary={"Escrowed Amount : "+this.state.domainDetails.escrowAmount+ " Ether"} />
+                                    </ListItem>
+                                    <ListItem button>
+                                        <ListItemIcon>
+                                            { this.state.domainDetails.drpStatus 
+                                                ? <CheckCircle style={{ color: green[500] }} />
+                                                : <Cancel style={{ color: red[500] }} />
+                                            }
+                                        </ListItemIcon>
+                                        <ListItemText primary={"DRP Status : "+this.state.domainDetails.drpStatusMssg} />
+                                    </ListItem>
+                                </List>
+>>>>>>> origin/test
                             </AccordionDetails>
                         </Accordion>
                     </Grid>
