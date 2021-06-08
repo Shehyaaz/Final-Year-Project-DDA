@@ -9,7 +9,8 @@
   "dependencies": {
     "express": "^4.17.1",
     "ocsp": "^1.2.0",
-    "pkijs": "^2.1.95"
+    "pkijs": "^2.1.95",
+    "request": "^2.88.2"
   },
   "devDependencies": {
     "chai": "^4.3.4",

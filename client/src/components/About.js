@@ -88,13 +88,18 @@ class About extends Component {
                             <li>
                                 <Typography variant="body1" align="justify">
                                     The Check Contract must mandatorily inherit{' '} 
-                                    <a  href = "https://github.com/Shehyaaz/Final-Year-Project-DDA/blob/shehyaaz/contracts/CheckInterface.sol"
+                                    <a  href = "https://github.com/Shehyaaz/Final-Year-Project-DDA/blob/shehyaaz/contracts/CheckAbstract.sol"
                                         target="_blank" rel="noopener noreferrer"
                                     >
-                                        CheckInterface.sol
+                                        CheckAbstract.sol
                                     </a>
                                     {' '}and implement the abstract functions in that smart contract interface.
                                     </Typography>
+                            </li>
+                            <li>
+                                <Typography variant="body1" align="justify">
+                                    The Client Check Policy must have a minimum validity of <b>3 days</b>. 
+                                </Typography>
                             </li>
                             <li>
                                 <Typography variant="body1" align="justify">
@@ -130,17 +135,22 @@ class About extends Component {
                             <li>
                                 <Typography variant="body1" align="justify">
                                     The React Contract must mandatorily inherit{' '} 
-                                    <a  href = "https://github.com/Shehyaaz/Final-Year-Project-DDA/blob/shehyaaz/contracts/DRPInterface.sol"
+                                    <a  href = "https://github.com/Shehyaaz/Final-Year-Project-DDA/blob/shehyaaz/contracts/DRPAbstract.sol"
                                         target="_blank" rel="noopener noreferrer"
                                     >
-                                        DRPInterface.sol
+                                        DRPAbstract.sol
                                     </a>
                                     {' '}and implement the abstract functions in that smart contract interface.
                                 </Typography>
                             </li>
                             <li>
                                 <Typography variant="body1" align="justify">
-                                    To register, the Domain must pay a fee of <b>0.05 ether, plus 1.2 times the Domain's DRP price</b>, 
+                                    The Domain Reaction Policy must have a minimum validity of <b>3 days</b>. 
+                                </Typography>
+                            </li>
+                            <li>
+                                <Typography variant="body1" align="justify">
+                                    To register, the Domain must pay a fee of <b>0.01 ether, plus 1.2 times the Domain's DRP price</b>, 
                                     which will be transferred to the DRP's React Contract. The amount transferred to the React Contract
                                     will be returned to the Domain when the Domain expires its DRP <b>if the Domain's DRP has not been
                                     triggered by any client.</b>
@@ -178,7 +188,7 @@ class About extends Component {
                                 <Avatar src="/images/sufiyan.png" alt="Sufiyan" className={classes.large}/>
                             </Grid>
                             <Grid item>
-                                <Typography variant="overline"><b>Mohammed Sufiyan Aman</b></Typography>
+                                <Typography variant="overline">Mohammed Sufiyan Aman</Typography>
                             </Grid>
                         </Grid>
                         <Grid container direction="column" alignItems="center" item justify="center" xs={3}>
@@ -186,7 +196,7 @@ class About extends Component {
                                 <Avatar src="/images/riyanchhi.png" alt="Riyanchhi" className={classes.large}/>
                             </Grid>
                             <Grid item>
-                                <Typography variant="overline"><b>Riyanchhi Agrawal</b></Typography>
+                                <Typography variant="overline">Riyanchhi Agrawal</Typography>
                             </Grid>
                         </Grid>
                         <Grid container direction="column" alignItems="center" item justify="center" xs={3}>
@@ -194,7 +204,7 @@ class About extends Component {
                                 <Avatar src="/images/sakshi.png" alt="Shakshi" className={classes.large}/>
                             </Grid>
                             <Grid item>
-                                <Typography variant="overline"><b>Shakshi Pandey</b></Typography>
+                                <Typography variant="overline">Shakshi Pandey</Typography>
                             </Grid>
                         </Grid>
                         <Grid container direction="column" alignItems="center" item justify="center" xs={3}>
@@ -202,7 +212,7 @@ class About extends Component {
                                 <Avatar src="/images/shehyaaz.png" alt="Nayazi" className={classes.large}/>
                             </Grid>
                             <Grid item>
-                                <Typography variant="overline"><b>Shehyaaz Khan Nayazi</b></Typography>
+                                <Typography variant="overline">Shehyaaz Khan Nayazi</Typography>
                             </Grid>
                         </Grid>
                     </Grid>

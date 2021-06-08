@@ -10,7 +10,8 @@ import {
     List,
     ListItem,
     ListItemIcon,
-    ListItemText
+    ListItemText,
+    Box
 } from "@material-ui/core";
 import {
     Today,
@@ -30,6 +31,7 @@ import {
 } from '@material-ui/core/colors';
 import { withStyles } from "@material-ui/core/styles";
 import AppContext from "../context/AppContext";
+import FooterText from "../widgets/FooterText";
 
 const useStyles = theme => ({
     root: {
@@ -406,6 +408,11 @@ class Account extends Component {
                                 </List>
                             </AccordionDetails>
                         </Accordion>
+                    </Grid>
+                    <Grid item xs={12} sm={12}>
+                        <Box mt={5}>  
+                            <FooterText />
+                        </Box>
                     </Grid>
                 </Grid>
             </div>

@@ -15,7 +15,7 @@ import {
 import {
   Alert
 } from "@material-ui/lab";
-import { siteKey } from "../utils/constants";
+import { minValidity, siteKey } from "../utils/constants";
 import AppContext from '../context/AppContext';
 
 class CCPRegistration extends Component {
@@ -64,8 +64,10 @@ class CCPRegistration extends Component {
   validateFiels(clientDetails){
     const addressRegEx = /^(0[xX])[A-Fa-f0-9]{40}$/;
     let errorMessage = "";
-    if(new Date(clientDetails.validFrom).getTime() >= new Date(clientDetails.validTo).getTime())
-      errorMessage = "CCP Validity must be more than a day";
+    if(clientDetails.clientName.length > 32)
+      errorMessage = "Client name is too long! It must not exceed 32 characters."
+    else if((new Date(clientDetails.validTo).getTime() - new Date(clientDetails.validFrom).getTime()) < minValidity)
+      errorMessage = "CCP Validity must be more than 3 days!";
     else if(!addressRegEx.test(clientDetails.ccpAddress))
       errorMessage = "Invalid CCP address";
     
@@ -182,7 +184,7 @@ class CCPRegistration extends Component {
                       fullWidth 
                       required
                       InputProps={{
-                        readOnly: isRegistered
+                        readOnly: true
                       }}
                     />
                 </Grid>
