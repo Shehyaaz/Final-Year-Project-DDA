@@ -9,7 +9,8 @@ import {
     CardContent,
     CardActions,
     Button,
-    Typography
+    Typography,
+    Box
 } from "@material-ui/core";
 import {
     PersonAdd,
@@ -23,8 +24,9 @@ import { withStyles } from "@material-ui/core/styles";
 import { red } from "@material-ui/core/colors";
 import DRPRegistration from "./DRPRegistration";
 import AlertDialog from "../widgets/AlertDialog";
+import FooterText from "../widgets/FooterText";
 import AppContext from "../context/AppContext";
-import { gasLimit } from "../utils/constants";
+import { gasLimit, gasPrice } from "../utils/constants";
 
 const useStyles = theme => ({
     root: {
@@ -83,7 +85,8 @@ class DomainDashboard extends Component {
                 ).send({
                     from: this.context.account,
                     value: updateFee,
-                    gas: gasLimit
+                    gas: gasLimit,
+                    gasPrice: gasPrice
                 })
                 .on("receipt", () => {
                     this.setState({
@@ -137,7 +140,8 @@ class DomainDashboard extends Component {
                         ).send({
                             from: this.context.account,
                             value: this.context.web3.utils.toWei(totalRegFee.toString(), "ether"),
-                            gas: gasLimit
+                            gas: gasLimit,
+                            gasPrice: gasPrice
                         })
                         .on("receipt", () => {
                             this.setState({
@@ -261,7 +265,8 @@ class DomainDashboard extends Component {
         try{
             await this.context.contract.methods.expireDRP().send({
                 from: this.context.account,
-                gas: gasLimit
+                gas: gasLimit,
+                gasPrice: gasPrice
             })
             .on("receipt", (receipt) => {
                 if(receipt.events.DRPExpired && receipt.events.DRPExpired.returnValues._domainName){
@@ -280,7 +285,7 @@ class DomainDashboard extends Component {
                         alert: {
                             open: true,
                             title: "Error",
-                            message: "Failed to expire DRP :("
+                            message: "Failed to expire DRP :(\n DRP can be expired only after its validity has ended."
                         },
                         isLoading: false
                     });
@@ -291,7 +296,7 @@ class DomainDashboard extends Component {
                         alert: {
                             open: true,
                             title: "Error",
-                            message: "An error has occurred, failed to expire DRP :("
+                            message: "An error has occurred, failed to expire DRP :(\nDRP can be expired only after its validity has ended."
                         },
                         isLoading: false
                     })
@@ -475,8 +480,9 @@ class DomainDashboard extends Component {
                                 />
                                 <CardContent>
                                     <Typography variant="body2" color="textSecondary" component="p">
-                                        Expire your DRP, this will delete your DRP from the system and transfer
-                                        the escrowed amount to you
+                                        Expiring your DRP will delete your DRP from the system and transfer
+                                        the escrowed amount to you. DRP can be expired only after the end of
+                                        its validity.
                                     </Typography>
                                 </CardContent>
                                 <CardActions disableSpacing>
@@ -501,6 +507,11 @@ class DomainDashboard extends Component {
                                 </CardActions>
                             </Card>
                         </Grid>
+                    </Grid>
+                    <Grid item xs={12} sm={12}>
+                        <Box mt={5}>  
+                            <FooterText />
+                        </Box>
                     </Grid>
                 </Grid>
 

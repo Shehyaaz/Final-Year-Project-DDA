@@ -15,7 +15,7 @@ import {
 import {
   Alert
 } from "@material-ui/lab";
-import { siteKey } from "../utils/constants";
+import { minValidity, siteKey } from "../utils/constants";
 import AppContext from '../context/AppContext';
 
 class DRPRegistration extends Component {
@@ -96,13 +96,17 @@ class DRPRegistration extends Component {
     let errorMessage = "";
     if(!domainRegEx.test(domainDetails.domainName))
       errorMessage = "Domain name is invalid!";
+    else if(domainDetails.domainName.length > 32)
+      errorMessage = "Domain name must not exceed 32 characters!"
     else if(!domainRegEx.test(domainDetails.issuer))
       errorMessage = "Issuer name is invalid!";
+    else if(domainDetails.issuer.length > 32)
+      errorMessage = "Issuer name must not exceed 32 characters!"
     else if(domainDetails.domainName.search(domainDetails.issuer) === -1)
       errorMessage = "Domain must be a sub-domain of DRP issuer!";
     else if(isNaN(domainDetails.price) || parseFloat(domainDetails.price) <= 0)
       errorMessage = "Invalid or negative price!";
-    else if(new Date(domainDetails.validFrom).getTime() >= new Date(domainDetails.validTo).getTime())
+    else if((new Date(domainDetails.validTo).getTime() - new Date(domainDetails.validFrom).getTime()) < minValidity)
       errorMessage = "DRP Validity must be more than a day";
     else if(!addressRegEx.test(domainDetails.drpAddress))
       errorMessage = "Invalid DRP address";

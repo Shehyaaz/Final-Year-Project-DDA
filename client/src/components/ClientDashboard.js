@@ -16,7 +16,8 @@ import {
     TableBody,
     TableCell,
     TableRow,
-    Typography
+    Typography,
+    Box
 } from "@material-ui/core";
 import {
     MonetizationOn,
@@ -27,8 +28,9 @@ import { withStyles } from "@material-ui/core/styles";
 import CCPRegistration from "./CCPRegistration";
 import PurchaseDRP from "./PurchaseDRP";
 import AlertDialog from "../widgets/AlertDialog";
+import FooterText from "../widgets/FooterText";
 import AppContext from "../context/AppContext";
-import { gasLimit } from "../utils/constants";
+import { gasLimit, gasPrice } from "../utils/constants";
 import { 
     green,
     red 
@@ -124,10 +126,11 @@ class ClientDashboard extends Component {
                 sctTimestamp,
                 res.certValidFrom,
                 res.certValidTo,
-                res.ocspRes
+                this.context.web3.utils.utf8ToHex(res.ocspRes)
             ).send({
                 from: this.context.account,
-                gas: gasLimit
+                gas: gasLimit,
+                gasPrice: gasPrice
             })
             .on("receipt", async(receipt) => {
                 // certificate check was executed
@@ -148,7 +151,7 @@ class ClientDashboard extends Component {
                         alert: {
                             open: true,
                             title: "Invalid",
-                            message: domainName+" has an INVALID certificate !"
+                            message: domainName+" has an INVALID certificate !\nYou will receive your reward for detecting an invalid certificate and this DRP will be deleted from your purchased list."
                         },
                         isLoading: false
                     });
@@ -194,7 +197,8 @@ class ClientDashboard extends Component {
         // delete DRP from client DRP list
         await this.context.contract.methods.deleteDRPFromClientList(this.context.account, drpIndex).send({
             from: this.context.account,
-            gas: gasLimit
+            gas: gasLimit,
+            gasPrice: gasPrice
         })
         .on("receipt", async(receipt) => {
             if(receipt.events.DRPDeleted && receipt.events.DRPDeleted.returnValues._domainAddr){
@@ -243,12 +247,12 @@ class ClientDashboard extends Component {
             // update client details
             try{
                 this.context.contract.methods.updateClient(
-                    Math.floor(new Date(clientDetails.validTo).getTime()/1000),
-                    clientDetails.ccpAddress
+                    Math.floor(new Date(clientDetails.validTo).getTime()/1000)
                 ).send({
                     from: this.context.account,
                     value: updateFee,
-                    gas: gasLimit
+                    gas: gasLimit,
+                    gasPrice: gasPrice
                 })
                 .on("receipt", async() => {
                     await this.getClientData();
@@ -296,7 +300,8 @@ class ClientDashboard extends Component {
                 ).send({
                     from: this.context.account,
                     value: registerFee,
-                    gas: gasLimit*3
+                    gas: gasLimit*3,
+                    gasPrice: gasPrice
                 })
                 .on("receipt", async() => {
                     await this.getClientData();
@@ -341,7 +346,8 @@ class ClientDashboard extends Component {
             await this.context.contract.methods.purchaseDRP(domain.domainAddress).send({
                 from: this.context.account,
                 value: this.context.web3.utils.toWei(domain.drpPrice, "ether"),
-                gas: gasLimit
+                gas: gasLimit,
+                gasPrice: gasPrice
             })
             .on("receipt", async() => {
                 await this.getClientData();
@@ -564,6 +570,9 @@ class ClientDashboard extends Component {
                         <Typography variant="h5" component="h5">
                             List of Purchased DRPs
                         </Typography>
+                        <Typography variant="subtitle2">
+                            DRPs whose validity has ended will automatically be removed from the list
+                        </Typography>
                         <br />
                         <TableContainer component={Paper}>
                             <Table aria-label="drp table">
@@ -572,7 +581,7 @@ class ClientDashboard extends Component {
                                         <TableCell>Domain Name</TableCell>
                                         <TableCell>DRP Valid From</TableCell>
                                         <TableCell>DRP Valid To</TableCell>
-                                        <TableCell>DRP Price(in ether)</TableCell>
+                                        <TableCell>DRP Price (in ether)</TableCell>
                                         <TableCell>Last Checked</TableCell>
                                         <TableCell>Action</TableCell>                                        
                                     </TableRow>
@@ -590,6 +599,11 @@ class ClientDashboard extends Component {
                                 </TableBody>
                             </Table>
                         </TableContainer>
+                    </Grid>
+                    <Grid item xs={12} sm={12}>
+                        <Box mt={5}>  
+                            <FooterText />
+                        </Box>
                     </Grid>
                 </Grid>
                         
