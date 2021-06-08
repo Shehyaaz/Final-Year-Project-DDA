@@ -33,9 +33,9 @@
 						"type": "uint256"
 					},
 					{
-						"internalType": "string",
+						"internalType": "bytes32",
 						"name": "_ocspRes",
-						"type": "string"
+						"type": "bytes32"
 					}
 				],
 				"name": "check",
@@ -73,9 +73,9 @@
 				"name": "maximum_merge_delay",
 				"outputs": [
 					{
-						"internalType": "uint256",
+						"internalType": "uint24",
 						"name": "",
-						"type": "uint256"
+						"type": "uint24"
 					}
 				],
 				"stateMutability": "view",
@@ -83,10 +83,10 @@
 			},
 			{
 				"inputs": [],
-				"name": "ocspRes",
+				"name": "minSCT",
 				"outputs": [
 					{
-						"internalType": "enum CheckAbstract.OCSPResponse",
+						"internalType": "uint8",
 						"name": "",
 						"type": "uint8"
 					}
@@ -97,9 +97,9 @@
 			{
 				"inputs": [
 					{
-						"internalType": "string",
+						"internalType": "bytes32",
 						"name": "",
-						"type": "string"
+						"type": "bytes32"
 					}
 				],
 				"name": "ocspResType",
@@ -121,9 +121,9 @@
 						"type": "bytes32[]"
 					},
 					{
-						"internalType": "uint256",
+						"internalType": "uint24",
 						"name": "_maximum_merge_delay",
-						"type": "uint256"
+						"type": "uint24"
 					}
 				],
 				"name": "setCTLogs",
@@ -184,11 +184,11 @@
 	},
 	"sources": {
 		"CheckAbstract.sol": {
-			"keccak256": "0xbef2ddb5f44bdf44b937dda44b214a57ff338fa798e63d425144a73846778083",
+			"keccak256": "0x94e0c05d02a9706e169bbf84929ee7e2904fdebff9193595cf44a48126da4ea1",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://40a419fda9ba71a39a053b1d8f7ac45a911a0df81818f4e8cbaab6e7f69df739",
-				"dweb:/ipfs/QmRWCHNPAxcnbSeh891pQZdCkhYKpwsc6BEsUb3rbgf4ZQ"
+				"bzz-raw://825fb529409c2364b2db8c976e4b9eb0a53db745aaddfae72fdb59a9c169a0af",
+				"dweb:/ipfs/QmUdrSHpLd32gvs2ec6Cw74s9WFYYboVbmXHF8ZJM8GqLn"
 			]
 		}
 	},

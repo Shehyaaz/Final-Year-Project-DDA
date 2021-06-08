@@ -23,10 +23,9 @@ contract Check is CheckAbstract {
         uint256[] calldata _sctTimestamp,
         uint256 _certValidFrom,
         uint256 _certValidTo,
-        string calldata _ocspRes
+        bytes32 _ocspRes
     ) external view override returns(bool){
         /* checks the sct log id against the ct log ids, also checks certificate validity */
-        uint8 minSCT = 2;
         bool certStatus = true; // assume certificate is valid
         uint8 found = 0;
          // certificate must have at least 2 SCTs and must not be expired
@@ -35,11 +34,11 @@ contract Check is CheckAbstract {
             ocspResType[_ocspRes] != uint8(OCSPResponse.revoked)){
                 
             for(uint8 i=0; i < _sctLogID.length; i++){
-                if(_sctTimestamp[i] + maximum_merge_delay > now){
-                    found = found == 0 ? 0 : found - 1;   
+                if(_sctTimestamp[i] + maximum_merge_delay <= now && ctLogIDs[_sctLogID[i]]){
+                    found++;  
                 }
-                if(ctLogIDs[_sctLogID[i]]){
-                    found++;
+                else{
+                    found = found == 0 ? 0 : found - 1; 
                 }
             }
             if(found < minSCT){

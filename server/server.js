@@ -6,7 +6,7 @@ const asn1js = require('asn1js');
 const ocsp = require('ocsp');
 
 const app = express();
-const port = process.env.PORT || 3001;
+const port = 3001;
 app.use(express.static(path.join(__dirname, 'client/build')));
 
 const getCert = (domainName) => new Promise((resolve, reject) => {
@@ -108,7 +108,7 @@ app.get("/getsct", (req, res) => {
 // returns the set of CT logs trusted and used by the system
 app.get("/getctlogs", (req, res) => {
   try{
-    const trustedCTLogs = require("../server/ctlogs/trustedCTLogs.json");
+    const trustedCTLogs = require("./ctlogs/trustedCTLogs.json");
     res.status(200).send(trustedCTLogs);
   }
   catch(err){

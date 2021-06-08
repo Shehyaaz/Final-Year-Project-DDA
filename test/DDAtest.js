@@ -2,7 +2,6 @@ const DDA = artifacts.require("./DDA.sol");
 const CheckContract = artifacts.require("./Check.sol"); 
 const DRPReact = artifacts.require("./DRPReaction.sol"); 
 
-
 contract("DDA", accounts => {  
     it("...check CT log IDs", async () => {
         // load trustedCTLogs file
@@ -220,7 +219,7 @@ contract("DDA", accounts => {
                 }
             );
     
-            assert.equal(domainData[7], web3.utils.toWei("0.8","ether"), "Escrow amount should be 0.8 ether");
+            assert.equal(domainData[7], web3.utils.toWei("0.48","ether"), "Escrow amount should be 0.48 ether");
             assert.equal(purchasedDRP[0], domainData[0], "Domain name should be github.com");
             assert.equal(purchasedDRP[1].toString(), domainData[2].toString(), "DRP validFrom should match");
             assert.equal(purchasedDRP[2].toString(), domainData[3].toString(), "DRP validTo should match");
@@ -249,7 +248,7 @@ contract("DDA", accounts => {
                 sctTimestamp,
                 githubCertDetails.certValidFrom,
                 githubCertDetails.certValidTo,
-                githubCertDetails.ocspRes,
+                web3.utils.utf8ToHex(githubCertDetails.ocspRes),
                 {
                     from: accounts[3]
                 }
@@ -274,7 +273,7 @@ contract("DDA", accounts => {
                 [],
                 githubCertDetails.certValidFrom,
                 githubCertDetails.certValidTo,
-                githubCertDetails.ocspRes,
+                web3.utils.utf8ToHex(githubCertDetails.ocspRes),
                 {
                     from: accounts[3]
                 }

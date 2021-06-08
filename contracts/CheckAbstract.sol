@@ -9,17 +9,18 @@ pragma solidity ^0.6.0;
 abstract contract CheckAbstract {
     enum OCSPResponse {unknown, good, revoked}
     
-    mapping(string => uint8) public ocspResType;
+    uint8 constant public minSCT = 2;
+    
+    mapping(bytes32 => uint8) public ocspResType;
     mapping(bytes32 => bool) public ctLogIDs;
-    uint256 public maximum_merge_delay;
+    uint24 public maximum_merge_delay;
     address payable owner;
-    OCSPResponse public ocspRes;
     
     constructor() public {
         owner = msg.sender;
-        ocspResType["unknown"] = 0;
-        ocspResType["good"] = 1;
-        ocspResType["revoked"] = 2;
+        ocspResType[bytes32("unknown")] = 0;
+        ocspResType[bytes32("good")] = 1;
+        ocspResType[bytes32("revoked")] = 2;
     }
     
     modifier onlyOwner() {
@@ -30,7 +31,7 @@ abstract contract CheckAbstract {
     /* this function receives the CT Log IDS and maximum merge delay from DDA contract  */
     function setCTLogs(
         bytes32[] calldata _ctLogIDs,
-        uint256 _maximum_merge_delay
+        uint24 _maximum_merge_delay
     ) external {
         maximum_merge_delay = _maximum_merge_delay;
         
@@ -57,6 +58,6 @@ abstract contract CheckAbstract {
         uint256[] calldata _sctTimestamp,
         uint256 _certValidFrom,
         uint256 _certValidTo,
-        string calldata _ocspRes
+        bytes32 _ocspRes
     ) external view virtual returns(bool);
 }
