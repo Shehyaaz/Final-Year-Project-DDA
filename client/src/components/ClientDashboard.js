@@ -579,10 +579,10 @@ class ClientDashboard extends Component {
                                 <TableHead>
                                     <TableRow>
                                         <TableCell>Domain Name</TableCell>
-                                        <TableCell>DRP Valid From (in GMT)</TableCell>
-                                        <TableCell>DRP Valid To (in GMT)</TableCell>
-                                        <TableCell>DRP Price (in ether)</TableCell>
-                                        <TableCell>Last Checked</TableCell>
+                                        <TableCell>DRP Valid From (GMT)</TableCell>
+                                        <TableCell>DRP Valid To (GMT)</TableCell>
+                                        <TableCell>DRP Price (ether)</TableCell>
+                                        <TableCell>Last Checked (GMT)</TableCell>
                                         <TableCell>Action</TableCell>                                        
                                     </TableRow>
                                 </TableHead>
