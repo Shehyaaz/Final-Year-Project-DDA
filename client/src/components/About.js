@@ -88,7 +88,7 @@ class About extends Component {
                             <li>
                                 <Typography variant="body1" align="justify">
                                     The Check Contract must mandatorily inherit{' '} 
-                                    <a  href = "https://github.com/Shehyaaz/Final-Year-Project-DDA/blob/shehyaaz/contracts/CheckAbstract.sol"
+                                    <a  href = "https://github.com/Shehyaaz/Final-Year-Project-DDA/blob/main/contracts/CheckAbstract.sol"
                                         target="_blank" rel="noopener noreferrer"
                                     >
                                         CheckAbstract.sol
@@ -135,7 +135,7 @@ class About extends Component {
                             <li>
                                 <Typography variant="body1" align="justify">
                                     The React Contract must mandatorily inherit{' '} 
-                                    <a  href = "https://github.com/Shehyaaz/Final-Year-Project-DDA/blob/shehyaaz/contracts/DRPAbstract.sol"
+                                    <a  href = "https://github.com/Shehyaaz/Final-Year-Project-DDA/blob/main/contracts/DRPAbstract.sol"
                                         target="_blank" rel="noopener noreferrer"
                                     >
                                         DRPAbstract.sol
