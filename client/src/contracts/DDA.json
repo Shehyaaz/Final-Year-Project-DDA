@@ -119,7 +119,8 @@
         }
       ],
       "stateMutability": "view",
-      "type": "function"
+      "type": "function",
+      "constant": true
     },
     {
       "inputs": [],
@@ -132,7 +133,8 @@
         }
       ],
       "stateMutability": "view",
-      "type": "function"
+      "type": "function",
+      "constant": true
     },
     {
       "inputs": [
@@ -151,7 +153,8 @@
         }
       ],
       "stateMutability": "view",
-      "type": "function"
+      "type": "function",
+      "constant": true
     },
     {
       "inputs": [],
@@ -164,7 +167,8 @@
         }
       ],
       "stateMutability": "view",
-      "type": "function"
+      "type": "function",
+      "constant": true
     },
     {
       "inputs": [],
@@ -177,7 +181,8 @@
         }
       ],
       "stateMutability": "view",
-      "type": "function"
+      "type": "function",
+      "constant": true
     },
     {
       "inputs": [
@@ -196,7 +201,8 @@
         }
       ],
       "stateMutability": "view",
-      "type": "function"
+      "type": "function",
+      "constant": true
     },
     {
       "inputs": [
@@ -215,7 +221,8 @@
         }
       ],
       "stateMutability": "view",
-      "type": "function"
+      "type": "function",
+      "constant": true
     },
     {
       "inputs": [],
@@ -228,11 +235,13 @@
         }
       ],
       "stateMutability": "view",
-      "type": "function"
+      "type": "function",
+      "constant": true
     },
     {
       "stateMutability": "payable",
-      "type": "receive"
+      "type": "receive",
+      "payable": true
     },
     {
       "inputs": [
@@ -265,7 +274,8 @@
       "name": "registerClient",
       "outputs": [],
       "stateMutability": "payable",
-      "type": "function"
+      "type": "function",
+      "payable": true
     },
     {
       "inputs": [
@@ -278,7 +288,8 @@
       "name": "updateClient",
       "outputs": [],
       "stateMutability": "payable",
-      "type": "function"
+      "type": "function",
+      "payable": true
     },
     {
       "inputs": [
@@ -321,7 +332,8 @@
       "name": "registerDomain",
       "outputs": [],
       "stateMutability": "payable",
-      "type": "function"
+      "type": "function",
+      "payable": true
     },
     {
       "inputs": [
@@ -339,7 +351,8 @@
       "name": "updateDomain",
       "outputs": [],
       "stateMutability": "payable",
-      "type": "function"
+      "type": "function",
+      "payable": true
     },
     {
       "inputs": [
@@ -352,7 +365,8 @@
       "name": "purchaseDRP",
       "outputs": [],
       "stateMutability": "payable",
-      "type": "function"
+      "type": "function",
+      "payable": true
     },
     {
       "inputs": [
@@ -428,7 +442,8 @@
         }
       ],
       "stateMutability": "view",
-      "type": "function"
+      "type": "function",
+      "constant": true
     },
     {
       "inputs": [],
@@ -441,7 +456,8 @@
         }
       ],
       "stateMutability": "view",
-      "type": "function"
+      "type": "function",
+      "constant": true
     },
     {
       "inputs": [],
@@ -474,7 +490,8 @@
         }
       ],
       "stateMutability": "view",
-      "type": "function"
+      "type": "function",
+      "constant": true
     },
     {
       "inputs": [],
@@ -522,7 +539,8 @@
         }
       ],
       "stateMutability": "view",
-      "type": "function"
+      "type": "function",
+      "constant": true
     },
     {
       "inputs": [
@@ -551,7 +569,8 @@
         }
       ],
       "stateMutability": "view",
-      "type": "function"
+      "type": "function",
+      "constant": true
     },
     {
       "inputs": [],
@@ -564,7 +583,8 @@
         }
       ],
       "stateMutability": "view",
-      "type": "function"
+      "type": "function",
+      "constant": true
     },
     {
       "inputs": [],
@@ -577,7 +597,8 @@
         }
       ],
       "stateMutability": "view",
-      "type": "function"
+      "type": "function",
+      "constant": true
     },
     {
       "inputs": [
@@ -616,7 +637,8 @@
         }
       ],
       "stateMutability": "view",
-      "type": "function"
+      "type": "function",
+      "constant": true
     },
     {
       "inputs": [],
@@ -634,7 +656,8 @@
         }
       ],
       "stateMutability": "view",
-      "type": "function"
+      "type": "function",
+      "constant": true
     },
     {
       "inputs": [],
@@ -652,7 +675,8 @@
         }
       ],
       "stateMutability": "view",
-      "type": "function"
+      "type": "function",
+      "constant": true
     }
   ],
   "metadata": "{\"compiler\":{\"version\":\"0.6.1+commit.e6f7d5a4\"},\"language\":\"Solidity\",\"output\":{\"abi\":[{\"inputs\":[{\"internalType\":\"bytes32[]\",\"name\":\"_ctLogIDs\",\"type\":\"bytes32[]\"}],\"stateMutability\":\"nonpayable\",\"type\":\"constructor\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":false,\"internalType\":\"address\",\"name\":\"_clientAddr\",\"type\":\"address\"},{\"indexed\":false,\"internalType\":\"bytes32\",\"name\":\"_domainName\",\"type\":\"bytes32\"},{\"indexed\":false,\"internalType\":\"bool\",\"name\":\"_certValid\",\"type\":\"bool\"}],\"name\":\"CertChecked\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":false,\"internalType\":\"address\",\"name\":\"_domainAddr\",\"type\":\"address\"}],\"name\":\"DRPDeleted\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":false,\"internalType\":\"bytes32\",\"name\":\"_domainName\",\"type\":\"bytes32\"}],\"name\":\"DRPExpired\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":false,\"internalType\":\"address\",\"name\":\"_clientAddr\",\"type\":\"address\"},{\"indexed\":false,\"internalType\":\"bytes32\",\"name\":\"_domainName\",\"type\":\"bytes32\"}],\"name\":\"DRPpurchased\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":false,\"internalType\":\"address\",\"name\":\"_addr\",\"type\":\"address\"}],\"name\":\"Registered\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":false,\"internalType\":\"address\",\"name\":\"_addr\",\"type\":\"address\"}],\"name\":\"Updated\",\"type\":\"event\"},{\"inputs\":[{\"internalType\":\"uint256\",\"name\":\"_drpIndex\",\"type\":\"uint256\"},{\"internalType\":\"bytes32[]\",\"name\":\"_sctLogID\",\"type\":\"bytes32[]\"},{\"internalType\":\"uint256[]\",\"name\":\"_sctTimestamp\",\"type\":\"uint256[]\"},{\"internalType\":\"uint256\",\"name\":\"_certValidFrom\",\"type\":\"uint256\"},{\"internalType\":\"uint256\",\"name\":\"_certValidTo\",\"type\":\"uint256\"},{\"internalType\":\"bytes32\",\"name\":\"_ocspRes\",\"type\":\"bytes32\"}],\"name\":\"checkCertificate\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"client_registration_fee\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"contractOwner\",\"outputs\":[{\"internalType\":\"address payable\",\"name\":\"\",\"type\":\"address\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"name\":\"ctLogIDs\",\"outputs\":[{\"internalType\":\"bytes32\",\"name\":\"\",\"type\":\"bytes32\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"_clientAddr\",\"type\":\"address\"},{\"internalType\":\"uint256\",\"name\":\"_drpIndex\",\"type\":\"uint256\"}],\"name\":\"deleteDRPFromClientList\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"domain_registration_fee\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"expireDRP\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"getCCPStatus\",\"outputs\":[{\"internalType\":\"bool\",\"name\":\"\",\"type\":\"bool\"},{\"internalType\":\"bool\",\"name\":\"\",\"type\":\"bool\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"uint256\",\"name\":\"_drpIndex\",\"type\":\"uint256\"}],\"name\":\"getClientDRPList\",\"outputs\":[{\"internalType\":\"bytes32\",\"name\":\"\",\"type\":\"bytes32\"},{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"},{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"},{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"},{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"getClientDRPListLength\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"getClientDetails\",\"outputs\":[{\"internalType\":\"bytes32\",\"name\":\"\",\"type\":\"bytes32\"},{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"},{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"},{\"internalType\":\"address\",\"name\":\"\",\"type\":\"address\"},{\"internalType\":\"address\",\"name\":\"\",\"type\":\"address\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"uint256\",\"name\":\"_drpIndex\",\"type\":\"uint256\"}],\"name\":\"getDRPDetails\",\"outputs\":[{\"internalType\":\"bytes32\",\"name\":\"\",\"type\":\"bytes32\"},{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"},{\"internalType\":\"address\",\"name\":\"\",\"type\":\"address\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"getDRPStatus\",\"outputs\":[{\"internalType\":\"bool\",\"name\":\"\",\"type\":\"bool\"},{\"internalType\":\"bool\",\"name\":\"\",\"type\":\"bool\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"getDomainDetails\",\"outputs\":[{\"internalType\":\"bytes32\",\"name\":\"\",\"type\":\"bytes32\"},{\"internalType\":\"bytes32\",\"name\":\"\",\"type\":\"bytes32\"},{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"},{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"},{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"},{\"internalType\":\"address\",\"name\":\"\",\"type\":\"address\"},{\"internalType\":\"address\",\"name\":\"\",\"type\":\"address\"},{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"getNumDRP\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"isClientRegistered\",\"outputs\":[{\"internalType\":\"bool\",\"name\":\"\",\"type\":\"bool\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"isDomainRegistered\",\"outputs\":[{\"internalType\":\"bool\",\"name\":\"\",\"type\":\"bool\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"maximum_merge_delay\",\"outputs\":[{\"internalType\":\"uint24\",\"name\":\"\",\"type\":\"uint24\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"address payable\",\"name\":\"_domainAddr\",\"type\":\"address\"}],\"name\":\"purchaseDRP\",\"outputs\":[],\"stateMutability\":\"payable\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"bytes32\",\"name\":\"_name\",\"type\":\"bytes32\"},{\"internalType\":\"uint256\",\"name\":\"_validFrom\",\"type\":\"uint256\"},{\"internalType\":\"uint256\",\"name\":\"_validTo\",\"type\":\"uint256\"},{\"internalType\":\"address\",\"name\":\"_checkContract\",\"type\":\"address\"},{\"internalType\":\"uint8\",\"name\":\"_version\",\"type\":\"uint8\"}],\"name\":\"registerClient\",\"outputs\":[],\"stateMutability\":\"payable\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"bytes32\",\"name\":\"_domainName\",\"type\":\"bytes32\"},{\"internalType\":\"bytes32\",\"name\":\"_issuerName\",\"type\":\"bytes32\"},{\"internalType\":\"uint256\",\"name\":\"_validFrom\",\"type\":\"uint256\"},{\"internalType\":\"uint256\",\"name\":\"_validTo\",\"type\":\"uint256\"},{\"internalType\":\"uint256\",\"name\":\"_drpPrice\",\"type\":\"uint256\"},{\"internalType\":\"address payable\",\"name\":\"_reactContract\",\"type\":\"address\"},{\"internalType\":\"uint8\",\"name\":\"_version\",\"type\":\"uint8\"}],\"name\":\"registerDomain\",\"outputs\":[],\"stateMutability\":\"payable\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"bytes32\",\"name\":\"\",\"type\":\"bytes32\"}],\"name\":\"registeredDomainNames\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"name\":\"registeredDomains\",\"outputs\":[{\"internalType\":\"address\",\"name\":\"\",\"type\":\"address\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"uint256\",\"name\":\"_validTo\",\"type\":\"uint256\"}],\"name\":\"updateClient\",\"outputs\":[],\"stateMutability\":\"payable\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"bytes32\",\"name\":\"_issuerName\",\"type\":\"bytes32\"},{\"internalType\":\"uint256\",\"name\":\"_validTo\",\"type\":\"uint256\"}],\"name\":\"updateDomain\",\"outputs\":[],\"stateMutability\":\"payable\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"update_fee\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"stateMutability\":\"payable\",\"type\":\"receive\"}],\"devdoc\":{\"methods\":{}},\"userdoc\":{\"methods\":{}}},\"settings\":{\"compilationTarget\":{\"/C/Users/snayazi/Documents/Final-Year-Project-DDA/code/contracts/DDA.sol\":\"DDA\"},\"evmVersion\":\"istanbul\",\"libraries\":{},\"metadata\":{\"bytecodeHash\":\"ipfs\"},\"optimizer\":{\"enabled\":false,\"runs\":200},\"remappings\":[]},\"sources\":{\"/C/Users/snayazi/Documents/Final-Year-Project-DDA/code/contracts/CheckAbstract.sol\":{\"keccak256\":\"0x94e0c05d02a9706e169bbf84929ee7e2904fdebff9193595cf44a48126da4ea1\",\"urls\":[\"bzz-raw://825fb529409c2364b2db8c976e4b9eb0a53db745aaddfae72fdb59a9c169a0af\",\"dweb:/ipfs/QmUdrSHpLd32gvs2ec6Cw74s9WFYYboVbmXHF8ZJM8GqLn\"]},\"/C/Users/snayazi/Documents/Final-Year-Project-DDA/code/contracts/DDA.sol\":{\"keccak256\":\"0x8a57bc82e546e2f9710f3d1fced4d80352a1f8872f38f674cf7310d3ba254de9\",\"urls\":[\"bzz-raw://33382b1c49d50263bac1872dfead09322801fc0916e0df390275b639367fde89\",\"dweb:/ipfs/QmNfHMVaTgxWfNmJ2QqLBd9Gr2WxEEyqeqLmzHG31k9cHd\"]},\"/C/Users/snayazi/Documents/Final-Year-Project-DDA/code/contracts/DRPAbstract.sol\":{\"keccak256\":\"0xb3b03be35179f3d7c2e4efc0c12813a1cc9b01a740dbf53eb6359c0228a79c2d\",\"urls\":[\"bzz-raw://665655d87ae45493ff547c654b74d852c6438f5de1bfb8d5b67e3f1a931a20b2\",\"dweb:/ipfs/QmSrZB9uKQX18z1BxtuBHKJmCgQG2dC8aGCk5DMvsWvoCj\"]}},\"version\":1}",
@@ -37469,9 +37493,23 @@
     "name": "solc",
     "version": "0.6.1+commit.e6f7d5a4.Emscripten.clang"
   },
-  "networks": {},
+  "networks": {
+    "4": {
+      "events": {},
+      "links": {},
+      "address": "0x825F49bA0F648D6ef74586846Fc0FcC83Ebb91BC",
+      "transactionHash": "0xcb45b6ce75602539302a074c6b0b27fee46ddcb07f209d5f6385dfc2741acfe3"
+    },
+    "1623577953450": {
+      "events": {},
+      "links": {},
+      "address": "0x51457a16C81095E8F3C53b18EDEAEa7C48c11Ec6",
+      "transactionHash": "0xf0833510b523fbb54f59a6c264427e71ff0fd4c2e314e8c3eaf2f5fba671c57c"
+    }
+  },
   "schemaVersion": "3.4.1",
-  "updatedAt": "2021-06-13T09:23:32.860Z",
+  "updatedAt": "2021-06-13T13:02:10.577Z",
+  "networkType": "ethereum",
   "devdoc": {
     "methods": {}
   },
