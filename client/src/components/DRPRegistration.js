@@ -237,8 +237,8 @@ class DRPRegistration extends Component {
                     value={domainDetails.price}
                     onChange={this.updateFormState}
                     inputProps={{
-                      step: "0.1"
-                      //readOnly: isRegistered
+                      step: "0.1",
+                      readOnly: isRegistered
                     }}  
                   />
                   <div>
