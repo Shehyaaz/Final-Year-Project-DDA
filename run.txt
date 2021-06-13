@@ -15,6 +15,11 @@ truffle test
 # To the test the express server, run the below command
 npm test
 
+##### To push changes to Heroku ######
+# the below command pushes the main branch to heroku
+# heroku then executes heroku-postbuild in the package.json file, and then npm start
+git push heroku main
+
 ##### Deploy to Rinkeby Test Network Output #####
 C:\Users\snayazi\Documents\Final-Year-Project-DDA\code>truffle migrate --network rinkeby
 
