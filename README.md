@@ -27,6 +27,11 @@ Decentralised Domain Authentication is a system for detecting and automatically 
         * `node ./server/server.js` on Linux based machines. 
 7. To execute the front-end, run `cd client && npm start`.
 
+#### How to Access
+1. The smart contracts have been deployed to [Rinkeby Test network](https://www.rinkeby.io/#stats).
+2. The react app and express server have been deployed to Heroku.
+3. Follow this url to access the deployed dapp : https://dda-dapp.herokuapp.com/
+
 #### Authors
 1. Mohammed Sufiyan Aman
 2. Riyanchhi Agrawal
