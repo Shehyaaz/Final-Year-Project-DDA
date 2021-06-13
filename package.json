@@ -22,8 +22,8 @@
   },
   "scripts": {
     "test": "mocha --timeout 10000 server/test",
-    "start-dev": "node ./server/server.js",
-    "start": "NODE_ENV=production node ./server/server.js",
+    "start-dev": "node server/server.js",
+    "start": "NODE_ENV=production node server/server.js",
     "heroku-postbuild": "cd client && npm install && npm run build"
   },
   "repository": {
