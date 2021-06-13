@@ -32,7 +32,7 @@ class CTLogsList extends Component {
         this.setState({
             isLoading: true
         });
-        fetch("/getctlogs")
+        fetch("/api/getctlogs")
         .then((res) => {
             if(res.ok){
                 return res.json();

@@ -123,11 +123,11 @@ class DomainDashboard extends Component {
             // get rregistration fee from blockchain
             const registerFee = await this.context.contract.methods.domain_registration_fee().call();
             // check if domain is available on the Internet
-            fetch("/verify?domainName="+domainDetails.domainName)
+            fetch("/api/verify?domainName="+domainDetails.domainName)
             .then(async(res) => {
                 if(res.ok){
                     // register domain details
-                    const totalRegFee = parseFloat(this.context.web3.utils.fromWei(registerFee, "ether")) + 1.2*parseFloat(domainDetails.price);
+                    const totalRegFee = (parseFloat(this.context.web3.utils.fromWei(registerFee, "ether")) + 1.2*parseFloat(domainDetails.price)).toFixed(2);
                     try{
                         await this.context.contract.methods.registerDomain(
                             this.context.web3.utils.utf8ToHex(domainDetails.domainName),
@@ -139,7 +139,7 @@ class DomainDashboard extends Component {
                             domainDetails.version
                         ).send({
                             from: this.context.account,
-                            value: this.context.web3.utils.toWei(totalRegFee.toString(), "ether"),
+                            value: this.context.web3.utils.toWei(totalRegFee, "ether"),
                             gas: gasLimit,
                             gasPrice: gasPrice
                         })

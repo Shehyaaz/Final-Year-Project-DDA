@@ -93,6 +93,7 @@ class DRPRegistration extends Component {
   validateFields(domainDetails){
     const domainRegEx = /^((?!-)[A-Za-z0-9-]{1,63}(?<!-)\.)+[A-Za-z]{2,6}$/;
     const addressRegEx = /^(0[xX])[A-Fa-f0-9]{40}$/;
+    const drpPriceRegEx = /^\d+([.]\d)?$/;
     let errorMessage = "";
     if(!domainRegEx.test(domainDetails.domainName))
       errorMessage = "Domain name is invalid!";
@@ -104,8 +105,8 @@ class DRPRegistration extends Component {
       errorMessage = "Issuer name must not exceed 32 characters!"
     else if(domainDetails.domainName.search(domainDetails.issuer) === -1)
       errorMessage = "Domain must be a sub-domain of DRP issuer!";
-    else if(isNaN(domainDetails.price) || parseFloat(domainDetails.price) <= 0)
-      errorMessage = "Invalid or negative price!";
+    else if(!drpPriceRegEx.test(domainDetails.price) || parseFloat(domainDetails.price) <= 0)
+      errorMessage = "DRP price cannot have more than one decimal point and cannot be negative price!";
     else if((new Date(domainDetails.validTo).getTime() - new Date(domainDetails.validFrom).getTime()) < minValidity)
       errorMessage = "DRP Validity must be more than a day";
     else if(!addressRegEx.test(domainDetails.drpAddress))
@@ -232,10 +233,12 @@ class DRPRegistration extends Component {
                   <TextField
                     variant="outlined" margin="normal" required fullWidth
                     label="DRP Price(in ether)" name="price"
+                    type="number"
                     value={domainDetails.price}
                     onChange={this.updateFormState}
-                    InputProps={{
-                      readOnly: isRegistered
+                    inputProps={{
+                      step: "0.1"
+                      //readOnly: isRegistered
                     }}  
                   />
                   <div>

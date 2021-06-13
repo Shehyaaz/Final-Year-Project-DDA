@@ -1,8 +1,9 @@
 # production
-/build
+/client/build
 
 # dependencies
 /node_modules
+/client/node_modules
 
 # misc
 /client/src/contracts
