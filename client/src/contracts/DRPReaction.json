@@ -2,154 +2,506 @@
   "contractName": "DRPReaction",
   "abi": [
     {
-      "constant": false,
-      "inputs": [],
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "_drpPrice",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint8",
+          "name": "internal_misbehaviour",
+          "type": "uint8"
+        },
+        {
+          "internalType": "uint8",
+          "name": "contract_fund_payment",
+          "type": "uint8"
+        }
+      ],
       "name": "trigger",
       "outputs": [],
-      "payable": false,
       "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "stateMutability": "payable",
+      "type": "receive"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "_domainAddr",
+          "type": "address"
+        },
+        {
+          "internalType": "address",
+          "name": "_drpAddr",
+          "type": "address"
+        }
+      ],
+      "name": "verifyDRP",
+      "outputs": [
+        {
+          "internalType": "bool",
+          "name": "",
+          "type": "bool"
+        }
+      ],
+      "stateMutability": "view",
       "type": "function"
     }
   ],
-  "metadata": "{\"compiler\":{\"version\":\"0.5.16+commit.9c3226ce\"},\"language\":\"Solidity\",\"output\":{\"abi\":[{\"constant\":false,\"inputs\":[],\"name\":\"trigger\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"}],\"devdoc\":{\"methods\":{}},\"userdoc\":{\"methods\":{}}},\"settings\":{\"compilationTarget\":{\"/C/Users/snayazi/Documents/Final-Year-Project-DDA/code/contracts/DRPReaction.sol\":\"DRPReaction\"},\"evmVersion\":\"istanbul\",\"libraries\":{},\"optimizer\":{\"enabled\":false,\"runs\":200},\"remappings\":[]},\"sources\":{\"/C/Users/snayazi/Documents/Final-Year-Project-DDA/code/contracts/DRPReaction.sol\":{\"keccak256\":\"0xfb44ec6bdf1172083a37622a8a80ba9e3ec65634026ff832d48ec428a07bd302\",\"urls\":[\"bzz-raw://a4b5a2e95d815a75044200b0b54fe59ff12f5c02868ad75f4e1415a4bb81e3da\",\"dweb:/ipfs/QmW4MVAG67TgfQ7mdxrD9fTtxCtTEeNFRnRFW6r2rKP3Ys\"]},\"/C/Users/snayazi/Documents/Final-Year-Project-DDA/code/contracts/DRPReactionInterface.sol\":{\"keccak256\":\"0x4d9b8e42dda3f9e765933c54c48d88afc916b0d8f3bcb8d28e87282f07708855\",\"urls\":[\"bzz-raw://53f09174f954b738dcf01bb0a57b465a72a888d9c4911f84b3fabef1c634355c\",\"dweb:/ipfs/QmXdkiSyYef9Z372ic8xdwnYw6GGGAeJP8fjaFr9FSedWR\"]}},\"version\":1}",
-  "bytecode": "0x6080604052336000806101000a81548173ffffffffffffffffffffffffffffffffffffffff021916908373ffffffffffffffffffffffffffffffffffffffff16021790555061013f806100536000396000f3fe608060405234801561001057600080fd5b506004361061002b5760003560e01c80637fec8d3814610030575b600080fd5b61003861003a565b005b3373ffffffffffffffffffffffffffffffffffffffff166000809054906101000a900473ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff1614156100e0576040517f08c379a00000000000000000000000000000000000000000000000000000000081526004018080602001828103825260288152602001806100e36028913960400191505060405180910390fd5b56fe436f6e7472616374206f776e65722063616e6e6f742063616c6c20746869732066756e6374696f6ea265627a7a723158206807ae620bf7699cdb92850345b8bba9d0b6ada1cf229c20886516da06f7ab2c64736f6c63430005100032",
-  "deployedBytecode": "0x608060405234801561001057600080fd5b506004361061002b5760003560e01c80637fec8d3814610030575b600080fd5b61003861003a565b005b3373ffffffffffffffffffffffffffffffffffffffff166000809054906101000a900473ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff1614156100e0576040517f08c379a00000000000000000000000000000000000000000000000000000000081526004018080602001828103825260288152602001806100e36028913960400191505060405180910390fd5b56fe436f6e7472616374206f776e65722063616e6e6f742063616c6c20746869732066756e6374696f6ea265627a7a723158206807ae620bf7699cdb92850345b8bba9d0b6ada1cf229c20886516da06f7ab2c64736f6c63430005100032",
-  "sourceMap": "293:134:4:-;;;380:10:5;372:5;;:18;;;;;;;;;;;;;;;;;;293:134:4;;;;;;",
-  "deployedSourceMap": "293:134:4:-;;;;8:9:-1;5:2;;;30:1;27;20:12;5:2;293:134:4;;;;;;;;;;;;;;;;;;;345:79;;;:::i;:::-;;;458:10:5;449:19;;:5;;;;;;;;;;;:19;;;;441:72;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;345:79:4:o",
-  "source": "/*\r\nThis is a smart contract that implements the TriggerInterface in Decentralised Domain Authentication on Ethereum blockchain.\r\nAuthors : Mohammed Sufiyan Aman, Riyanchhi Agrawal, Shakshi Pandey, Shehyaaz Khan Nayazi\r\n*/\r\n\r\npragma solidity ^0.5.0;\r\n\r\nimport \"./DRPReactionInterface.sol\";\r\n\r\ncontract DRPReaction is DRPReactionInterface {\r\n    function trigger() public notOwner{\r\n        // TODO : to be implemented\r\n    }\r\n}\r\n",
+  "metadata": "{\"compiler\":{\"version\":\"0.6.1+commit.e6f7d5a4\"},\"language\":\"Solidity\",\"output\":{\"abi\":[{\"inputs\":[{\"internalType\":\"uint256\",\"name\":\"_drpPrice\",\"type\":\"uint256\"},{\"internalType\":\"uint8\",\"name\":\"internal_misbehaviour\",\"type\":\"uint8\"},{\"internalType\":\"uint8\",\"name\":\"contract_fund_payment\",\"type\":\"uint8\"}],\"name\":\"trigger\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"_domainAddr\",\"type\":\"address\"},{\"internalType\":\"address\",\"name\":\"_drpAddr\",\"type\":\"address\"}],\"name\":\"verifyDRP\",\"outputs\":[{\"internalType\":\"bool\",\"name\":\"\",\"type\":\"bool\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"stateMutability\":\"payable\",\"type\":\"receive\"}],\"devdoc\":{\"methods\":{}},\"userdoc\":{\"methods\":{}}},\"settings\":{\"compilationTarget\":{\"/C/Users/snayazi/Documents/Final-Year-Project-DDA/code/contracts/DRPReaction.sol\":\"DRPReaction\"},\"evmVersion\":\"istanbul\",\"libraries\":{},\"metadata\":{\"bytecodeHash\":\"ipfs\"},\"optimizer\":{\"enabled\":false,\"runs\":200},\"remappings\":[]},\"sources\":{\"/C/Users/snayazi/Documents/Final-Year-Project-DDA/code/contracts/DRPAbstract.sol\":{\"keccak256\":\"0xb3b03be35179f3d7c2e4efc0c12813a1cc9b01a740dbf53eb6359c0228a79c2d\",\"urls\":[\"bzz-raw://665655d87ae45493ff547c654b74d852c6438f5de1bfb8d5b67e3f1a931a20b2\",\"dweb:/ipfs/QmSrZB9uKQX18z1BxtuBHKJmCgQG2dC8aGCk5DMvsWvoCj\"]},\"/C/Users/snayazi/Documents/Final-Year-Project-DDA/code/contracts/DRPReaction.sol\":{\"keccak256\":\"0x0daf3d6a0f680bc0cf7908c23b66185d68b4c5ff166c340281862dd7d4863566\",\"urls\":[\"bzz-raw://160ddef43fa06fc591313da94209b90c672ea9a1eff807e2e59d5d8a8eb4db72\",\"dweb:/ipfs/QmSvLoPACp9jVro5qTUe97hbkmcbAfzjqBYWrqL2EtuF2r\"]}},\"version\":1}",
+  "bytecode": "0x6080604052336000806101000a81548173ffffffffffffffffffffffffffffffffffffffff021916908373ffffffffffffffffffffffffffffffffffffffff160217905550610289806100536000396000f3fe60806040526004361061002d5760003560e01c80635a84490f14610039578063a4618a991461008e57610034565b3661003457005b600080fd5b34801561004557600080fd5b5061008c6004803603606081101561005c57600080fd5b8101908080359060200190929190803560ff169060200190929190803560ff169060200190929190505050610117565b005b34801561009a57600080fd5b506100fd600480360360408110156100b157600080fd5b81019080803573ffffffffffffffffffffffffffffffffffffffff169060200190929190803573ffffffffffffffffffffffffffffffffffffffff1690602001909291905050506101e1565b604051808215151515815260200191505060405180910390f35b3373ffffffffffffffffffffffffffffffffffffffff166000809054906101000a900473ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff16141561017157600080fd5b600081830160ff16600a858161018357fe5b040290508047101561019457600080fd5b3373ffffffffffffffffffffffffffffffffffffffff166108fc829081150290604051600060405180830381858888f193505050501580156101da573d6000803e3d6000fd5b5050505050565b60003073ffffffffffffffffffffffffffffffffffffffff168273ffffffffffffffffffffffffffffffffffffffff1614801561024b5750600073ffffffffffffffffffffffffffffffffffffffff168373ffffffffffffffffffffffffffffffffffffffff1614155b90509291505056fea2646970667358221220b1e78f611ccf4bddfcfce9a56152ee6d8e74e205734eb175eab57517763a541b64736f6c63430006010033",
+  "deployedBytecode": "0x60806040526004361061002d5760003560e01c80635a84490f14610039578063a4618a991461008e57610034565b3661003457005b600080fd5b34801561004557600080fd5b5061008c6004803603606081101561005c57600080fd5b8101908080359060200190929190803560ff169060200190929190803560ff169060200190929190505050610117565b005b34801561009a57600080fd5b506100fd600480360360408110156100b157600080fd5b81019080803573ffffffffffffffffffffffffffffffffffffffff169060200190929190803573ffffffffffffffffffffffffffffffffffffffff1690602001909291905050506101e1565b604051808215151515815260200191505060405180910390f35b3373ffffffffffffffffffffffffffffffffffffffff166000809054906101000a900473ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff16141561017157600080fd5b600081830160ff16600a858161018357fe5b040290508047101561019457600080fd5b3373ffffffffffffffffffffffffffffffffffffffff166108fc829081150290604051600060405180830381858888f193505050501580156101da573d6000803e3d6000fd5b5050505050565b60003073ffffffffffffffffffffffffffffffffffffffff168273ffffffffffffffffffffffffffffffffffffffff1614801561024b5750600073ffffffffffffffffffffffffffffffffffffffff168373ffffffffffffffffffffffffffffffffffffffff1614155b90509291505056fea2646970667358221220b1e78f611ccf4bddfcfce9a56152ee6d8e74e205734eb175eab57517763a541b64736f6c63430006010033",
+  "sourceMap": "317:296:4:-:0;;;421:10:3;413:5;;:18;;;;;;;;;;;;;;;;;;317:296:4;;;;;;",
+  "deployedSourceMap": "317:296:4:-:0;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;774:334:3;;8:9:-1;5:2;;;30:1;27;20:12;5:2;774:334:3;;;;;;13:2:-1;8:3;5:11;2:2;;;29:1;26;19:12;2:2;774:334:3;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;:::i;:::-;;406:204:4;;8:9:-1;5:2;;;30:1;27;20:12;5:2;406:204:4;;;;;;13:2:-1;8:3;5:11;2:2;;;29:1;26;19:12;2:2;406:204:4;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;:::i;:::-;;;;;;;;;;;;;;;;;;;;;;;774:334:3;499:10;490:19;;:5;;;;;;;;;;;:19;;;;482:28;;;;;;930:14:::1;989:21;965;:45;947:64;;960:2;948:9;:14;;;;;;947:64;930:81;;1055:6;1030:21;:31;;1022:40;;;::::0;::::1;;1073:10;:19;;:27;1093:6;1073:27;;;;;;;;;;;;;;;;;;;;;;;;8:9:-1;5:2;;;45:16;42:1;39::::0;24:38:::1;77:16;74:1;67:27;5:2;1073:27:3;521:1;774:334:::0;;;:::o;406:204:4:-;521:4;566;546:25;;:8;:25;;;:54;;;;;598:1;575:25;;:11;:25;;;;546:54;538:63;;406:204;;;;:::o",
+  "source": "// SPDX-License-Identifier: MIT\r\n/*\r\nThis is a smart contract that implements the TriggerInterface in Decentralised Domain Authentication on Ethereum blockchain.\r\nAuthors : Mohammed Sufiyan Aman, Riyanchhi Agrawal, Shakshi Pandey, Shehyaaz Khan Nayazi\r\n*/\r\n\r\npragma solidity ^0.6.0;\r\n\r\nimport \"./DRPAbstract.sol\";\r\n\r\ncontract DRPReaction is DRPAbstract {\r\n    /* Overrides function of DRPAbstract */\r\n     function verifyDRP(\r\n        address _domainAddr,\r\n        address _drpAddr\r\n     ) external view override returns(bool){\r\n         return (_drpAddr == address(this) && _domainAddr != address(0));\r\n     }\r\n}\r\n",
   "sourcePath": "C:/Users/snayazi/Documents/Final-Year-Project-DDA/code/contracts/DRPReaction.sol",
   "ast": {
     "absolutePath": "/C/Users/snayazi/Documents/Final-Year-Project-DDA/code/contracts/DRPReaction.sol",
     "exportedSymbols": {
       "DRPReaction": [
-        287
+        1655
       ]
     },
-    "id": 288,
+    "id": 1656,
     "nodeType": "SourceUnit",
     "nodes": [
       {
-        "id": 277,
+        "id": 1625,
         "literals": [
           "solidity",
           "^",
-          "0.5",
+          "0.6",
           ".0"
         ],
         "nodeType": "PragmaDirective",
-        "src": "226:23:4"
+        "src": "259:23:4"
       },
       {
-        "absolutePath": "/C/Users/snayazi/Documents/Final-Year-Project-DDA/code/contracts/DRPReactionInterface.sol",
-        "file": "./DRPReactionInterface.sol",
-        "id": 278,
+        "absolutePath": "/C/Users/snayazi/Documents/Final-Year-Project-DDA/code/contracts/DRPAbstract.sol",
+        "file": "./DRPAbstract.sol",
+        "id": 1626,
         "nodeType": "ImportDirective",
-        "scope": 288,
-        "sourceUnit": 317,
-        "src": "253:36:4",
+        "scope": 1656,
+        "sourceUnit": 1624,
+        "src": "286:27:4",
         "symbolAliases": [],
         "unitAlias": ""
       },
       {
+        "abstract": false,
         "baseContracts": [
           {
             "arguments": null,
             "baseName": {
               "contractScope": null,
-              "id": 279,
-              "name": "DRPReactionInterface",
+              "id": 1627,
+              "name": "DRPAbstract",
               "nodeType": "UserDefinedTypeName",
-              "referencedDeclaration": 316,
-              "src": "317:20:4",
+              "referencedDeclaration": 1623,
+              "src": "341:11:4",
               "typeDescriptions": {
-                "typeIdentifier": "t_contract$_DRPReactionInterface_$316",
-                "typeString": "contract DRPReactionInterface"
+                "typeIdentifier": "t_contract$_DRPAbstract_$1623",
+                "typeString": "contract DRPAbstract"
               }
             },
-            "id": 280,
+            "id": 1628,
             "nodeType": "InheritanceSpecifier",
-            "src": "317:20:4"
+            "src": "341:11:4"
           }
         ],
         "contractDependencies": [
-          316
+          1623
         ],
         "contractKind": "contract",
         "documentation": null,
         "fullyImplemented": true,
-        "id": 287,
+        "id": 1655,
         "linearizedBaseContracts": [
-          287,
-          316
+          1655,
+          1623
         ],
         "name": "DRPReaction",
         "nodeType": "ContractDefinition",
         "nodes": [
           {
+            "baseFunctions": [
+              1622
+            ],
             "body": {
-              "id": 285,
+              "id": 1653,
               "nodeType": "Block",
-              "src": "379:45:4",
-              "statements": []
+              "src": "526:84:4",
+              "statements": [
+                {
+                  "expression": {
+                    "argumentTypes": null,
+                    "components": [
+                      {
+                        "argumentTypes": null,
+                        "commonType": {
+                          "typeIdentifier": "t_bool",
+                          "typeString": "bool"
+                        },
+                        "id": 1650,
+                        "isConstant": false,
+                        "isLValue": false,
+                        "isPure": false,
+                        "lValueRequested": false,
+                        "leftExpression": {
+                          "argumentTypes": null,
+                          "commonType": {
+                            "typeIdentifier": "t_address",
+                            "typeString": "address"
+                          },
+                          "id": 1643,
+                          "isConstant": false,
+                          "isLValue": false,
+                          "isPure": false,
+                          "lValueRequested": false,
+                          "leftExpression": {
+                            "argumentTypes": null,
+                            "id": 1638,
+                            "name": "_drpAddr",
+                            "nodeType": "Identifier",
+                            "overloadedDeclarations": [],
+                            "referencedDeclaration": 1632,
+                            "src": "546:8:4",
+                            "typeDescriptions": {
+                              "typeIdentifier": "t_address",
+                              "typeString": "address"
+                            }
+                          },
+                          "nodeType": "BinaryOperation",
+                          "operator": "==",
+                          "rightExpression": {
+                            "argumentTypes": null,
+                            "arguments": [
+                              {
+                                "argumentTypes": null,
+                                "id": 1641,
+                                "name": "this",
+                                "nodeType": "Identifier",
+                                "overloadedDeclarations": [],
+                                "referencedDeclaration": 1749,
+                                "src": "566:4:4",
+                                "typeDescriptions": {
+                                  "typeIdentifier": "t_contract$_DRPReaction_$1655",
+                                  "typeString": "contract DRPReaction"
+                                }
+                              }
+                            ],
+                            "expression": {
+                              "argumentTypes": [
+                                {
+                                  "typeIdentifier": "t_contract$_DRPReaction_$1655",
+                                  "typeString": "contract DRPReaction"
+                                }
+                              ],
+                              "id": 1640,
+                              "isConstant": false,
+                              "isLValue": false,
+                              "isPure": true,
+                              "lValueRequested": false,
+                              "nodeType": "ElementaryTypeNameExpression",
+                              "src": "558:7:4",
+                              "typeDescriptions": {
+                                "typeIdentifier": "t_type$_t_address_$",
+                                "typeString": "type(address)"
+                              },
+                              "typeName": {
+                                "id": 1639,
+                                "name": "address",
+                                "nodeType": "ElementaryTypeName",
+                                "src": "558:7:4",
+                                "typeDescriptions": {
+                                  "typeIdentifier": null,
+                                  "typeString": null
+                                }
+                              }
+                            },
+                            "id": 1642,
+                            "isConstant": false,
+                            "isLValue": false,
+                            "isPure": false,
+                            "kind": "typeConversion",
+                            "lValueRequested": false,
+                            "names": [],
+                            "nodeType": "FunctionCall",
+                            "src": "558:13:4",
+                            "tryCall": false,
+                            "typeDescriptions": {
+                              "typeIdentifier": "t_address_payable",
+                              "typeString": "address payable"
+                            }
+                          },
+                          "src": "546:25:4",
+                          "typeDescriptions": {
+                            "typeIdentifier": "t_bool",
+                            "typeString": "bool"
+                          }
+                        },
+                        "nodeType": "BinaryOperation",
+                        "operator": "&&",
+                        "rightExpression": {
+                          "argumentTypes": null,
+                          "commonType": {
+                            "typeIdentifier": "t_address",
+                            "typeString": "address"
+                          },
+                          "id": 1649,
+                          "isConstant": false,
+                          "isLValue": false,
+                          "isPure": false,
+                          "lValueRequested": false,
+                          "leftExpression": {
+                            "argumentTypes": null,
+                            "id": 1644,
+                            "name": "_domainAddr",
+                            "nodeType": "Identifier",
+                            "overloadedDeclarations": [],
+                            "referencedDeclaration": 1630,
+                            "src": "575:11:4",
+                            "typeDescriptions": {
+                              "typeIdentifier": "t_address",
+                              "typeString": "address"
+                            }
+                          },
+                          "nodeType": "BinaryOperation",
+                          "operator": "!=",
+                          "rightExpression": {
+                            "argumentTypes": null,
+                            "arguments": [
+                              {
+                                "argumentTypes": null,
+                                "hexValue": "30",
+                                "id": 1647,
+                                "isConstant": false,
+                                "isLValue": false,
+                                "isPure": true,
+                                "kind": "number",
+                                "lValueRequested": false,
+                                "nodeType": "Literal",
+                                "src": "598:1:4",
+                                "subdenomination": null,
+                                "typeDescriptions": {
+                                  "typeIdentifier": "t_rational_0_by_1",
+                                  "typeString": "int_const 0"
+                                },
+                                "value": "0"
+                              }
+                            ],
+                            "expression": {
+                              "argumentTypes": [
+                                {
+                                  "typeIdentifier": "t_rational_0_by_1",
+                                  "typeString": "int_const 0"
+                                }
+                              ],
+                              "id": 1646,
+                              "isConstant": false,
+                              "isLValue": false,
+                              "isPure": true,
+                              "lValueRequested": false,
+                              "nodeType": "ElementaryTypeNameExpression",
+                              "src": "590:7:4",
+                              "typeDescriptions": {
+                                "typeIdentifier": "t_type$_t_address_$",
+                                "typeString": "type(address)"
+                              },
+                              "typeName": {
+                                "id": 1645,
+                                "name": "address",
+                                "nodeType": "ElementaryTypeName",
+                                "src": "590:7:4",
+                                "typeDescriptions": {
+                                  "typeIdentifier": null,
+                                  "typeString": null
+                                }
+                              }
+                            },
+                            "id": 1648,
+                            "isConstant": false,
+                            "isLValue": false,
+                            "isPure": true,
+                            "kind": "typeConversion",
+                            "lValueRequested": false,
+                            "names": [],
+                            "nodeType": "FunctionCall",
+                            "src": "590:10:4",
+                            "tryCall": false,
+                            "typeDescriptions": {
+                              "typeIdentifier": "t_address_payable",
+                              "typeString": "address payable"
+                            }
+                          },
+                          "src": "575:25:4",
+                          "typeDescriptions": {
+                            "typeIdentifier": "t_bool",
+                            "typeString": "bool"
+                          }
+                        },
+                        "src": "546:54:4",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_bool",
+                          "typeString": "bool"
+                        }
+                      }
+                    ],
+                    "id": 1651,
+                    "isConstant": false,
+                    "isInlineArray": false,
+                    "isLValue": false,
+                    "isPure": false,
+                    "lValueRequested": false,
+                    "nodeType": "TupleExpression",
+                    "src": "545:56:4",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_bool",
+                      "typeString": "bool"
+                    }
+                  },
+                  "functionReturnParameters": 1637,
+                  "id": 1652,
+                  "nodeType": "Return",
+                  "src": "538:63:4"
+                }
+              ]
             },
             "documentation": null,
-            "id": 286,
+            "functionSelector": "a4618a99",
+            "id": 1654,
             "implemented": true,
             "kind": "function",
-            "modifiers": [
-              {
-                "arguments": null,
-                "id": 283,
-                "modifierName": {
-                  "argumentTypes": null,
-                  "id": 282,
-                  "name": "notOwner",
-                  "nodeType": "Identifier",
-                  "overloadedDeclarations": [],
-                  "referencedDeclaration": 312,
-                  "src": "371:8:4",
-                  "typeDescriptions": {
-                    "typeIdentifier": "t_modifier$__$",
-                    "typeString": "modifier ()"
-                  }
-                },
-                "nodeType": "ModifierInvocation",
-                "src": "371:8:4"
-              }
-            ],
-            "name": "trigger",
+            "modifiers": [],
+            "name": "verifyDRP",
             "nodeType": "FunctionDefinition",
+            "overrides": {
+              "id": 1634,
+              "nodeType": "OverrideSpecifier",
+              "overrides": [],
+              "src": "504:8:4"
+            },
             "parameters": {
-              "id": 281,
+              "id": 1633,
               "nodeType": "ParameterList",
-              "parameters": [],
-              "src": "361:2:4"
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 1630,
+                  "name": "_domainAddr",
+                  "nodeType": "VariableDeclaration",
+                  "overrides": null,
+                  "scope": 1654,
+                  "src": "435:19:4",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_address",
+                    "typeString": "address"
+                  },
+                  "typeName": {
+                    "id": 1629,
+                    "name": "address",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "435:7:4",
+                    "stateMutability": "nonpayable",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_address",
+                      "typeString": "address"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 1632,
+                  "name": "_drpAddr",
+                  "nodeType": "VariableDeclaration",
+                  "overrides": null,
+                  "scope": 1654,
+                  "src": "465:16:4",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_address",
+                    "typeString": "address"
+                  },
+                  "typeName": {
+                    "id": 1631,
+                    "name": "address",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "465:7:4",
+                    "stateMutability": "nonpayable",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_address",
+                      "typeString": "address"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "424:65:4"
             },
             "returnParameters": {
-              "id": 284,
+              "id": 1637,
               "nodeType": "ParameterList",
-              "parameters": [],
-              "src": "379:0:4"
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 1636,
+                  "name": "",
+                  "nodeType": "VariableDeclaration",
+                  "overrides": null,
+                  "scope": 1654,
+                  "src": "521:4:4",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_bool",
+                    "typeString": "bool"
+                  },
+                  "typeName": {
+                    "id": 1635,
+                    "name": "bool",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "521:4:4",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_bool",
+                      "typeString": "bool"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "520:6:4"
             },
-            "scope": 287,
-            "src": "345:79:4",
-            "stateMutability": "nonpayable",
-            "superFunction": 315,
-            "visibility": "public"
+            "scope": 1655,
+            "src": "406:204:4",
+            "stateMutability": "view",
+            "virtual": false,
+            "visibility": "external"
           }
         ],
-        "scope": 288,
-        "src": "293:134:4"
+        "scope": 1656,
+        "src": "317:296:4"
       }
     ],
-    "src": "226:203:4"
+    "src": "259:356:4"
   },
   "legacyAST": {
     "attributes": {
       "absolutePath": "/C/Users/snayazi/Documents/Final-Year-Project-DDA/code/contracts/DRPReaction.sol",
       "exportedSymbols": {
         "DRPReaction": [
-          287
+          1655
         ]
       }
     },
@@ -159,43 +511,44 @@
           "literals": [
             "solidity",
             "^",
-            "0.5",
+            "0.6",
             ".0"
           ]
         },
-        "id": 277,
+        "id": 1625,
         "name": "PragmaDirective",
-        "src": "226:23:4"
+        "src": "259:23:4"
       },
       {
         "attributes": {
-          "SourceUnit": 317,
-          "absolutePath": "/C/Users/snayazi/Documents/Final-Year-Project-DDA/code/contracts/DRPReactionInterface.sol",
-          "file": "./DRPReactionInterface.sol",
-          "scope": 288,
+          "SourceUnit": 1624,
+          "absolutePath": "/C/Users/snayazi/Documents/Final-Year-Project-DDA/code/contracts/DRPAbstract.sol",
+          "file": "./DRPAbstract.sol",
+          "scope": 1656,
           "symbolAliases": [
             null
           ],
           "unitAlias": ""
         },
-        "id": 278,
+        "id": 1626,
         "name": "ImportDirective",
-        "src": "253:36:4"
+        "src": "286:27:4"
       },
       {
         "attributes": {
+          "abstract": false,
           "contractDependencies": [
-            316
+            1623
           ],
           "contractKind": "contract",
           "documentation": null,
           "fullyImplemented": true,
           "linearizedBaseContracts": [
-            287,
-            316
+            1655,
+            1623
           ],
           "name": "DRPReaction",
-          "scope": 288
+          "scope": 1656
         },
         "children": [
           {
@@ -206,119 +559,420 @@
               {
                 "attributes": {
                   "contractScope": null,
-                  "name": "DRPReactionInterface",
-                  "referencedDeclaration": 316,
-                  "type": "contract DRPReactionInterface"
+                  "name": "DRPAbstract",
+                  "referencedDeclaration": 1623,
+                  "type": "contract DRPAbstract"
                 },
-                "id": 279,
+                "id": 1627,
                 "name": "UserDefinedTypeName",
-                "src": "317:20:4"
+                "src": "341:11:4"
               }
             ],
-            "id": 280,
+            "id": 1628,
             "name": "InheritanceSpecifier",
-            "src": "317:20:4"
+            "src": "341:11:4"
           },
           {
             "attributes": {
+              "baseFunctions": [
+                1622
+              ],
               "documentation": null,
+              "functionSelector": "a4618a99",
               "implemented": true,
               "isConstructor": false,
               "kind": "function",
-              "name": "trigger",
-              "scope": 287,
-              "stateMutability": "nonpayable",
-              "superFunction": 315,
-              "visibility": "public"
+              "modifiers": [
+                null
+              ],
+              "name": "verifyDRP",
+              "scope": 1655,
+              "stateMutability": "view",
+              "virtual": false,
+              "visibility": "external"
             },
             "children": [
               {
                 "attributes": {
-                  "parameters": [
+                  "overrides": [
                     null
                   ]
                 },
-                "children": [],
-                "id": 281,
-                "name": "ParameterList",
-                "src": "361:2:4"
+                "id": 1634,
+                "name": "OverrideSpecifier",
+                "src": "504:8:4"
               },
               {
-                "attributes": {
-                  "parameters": [
-                    null
-                  ]
-                },
-                "children": [],
-                "id": 284,
-                "name": "ParameterList",
-                "src": "379:0:4"
-              },
-              {
-                "attributes": {
-                  "arguments": null
-                },
                 "children": [
                   {
                     "attributes": {
-                      "argumentTypes": null,
-                      "overloadedDeclarations": [
-                        null
-                      ],
-                      "referencedDeclaration": 312,
-                      "type": "modifier ()",
-                      "value": "notOwner"
+                      "constant": false,
+                      "name": "_domainAddr",
+                      "overrides": null,
+                      "scope": 1654,
+                      "stateVariable": false,
+                      "storageLocation": "default",
+                      "type": "address",
+                      "value": null,
+                      "visibility": "internal"
                     },
-                    "id": 282,
-                    "name": "Identifier",
-                    "src": "371:8:4"
+                    "children": [
+                      {
+                        "attributes": {
+                          "name": "address",
+                          "stateMutability": "nonpayable",
+                          "type": "address"
+                        },
+                        "id": 1629,
+                        "name": "ElementaryTypeName",
+                        "src": "435:7:4"
+                      }
+                    ],
+                    "id": 1630,
+                    "name": "VariableDeclaration",
+                    "src": "435:19:4"
+                  },
+                  {
+                    "attributes": {
+                      "constant": false,
+                      "name": "_drpAddr",
+                      "overrides": null,
+                      "scope": 1654,
+                      "stateVariable": false,
+                      "storageLocation": "default",
+                      "type": "address",
+                      "value": null,
+                      "visibility": "internal"
+                    },
+                    "children": [
+                      {
+                        "attributes": {
+                          "name": "address",
+                          "stateMutability": "nonpayable",
+                          "type": "address"
+                        },
+                        "id": 1631,
+                        "name": "ElementaryTypeName",
+                        "src": "465:7:4"
+                      }
+                    ],
+                    "id": 1632,
+                    "name": "VariableDeclaration",
+                    "src": "465:16:4"
                   }
                 ],
-                "id": 283,
-                "name": "ModifierInvocation",
-                "src": "371:8:4"
+                "id": 1633,
+                "name": "ParameterList",
+                "src": "424:65:4"
               },
               {
-                "attributes": {
-                  "statements": [
-                    null
-                  ]
-                },
-                "children": [],
-                "id": 285,
+                "children": [
+                  {
+                    "attributes": {
+                      "constant": false,
+                      "name": "",
+                      "overrides": null,
+                      "scope": 1654,
+                      "stateVariable": false,
+                      "storageLocation": "default",
+                      "type": "bool",
+                      "value": null,
+                      "visibility": "internal"
+                    },
+                    "children": [
+                      {
+                        "attributes": {
+                          "name": "bool",
+                          "type": "bool"
+                        },
+                        "id": 1635,
+                        "name": "ElementaryTypeName",
+                        "src": "521:4:4"
+                      }
+                    ],
+                    "id": 1636,
+                    "name": "VariableDeclaration",
+                    "src": "521:4:4"
+                  }
+                ],
+                "id": 1637,
+                "name": "ParameterList",
+                "src": "520:6:4"
+              },
+              {
+                "children": [
+                  {
+                    "attributes": {
+                      "functionReturnParameters": 1637
+                    },
+                    "children": [
+                      {
+                        "attributes": {
+                          "argumentTypes": null,
+                          "isConstant": false,
+                          "isInlineArray": false,
+                          "isLValue": false,
+                          "isPure": false,
+                          "lValueRequested": false,
+                          "type": "bool"
+                        },
+                        "children": [
+                          {
+                            "attributes": {
+                              "argumentTypes": null,
+                              "commonType": {
+                                "typeIdentifier": "t_bool",
+                                "typeString": "bool"
+                              },
+                              "isConstant": false,
+                              "isLValue": false,
+                              "isPure": false,
+                              "lValueRequested": false,
+                              "operator": "&&",
+                              "type": "bool"
+                            },
+                            "children": [
+                              {
+                                "attributes": {
+                                  "argumentTypes": null,
+                                  "commonType": {
+                                    "typeIdentifier": "t_address",
+                                    "typeString": "address"
+                                  },
+                                  "isConstant": false,
+                                  "isLValue": false,
+                                  "isPure": false,
+                                  "lValueRequested": false,
+                                  "operator": "==",
+                                  "type": "bool"
+                                },
+                                "children": [
+                                  {
+                                    "attributes": {
+                                      "argumentTypes": null,
+                                      "overloadedDeclarations": [
+                                        null
+                                      ],
+                                      "referencedDeclaration": 1632,
+                                      "type": "address",
+                                      "value": "_drpAddr"
+                                    },
+                                    "id": 1638,
+                                    "name": "Identifier",
+                                    "src": "546:8:4"
+                                  },
+                                  {
+                                    "attributes": {
+                                      "argumentTypes": null,
+                                      "isConstant": false,
+                                      "isLValue": false,
+                                      "isPure": false,
+                                      "isStructConstructorCall": false,
+                                      "lValueRequested": false,
+                                      "names": [
+                                        null
+                                      ],
+                                      "tryCall": false,
+                                      "type": "address payable",
+                                      "type_conversion": true
+                                    },
+                                    "children": [
+                                      {
+                                        "attributes": {
+                                          "argumentTypes": [
+                                            {
+                                              "typeIdentifier": "t_contract$_DRPReaction_$1655",
+                                              "typeString": "contract DRPReaction"
+                                            }
+                                          ],
+                                          "isConstant": false,
+                                          "isLValue": false,
+                                          "isPure": true,
+                                          "lValueRequested": false,
+                                          "type": "type(address)"
+                                        },
+                                        "children": [
+                                          {
+                                            "attributes": {
+                                              "name": "address",
+                                              "type": null
+                                            },
+                                            "id": 1639,
+                                            "name": "ElementaryTypeName",
+                                            "src": "558:7:4"
+                                          }
+                                        ],
+                                        "id": 1640,
+                                        "name": "ElementaryTypeNameExpression",
+                                        "src": "558:7:4"
+                                      },
+                                      {
+                                        "attributes": {
+                                          "argumentTypes": null,
+                                          "overloadedDeclarations": [
+                                            null
+                                          ],
+                                          "referencedDeclaration": 1749,
+                                          "type": "contract DRPReaction",
+                                          "value": "this"
+                                        },
+                                        "id": 1641,
+                                        "name": "Identifier",
+                                        "src": "566:4:4"
+                                      }
+                                    ],
+                                    "id": 1642,
+                                    "name": "FunctionCall",
+                                    "src": "558:13:4"
+                                  }
+                                ],
+                                "id": 1643,
+                                "name": "BinaryOperation",
+                                "src": "546:25:4"
+                              },
+                              {
+                                "attributes": {
+                                  "argumentTypes": null,
+                                  "commonType": {
+                                    "typeIdentifier": "t_address",
+                                    "typeString": "address"
+                                  },
+                                  "isConstant": false,
+                                  "isLValue": false,
+                                  "isPure": false,
+                                  "lValueRequested": false,
+                                  "operator": "!=",
+                                  "type": "bool"
+                                },
+                                "children": [
+                                  {
+                                    "attributes": {
+                                      "argumentTypes": null,
+                                      "overloadedDeclarations": [
+                                        null
+                                      ],
+                                      "referencedDeclaration": 1630,
+                                      "type": "address",
+                                      "value": "_domainAddr"
+                                    },
+                                    "id": 1644,
+                                    "name": "Identifier",
+                                    "src": "575:11:4"
+                                  },
+                                  {
+                                    "attributes": {
+                                      "argumentTypes": null,
+                                      "isConstant": false,
+                                      "isLValue": false,
+                                      "isPure": true,
+                                      "isStructConstructorCall": false,
+                                      "lValueRequested": false,
+                                      "names": [
+                                        null
+                                      ],
+                                      "tryCall": false,
+                                      "type": "address payable",
+                                      "type_conversion": true
+                                    },
+                                    "children": [
+                                      {
+                                        "attributes": {
+                                          "argumentTypes": [
+                                            {
+                                              "typeIdentifier": "t_rational_0_by_1",
+                                              "typeString": "int_const 0"
+                                            }
+                                          ],
+                                          "isConstant": false,
+                                          "isLValue": false,
+                                          "isPure": true,
+                                          "lValueRequested": false,
+                                          "type": "type(address)"
+                                        },
+                                        "children": [
+                                          {
+                                            "attributes": {
+                                              "name": "address",
+                                              "type": null
+                                            },
+                                            "id": 1645,
+                                            "name": "ElementaryTypeName",
+                                            "src": "590:7:4"
+                                          }
+                                        ],
+                                        "id": 1646,
+                                        "name": "ElementaryTypeNameExpression",
+                                        "src": "590:7:4"
+                                      },
+                                      {
+                                        "attributes": {
+                                          "argumentTypes": null,
+                                          "hexvalue": "30",
+                                          "isConstant": false,
+                                          "isLValue": false,
+                                          "isPure": true,
+                                          "lValueRequested": false,
+                                          "subdenomination": null,
+                                          "token": "number",
+                                          "type": "int_const 0",
+                                          "value": "0"
+                                        },
+                                        "id": 1647,
+                                        "name": "Literal",
+                                        "src": "598:1:4"
+                                      }
+                                    ],
+                                    "id": 1648,
+                                    "name": "FunctionCall",
+                                    "src": "590:10:4"
+                                  }
+                                ],
+                                "id": 1649,
+                                "name": "BinaryOperation",
+                                "src": "575:25:4"
+                              }
+                            ],
+                            "id": 1650,
+                            "name": "BinaryOperation",
+                            "src": "546:54:4"
+                          }
+                        ],
+                        "id": 1651,
+                        "name": "TupleExpression",
+                        "src": "545:56:4"
+                      }
+                    ],
+                    "id": 1652,
+                    "name": "Return",
+                    "src": "538:63:4"
+                  }
+                ],
+                "id": 1653,
                 "name": "Block",
-                "src": "379:45:4"
+                "src": "526:84:4"
               }
             ],
-            "id": 286,
+            "id": 1654,
             "name": "FunctionDefinition",
-            "src": "345:79:4"
+            "src": "406:204:4"
           }
         ],
-        "id": 287,
+        "id": 1655,
         "name": "ContractDefinition",
-        "src": "293:134:4"
+        "src": "317:296:4"
       }
     ],
-    "id": 288,
+    "id": 1656,
     "name": "SourceUnit",
-    "src": "226:203:4"
+    "src": "259:356:4"
   },
   "compiler": {
     "name": "solc",
-    "version": "0.5.16+commit.9c3226ce.Emscripten.clang"
+    "version": "0.6.1+commit.e6f7d5a4.Emscripten.clang"
   },
-  "networks": {
-    "1620063479399": {
-      "events": {},
-      "links": {},
-      "address": "0x510a6b32dA9a1d9838909BfE0dd1fA783b9766ff",
-      "transactionHash": "0xb7dd57d0c41c32ee0030c83a6116100885bd5c0be76d83892ca8af20a6d82511"
-    }
-  },
-  "schemaVersion": "3.3.4",
-  "updatedAt": "2021-05-03T17:38:58.220Z",
-  "networkType": "ethereum",
+  "networks": {},
+  "schemaVersion": "3.4.1",
+  "updatedAt": "2021-06-13T09:35:05.971Z",
   "devdoc": {
     "methods": {}
   },
