@@ -8,6 +8,7 @@
   },
   "dependencies": {
     "express": "^4.17.1",
+    "http-proxy-middleware": "^2.0.0",
     "ocsp": "^1.2.0",
     "pkijs": "^2.1.95",
     "request": "^2.88.2"
