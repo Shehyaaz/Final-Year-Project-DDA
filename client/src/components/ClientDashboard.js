@@ -104,7 +104,7 @@ class ClientDashboard extends Component {
         this.setState({
             isLoading: true
         });
-        fetch("/getsct?domainName="+domainName)
+        fetch("/api/getsct?domainName="+domainName)
         .then((res) => {
             if(res.ok){
                 return res.json();

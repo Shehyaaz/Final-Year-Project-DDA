@@ -6,8 +6,7 @@ const asn1js = require('asn1js');
 const ocsp = require('ocsp');
 
 const app = express();
-const port = 3001;
-app.use(express.static(path.join(__dirname, 'client/build')));
+const port = process.env.PORT || 5000;
 
 const getCert = (domainName) => new Promise((resolve, reject) => {
   const options = {
@@ -29,7 +28,7 @@ const getCert = (domainName) => new Promise((resolve, reject) => {
   req.end();
 });
 
-function getCertDetails(certDer) {
+const getCertDetails = (certDer) => {
       // And convert the cert into a BER encoded one
       const ber = new Uint8Array(certDer).buffer;
       // And now asn1js can decode things
@@ -57,19 +56,22 @@ function getCertDetails(certDer) {
       });
 }
 
+if(process.env.NODE_ENV === "production"){
+  // Priority serve any static files.
+  app.use(express.static(path.resolve(__dirname, '../client/build')));
+}
+
+// Enable CORS
+app.use(function(req, res, next) {
+  res.header("Access-Control-Allow-Origin", "*"); // update to match the domain you will make the request from
+  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+  next();
+});
+
 /* app get end-points */
-// create a GET route, this serves the front-end files
-app.get("/", (req, res) => {
-  res.sendFile(path.join(__dirname, 'client/build', 'index.html'));
-});
-
-
-app.get("/welcome", (req, res) => {
-  res.send({ message: "YOUR EXPRESS BACKEND IS CONNECTED TO REACT" });
-});
 
 // checks if a domain is valid or not
-app.get("/verify", (req, res) => {
+app.get("/api/verify", (req, res) => {
   if(req.query && req.query.domainName){
     getCert(req.query.domainName)
     .then(() => {
@@ -85,7 +87,7 @@ app.get("/verify", (req, res) => {
 });
 
 // returns the SCT and OCSP details of a domain's certificate
-app.get("/getsct", (req, res) => {
+app.get("/api/getsct", (req, res) => {
   if(req.query && req.query.domainName){
     getCert(req.query.domainName)
     .then( (cert) => {
@@ -106,7 +108,7 @@ app.get("/getsct", (req, res) => {
 });
 
 // returns the set of CT logs trusted and used by the system
-app.get("/getctlogs", (req, res) => {
+app.get("/api/getctlogs", (req, res) => {
   try{
     const trustedCTLogs = require("./ctlogs/trustedCTLogs.json");
     res.status(200).send(trustedCTLogs);
@@ -115,6 +117,13 @@ app.get("/getctlogs", (req, res) => {
     res.status(500).send({message: "Unable to fetch CT logs !\n"+err.message});
   }
 });
+
+if(process.env.NODE_ENV === "production"){
+  // All remaining requests return the React app, so it can handle routing.
+  app.get('*', function(request, response) {
+    response.sendFile(path.resolve(__dirname, '../client/build', 'index.html'));
+  });
+}
 
 // This displays message that the server running and listening to specified port
 module.exports = app.listen(port, () => console.log(`Listening on port ${port}`));

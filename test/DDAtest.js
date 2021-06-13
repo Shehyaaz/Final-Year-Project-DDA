@@ -98,8 +98,8 @@ contract("DDA", accounts => {
                 from: accounts[0]
             });
             const drpInstance = await DRPReact.deployed();
-            const drpPrice = 1;
-            const regFee = parseFloat(web3.utils.fromWei(domainRegFee, "ether")) + 1.2*drpPrice;
+            const drpPrice = 2;
+            const regFee = (parseFloat(web3.utils.fromWei(domainRegFee, "ether")) + 1.2*drpPrice).toFixed(2);
             await ddaInstance.registerDomain(
                 web3.utils.utf8ToHex("google.com"),
                 web3.utils.utf8ToHex("google.com"),
@@ -110,7 +110,7 @@ contract("DDA", accounts => {
                 1,
                 {
                     from: accounts[0] ,
-                    value: web3.utils.toWei(regFee.toString(), "ether")
+                    value: web3.utils.toWei(regFee, "ether")
                 }
             );
             const domain = await ddaInstance.getDomainDetails.call({
@@ -120,7 +120,7 @@ contract("DDA", accounts => {
             assert.equal(web3.utils.hexToUtf8(domain[1]), "google.com", "The issuer name should be google.com");
             assert.equal(domain[2], Math.floor(new Date("2021-06-03").getTime()/1000), "Valid from should be 3rd June 2021.");
             assert.equal(domain[3], Math.floor(new Date("2021-06-04").getTime()/1000), "Valid to should be 4th June 2021.");
-            assert.equal(domain[4], web3.utils.toWei("1","ether"), "The drp price does not match.");
+            assert.equal(domain[4], web3.utils.toWei("2","ether"), "The drp price does not match.");
             assert.equal(domain[5], accounts[0], "The domain address does not match.");
             assert.equal(domain[6], drpInstance.address,  "React contract address does not match.");
         });
