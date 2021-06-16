@@ -12,6 +12,11 @@ module.exports = {
       port: 8545,
       network_id: "*" // Match any network id
     },
+    docker: {
+      host: "ganache", // name of container running ganache
+      port: 8545,
+      network_id: "*" // Match any network id
+    },
     rinkeby: {
       provider: () => new HDWalletProvider(process.env.MNEMONIC, process.env.RINKEBY_API),
       network_id: 4,       // Rinkeby's id

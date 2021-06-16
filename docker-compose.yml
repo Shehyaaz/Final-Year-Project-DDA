@@ -1,0 +1,21 @@
+version: '3'
+services:
+    ganache:
+        container_name: ganache
+        image: node:14-alpine
+        command: >
+            sh -c "npm install -g ganache-cli && ganache-cli -h 0.0.0.0 -a 5 -q"
+        ports:
+            - "8545:8545"
+    dda-dapp:
+        container_name: dda-dapp
+        image: snayazi/dda-dapp:1.0
+        build: .
+        command: >
+            sh -c "truffle migrate --reset --network docker &&
+                   cd client && npm run build &&
+                   cd .. && npm start"
+        ports:
+            - "5000:5000"
+        depends_on: 
+            - ganache
