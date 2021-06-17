@@ -86,10 +86,10 @@ class Account extends Component {
     async getClientData(){
         // get client CCP data
         const status = await this.context.contract.methods.getCCPStatus().call({
-            from: this.state.account
+            from: this.context.account
         });
         const clientData = await this.context.contract.methods.getClientDetails().call({
-            from: this.state.account
+            from: this.context.account
         });
         let ccpStatusMssg = "";
         if(status[0] && status[1]){
@@ -120,10 +120,10 @@ class Account extends Component {
     async getDomainData(){
         // get domain DRP data
         const status = await this.context.contract.methods.getDRPStatus().call({
-            from: this.state.account
+            from: this.context.account
         });
         const domainData = await this.context.contract.methods.getDomainDetails().call({
-            from: this.state.account
+            from: this.context.account
         });
         
         let drpStatusMssg = "";
@@ -158,10 +158,10 @@ class Account extends Component {
 
     async getDataFromBlockchain(){
         const clientRegistered = await this.context.contract.methods.isClientRegistered().call({
-            from: this.state.account
+            from: this.context.account
         });
         const domainRegistered = await this.context.contract.methods.isDomainRegistered().call({
-            from: this.state.account
+            from: this.context.account
         });
         if(clientRegistered){
             await this.getClientData();

@@ -154,7 +154,9 @@ class DRPRegistration extends Component {
         disableBackdropClick
         disableEscapeKeyDown
       >
-        <DialogTitle id="register-drp">Domain Reaction Policy Registration</DialogTitle>
+        <DialogTitle id="register-drp">
+          Domain Reaction Policy {isRegistered ? "Updation" : "Registration"}
+        </DialogTitle>
           {isLoading
             ? <DialogContent>
                   <CircularProgress color = "secondary"/>
