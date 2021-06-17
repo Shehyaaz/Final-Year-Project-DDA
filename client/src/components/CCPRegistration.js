@@ -139,7 +139,9 @@ class CCPRegistration extends Component {
         disableBackdropClick
         disableEscapeKeyDown
       >
-        <DialogTitle id="register-ccp">Client Check Policy Registration</DialogTitle>
+        <DialogTitle id="register-ccp">
+          Client Check Policy {isRegistered ? "Updation" : "Registration"}
+        </DialogTitle>
           {isLoading
           ?  <DialogContent>
               <CircularProgress color = "secondary"/>
